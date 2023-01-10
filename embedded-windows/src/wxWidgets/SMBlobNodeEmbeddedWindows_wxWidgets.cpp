@@ -23,9 +23,9 @@ private:
 
 
 bool MyApp::OnInit() {
-    MyFrame *frame = new MyFrame(
-            _T("My wxWidgets Demo"));
-    frame->Show(true);
+//    MyFrame *frame = new MyFrame(
+//            _T("My wxWidgets Demo"));
+//    frame->Show(true);
     return true;
 }
 
@@ -34,16 +34,17 @@ MyFrame::MyFrame(const wxString &title)
         : wxFrame(NULL, wxID_ANY, title) {
 }
 
-//MyApp &wxGetMyApp() { return *static_cast<MyApp *>(wxApp::GetInstance()); }
-//
-//wxAppConsole *wxCreateApp() {
-//    wxAppConsole::CheckBuildOptions(WX_BUILD_OPTIONS_SIGNATURE,
-//                                    "test");
-//    return new MyApp;
-//}
+MyApp &wxGetMyApp() { return *static_cast<MyApp *>(wxApp::GetInstance()); }
+
+wxAppConsole *wxCreateApp() {
+    wxAppConsole::CheckBuildOptions(WX_BUILD_OPTIONS_SIGNATURE,
+                                    "smblob-node-embedded-windows");
+    return new MyApp;
+}
 
 // Make optional if we run in wxWidget environment
-IMPLEMENT_APP_NO_MAIN(MyApp);
+wxAppInitializer wxTheAppInitializer((wxAppInitializerFunction) wxCreateApp);
+
 
 namespace SMBlob {
     namespace EmbeddedWindows {
@@ -56,17 +57,15 @@ namespace SMBlob {
 #endif
             wxWidgets::wxWidgetsAppWrapper *wrapper = (wxWidgets::wxWidgetsAppWrapper *) arg;
 
-
             int argc = 0;
             char **argv = nullptr;
 
+            wxInitializer initializer(argc, argv);
             // Create and set the app value.
             wrapper->app = wxTheApp;
 
-
-
             // Make sure we signal that we have passed any exception throwing code for
-            // the waiting hook_enable().
+            // the waiting application.
 #ifdef _WIN32
             // Make sure we signal that we have passed any exception throwing code for
             // the waiting application.
@@ -90,25 +89,30 @@ namespace SMBlob {
             SMBlobApp res;
             std::shared_ptr<wxWidgets::wxWidgetsAppWrapper> wrapper = std::make_shared<wxWidgets::wxWidgetsAppWrapper>();
 
-            // Create the thread attribute.
-            pthread_attr_t thread_attr;
-            pthread_attr_init(&thread_attr);
+            wxApp *pApp = wxTheApp;
+            if (!pApp) {
 
-            void *arg = (void *) wrapper.get();
-            if (pthread_create(&wrapper->wxWidgets_app_thread, &thread_attr, wxWidgets_app_thread_proc, arg) == 0) {
-                pthread_cond_wait(&wrapper->wxWidgets_app_control_cond, &wrapper->wxWidgets_app_control_mutex);
+                // Create the thread attribute.
+                pthread_attr_t thread_attr;
+                pthread_attr_init(&thread_attr);
+
+                void *arg = (void *) wrapper.get();
+                if (pthread_create(&wrapper->wxWidgets_app_thread, &thread_attr, wxWidgets_app_thread_proc, arg) == 0) {
+                    pthread_cond_wait(&wrapper->wxWidgets_app_control_cond, &wrapper->wxWidgets_app_control_mutex);
+                }
+
+                wxWidgets::SMBlobAppPrivate_wxWidgets *appPrivate = new wxWidgets::SMBlobAppPrivate_wxWidgets(
+                        wrapper->app,
+                        false);
+                appPrivate->wrapper = wrapper;
+
+                res.applicationInstance = reinterpret_cast<SMBlobEmbeddedWindowsApplicationInstance>(appPrivate);
+
+            } else {
+                wxWidgets::SMBlobAppPrivate_wxWidgets *appPrivate = new wxWidgets::SMBlobAppPrivate_wxWidgets(pApp,
+                                                                                                              true);
+                res.applicationInstance = static_cast<SMBlobEmbeddedWindowsApplicationInstance>(appPrivate);
             }
-
-            wxWidgets::SMBlobAppPrivate_wxWidgets *appPrivate = new wxWidgets::SMBlobAppPrivate_wxWidgets(wrapper->app,
-                                                                                                          false);
-            appPrivate->wrapper = wrapper;
-
-            res.applicationInstance = reinterpret_cast<SMBlobEmbeddedWindowsApplicationInstance>(appPrivate);
-
-//            } else {
-//                qt::SMBlobAppPrivate* appPrivate = new qt::SMBlobAppPrivate(app, true);
-//                res.applicationInstance = static_cast<SMBlobEmbeddedWindowsApplicationInstance>(appPrivate);
-//            }
 
             return res;
         }
@@ -119,13 +123,10 @@ namespace SMBlob {
                 if (appPrivate->existed) {
                     // TODO implement and test
                 } else {
-//                    if (appPrivate->qApplication) {
-////                         appPrivate->qApplication->closeAllWindows();
-////                        QApplication::quit();
-//
-//                        delete appPrivate->qApplication;
-//                        appPrivate->qApplication = nullptr;
-//                    }
+                    if (appPrivate->application) {
+                        appPrivate->application->Exit();
+                        appPrivate->application = nullptr;
+                    }
                 }
 
             }

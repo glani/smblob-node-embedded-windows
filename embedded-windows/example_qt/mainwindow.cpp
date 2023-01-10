@@ -17,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    if (this->embeddedWindows) {
+        SMBlob::EmbeddedWindows::Release(*this->embeddedWindows);
+    }
     delete ui;
 }
 
