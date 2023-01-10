@@ -13,6 +13,10 @@ message(STATUS "CMAKE_MODULE_PATH:" ${CMAKE_MODULE_PATH})
 # Include AppsOptions
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/CompileOptions.cmake)
 
+include_directories(
+        ./embedded-windows/include
+)
+
 set(DEPEND_THIRD_PARTY_LIBS)
 set(LIB_PLATFORM ${CMAKE_MODULE_PATH})
 

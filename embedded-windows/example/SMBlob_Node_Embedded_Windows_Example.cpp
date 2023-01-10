@@ -20,6 +20,8 @@
 
 #endif
 
+#include "SMBlobNodeEmbeddedWindows.h"
+
 
 class MyApp : public wxApp {
 public:
@@ -28,10 +30,15 @@ public:
 
 class MyFrame : public wxFrame {
 public:
-    wxListBox *listbox1;
     wxTextCtrl *textLog;
 
     MyFrame(const wxString &title);
+
+    virtual ~MyFrame() {
+        if (embeddedWindows) {
+            SMBlob::EmbeddedWindows::Release(*embeddedWindows);
+        }
+    }
 
     void OnButtonInitialize(wxCommandEvent &);
 
@@ -45,6 +52,7 @@ public:
 
 private:
 DECLARE_EVENT_TABLE()
+    std::shared_ptr<SMBlob::EmbeddedWindows::SMBlobApp> embeddedWindows;
 };
 
 // Declare some IDs. These are arbitrary.
@@ -104,6 +112,9 @@ MyFrame::MyFrame(const wxString &title)
                              wxPoint(0, 250), wxSize(100, 50), wxTE_MULTILINE);
     mysizer->Add(textLog, 1, wxEXPAND | wxALL, 5);
     book->AddPage(panel, _T("Debug"), false);
+
+    const SMBlob::EmbeddedWindows::SMBlobApp &args = SMBlob::EmbeddedWindows::Init();
+    this->embeddedWindows = std::make_shared<SMBlob::EmbeddedWindows::SMBlobApp>(args);
 }
 
 void MyFrame::OnQuit(wxCommandEvent & WXUNUSED(event)) {
