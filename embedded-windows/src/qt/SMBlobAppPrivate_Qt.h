@@ -14,16 +14,20 @@ namespace SMBlob {
                 pthread_cond_t qt_app_control_cond;
 
                 QApplication *qtApp;
+
+                virtual ~QtAppWrapper();
+
+                QtAppWrapper();
             };
 
-            class SMBlobAppPrivate {
+            class SMBlobAppPrivate_Qt {
             public:
-                explicit SMBlobAppPrivate(QApplication *qApplication, bool existed) :
+                explicit SMBlobAppPrivate_Qt(QApplication *qApplication, bool existed) :
                         qApplication(qApplication), existed(existed) {
 
                 }
 
-                virtual ~SMBlobAppPrivate() {
+                virtual ~SMBlobAppPrivate_Qt() {
                     if (!existed) {
                         if (qApplication) {
                             delete qApplication;

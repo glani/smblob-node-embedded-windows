@@ -44,8 +44,6 @@ public:
 
     void OnButtonDestroy(wxCommandEvent &);
 
-    void OnListBoxDoubleClick(wxCommandEvent &event);
-
     void OnQuit(wxCommandEvent &event);
 
     void OnAbout(wxCommandEvent &event);

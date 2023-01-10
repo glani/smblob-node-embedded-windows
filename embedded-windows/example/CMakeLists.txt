@@ -90,6 +90,10 @@ add_executable(${PROJECT_NAME}
         SMBlob_Node_Embedded_Windows_Example.cpp
         )
 
+add_executable(${PROJECT_NAME}-console
+        SMBlob_Node_Embedded_Windows_Console_Example.cpp
+        )
+
 target_sources(${PROJECT_NAME} PRIVATE ${resource_cpp})
 
 message(STATUS "wxWidgets_LIBRARIES:" ${wxWidgets_LIBRARIES})
@@ -102,6 +106,7 @@ set(DEPEND_THIRDPARTY_LIBS)
 # here we determine what we need to use as a core implementation
 if (SMBLOB_NODE_EMBEDDED_WINDOWS_USE_WX_WIDGETS)
     message(STATUS "Core system is wxWidgets")
+
 elseif (SMBLOB_NODE_EMBEDDED_WINDOWS_USE_QT)
     message(STATUS "Core system is Qt")
     find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
@@ -119,6 +124,13 @@ link_directories(
 message(STATUS "DEPEND_THIRDPARTY_LIBS: " ${DEPEND_THIRDPARTY_LIBS})
 
 target_link_libraries(${PROJECT_NAME}
+        ${wxWidgets_LIBRARIES}
+        ${${PROJECT_NAME}_PLATFORM_LIBS}
+        ${DEPEND_THIRDPARTY_LIBS}
+        smblob-node-embedded-windows
+        )
+
+target_link_libraries(${PROJECT_NAME}-console
         ${wxWidgets_LIBRARIES}
         ${${PROJECT_NAME}_PLATFORM_LIBS}
         ${DEPEND_THIRDPARTY_LIBS}

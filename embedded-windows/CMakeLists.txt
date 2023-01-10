@@ -30,8 +30,26 @@ set(DEPEND_THIRDPARTY_LIBS)
 
 if (USE_WX_WIDGETS)
     # use wxWidgets implementation
-    # TODO implemement
     set(SMBLOB_NODE_EMBEDDED_WINDOWS_USE_WX_WIDGETS true CACHE BOOL "Build with wxWidgets")
+
+    find_package(wxWidgets REQUIRED COMPONENTS net core base xml xrc)
+    include(${wxWidgets_USE_FILE})
+
+    include_directories(${wxWidgets_INCLUDE_DIRS})
+    link_directories(
+            ${wxWidgets_LIBRARY_DIRS}
+    )
+    list(APPEND DEPEND_THIRDPARTY_LIBS ${wxWidgets_LIBRARIES})
+
+    list(APPEND
+            EMBEDDED_WINDOWS_SRC
+            src/wxWidgets/SMBlobNodeEmbeddedWindows_wxWidgets.cpp
+            src/wxWidgets/SMBlobAppPrivate_wxWidgets.h
+            src/wxWidgets/SMBlobAppPrivate_wxWidgets.cpp
+            )
+
+    find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
+    dump_cmake_variables()
 else ()
     set(SMBLOB_NODE_EMBEDDED_WINDOWS_USE_QT true CACHE BOOL "Build with Qt")
     # default implementation is Qt
@@ -40,7 +58,7 @@ else ()
     find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
     include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-    dump_cmake_variables()
+#    dump_cmake_variables()
     set(QT_INC_DIRS ${Qt${QT_VERSION_MAJOR}Widgets_INCLUDE_DIRS}
             ${Qt${QT_VERSION_MAJOR}Core_INCLUDE_DIRS})
     include_directories(
@@ -58,8 +76,8 @@ else ()
     list(APPEND
             EMBEDDED_WINDOWS_SRC
             src/qt/SMBlobNodeEmbeddedWindows_Qt.cpp
-            src/qt/SMBlobAppPrivate.h
-            src/qt/SMBlobAppPrivate.cpp
+            src/qt/SMBlobAppPrivate_Qt.h
+            src/qt/SMBlobAppPrivate_Qt.cpp
             )
 endif ()
 
@@ -75,5 +93,8 @@ set_target_properties(${EMBEDDED_WINDOWS_LIB}
         LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
         )
 
-
 add_subdirectory(example)
+
+if (QT_FOUND AND SMBLOB_NODE_EMBEDDED_WINDOWS_USE_WX_WIDGETS)
+    add_subdirectory(example_qt)
+endif()

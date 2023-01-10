@@ -1,6 +1,6 @@
 #include "SMBlobNodeEmbeddedWindows.h"
 //#include "internal/SMBlobNodeEmbeddedWindowsCommon.h"
-#include "qt/SMBlobAppPrivate.h"
+#include "qt/SMBlobAppPrivate_Qt.h"
 #include <QApplication>
 #include <QWindow>
 
@@ -17,7 +17,7 @@ namespace SMBlob {
             int argc = 0;
             char **argv = nullptr;
             // Create and set the app value.
-//            wrapper->qtApp = new QApplication(argc, argv);
+            wrapper->qtApp = new QApplication(argc, argv);
 
             // Make sure we signal that we have passed any exception throwing code for
             // the waiting hook_enable().
@@ -34,7 +34,7 @@ namespace SMBlob {
 
             pthread_cond_signal(&wrapper->qt_app_control_cond);
             pthread_mutex_unlock(&wrapper->qt_app_control_mutex);
-//            wrapper->qtApp->exec();
+            wrapper->qtApp->exec();
 
             return NULL;
 #endif
@@ -66,13 +66,13 @@ namespace SMBlob {
                     pthread_cond_wait(&qtAppWrapper->qt_app_control_cond, &qtAppWrapper->qt_app_control_mutex);
                 }
 
-                qt::SMBlobAppPrivate* appPrivate = new qt::SMBlobAppPrivate(qtAppWrapper->qtApp, true);
+                qt::SMBlobAppPrivate_Qt* appPrivate = new qt::SMBlobAppPrivate_Qt(qtAppWrapper->qtApp, false);
                 appPrivate->qtAppWrapper = qtAppWrapper;
 
                 res.applicationInstance = reinterpret_cast<SMBlobEmbeddedWindowsApplicationInstance>(appPrivate);
 
             } else {
-                qt::SMBlobAppPrivate* appPrivate = new qt::SMBlobAppPrivate(app, true);
+                qt::SMBlobAppPrivate_Qt* appPrivate = new qt::SMBlobAppPrivate_Qt(app, true);
                 res.applicationInstance = static_cast<SMBlobEmbeddedWindowsApplicationInstance>(appPrivate);
             }
 
@@ -81,13 +81,13 @@ namespace SMBlob {
 
         void Release(SMBlobApp& app) {
             if (app.applicationInstance) {
-                qt::SMBlobAppPrivate* appPrivate = reinterpret_cast<qt::SMBlobAppPrivate*>(app.applicationInstance);
+                qt::SMBlobAppPrivate_Qt* appPrivate = reinterpret_cast<qt::SMBlobAppPrivate_Qt*>(app.applicationInstance);
                 if (appPrivate->existed) {
                     // TODO implement and test
                 } else {
                     if (appPrivate->qApplication) {
-                         appPrivate->qApplication->closeAllWindows();
-                        QApplication::quit();
+//                         appPrivate->qApplication->closeAllWindows();
+//                        QApplication::quit();
 
                         delete appPrivate->qApplication;
                         appPrivate->qApplication = nullptr;
@@ -97,5 +97,13 @@ namespace SMBlob {
             }
         }
 
+        qt::QtAppWrapper::QtAppWrapper() {}
+
+        qt::QtAppWrapper::~QtAppWrapper() {
+            pthread_mutex_destroy(&hook_running_mutex);
+            pthread_mutex_destroy(&hook_control_mutex);
+            pthread_cond_destroy(&hook_control_cond);
+
+        }
     }
 }

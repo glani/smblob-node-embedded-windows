@@ -1,4 +1,4 @@
-#include "qt/SMBlobAppPrivate.h"
+#include "qt/SMBlobAppPrivate_Qt.h"
 
 
 
