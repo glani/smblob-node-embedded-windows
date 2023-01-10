@@ -20,3 +20,25 @@ elseif (LINUX)
 
 elseif (APPLE)
 endif()
+
+set(LIBUV_MAJOR 1)
+set(LIBUV_MINOR 43)
+set(LIBUV_PATCH 0)
+
+set(LIBUV_VERSION ${LIBUV_MAJOR}.${LIBUV_MINOR}.${LIBUV_PATCH} CACHE STRING "Build with libuv")
+if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/libuv)
+    set(LIBUV_URL https://github.com/libuv/libuv/archive/refs/tags/v${LIBUV_VERSION}.tar.gz)
+    message(STATUS "Downloading libuv sources: ${LIBUV_URL}")
+    execute_process(COMMAND wget ${LIBUV_URL} -O ${CMAKE_CURRENT_SOURCE_DIR}/libuv-src-${LIBUV_VERSION}.tar.gz)
+    execute_process(COMMAND tar -xzf ${CMAKE_CURRENT_SOURCE_DIR}/libuv-src-${LIBUV_VERSION}.tar.gz -C ${CMAKE_CURRENT_SOURCE_DIR} --one-top-level=libuv --strip-components 1)
+endif()
+
+
+set(LIBUVW_VERSION "v2.11.0_libuv_v${LIBUV_MAJOR}.${LIBUV_MINOR}" CACHE STRING "Build with uvw for libuv")
+
+if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/uvw)
+    set(LIBUVW_URL https://github.com/skypjack/uvw/archive/refs/tags/${LIBUVW_VERSION}.tar.gz)
+    message(STATUS "Downloading uvw for libuv sources: ${LIBUVW_URL}")
+    execute_process(COMMAND wget ${LIBUVW_URL} -O ${CMAKE_CURRENT_SOURCE_DIR}/uvw-src-${LIBUVW_VERSION}.tar.gz)
+    execute_process(COMMAND tar -xzf ${CMAKE_CURRENT_SOURCE_DIR}/uvw-src-${LIBUVW_VERSION}.tar.gz -C ${CMAKE_CURRENT_SOURCE_DIR} --one-top-level=uvw --strip-components 1)
+endif()

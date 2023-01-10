@@ -13,7 +13,10 @@ set(EMBEDDED_WINDOWS_CONSUMER_LIB_HEADER
         )
 
 list(APPEND
-        EMBEDDED_WINDOWS_CONSUMER_LIB_SRC src/Consumer.cpp
+        EMBEDDED_WINDOWS_CONSUMER_LIB_SRC
+        src/Consumer.cpp
+        src/ConsumerPrivate.cpp
+        src/ConsumerPrivate.h
         )
 
 list(APPEND
@@ -24,13 +27,19 @@ include_directories(
         ./
         include
         src
+        ../../thirdparties/libuv/include
+        ../../thirdparties/uvw/src
 )
 
 set(DEPEND_THIRDPARTY_LIBS)
 
 add_library(${EMBEDDED_WINDOWS_CONSUMER_LIB} STATIC ${EMBEDDED_WINDOWS_CONSUMER_LIB_SRC})
+link_directories(
+        "../../thirdparties/libuv/build"
+)
 target_link_libraries(
         ${EMBEDDED_WINDOWS_CONSUMER_LIB}
+
         ${DEPEND_THIRDPARTY_LIBS}
 )
 

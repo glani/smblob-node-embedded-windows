@@ -98,19 +98,27 @@ endif ()
 
 link_directories(
         ${wxWidgets_LIBRARY_DIRS}
-        )
+
+)
+
+find_library(LIBUV_LIBRARY uv_a HINTS "../../thirdparties/libuv/build")
+
+message(STATUS "LIBUV_LIBRARY: " ${LIBUV_LIBRARY})
 message(STATUS "DEPEND_THIRDPARTY_LIBS: " ${DEPEND_THIRDPARTY_LIBS})
 
 target_link_libraries(${PROJECT_NAME}
         ${wxWidgets_LIBRARIES}
+        ${LIBUV_LIBRARY}
         ${${PROJECT_NAME}_PLATFORM_LIBS}
         ${DEPEND_THIRDPARTY_LIBS}
         smblob-node-embedded-windows-shared
         smblob-node-embedded-windows-consumer
         )
 
+
 target_link_libraries(${PROJECT_NAME}-console
         ${wxWidgets_LIBRARIES}
+        ${LIBUV_LIBRARY}
         ${${PROJECT_NAME}_PLATFORM_LIBS}
         ${DEPEND_THIRDPARTY_LIBS}
         smblob-node-embedded-windows-shared

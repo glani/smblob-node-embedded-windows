@@ -61,9 +61,15 @@ else ()
             )
 endif ()
 
+
+link_directories(
+        "../../thirdparties/libuv/build"
+)
+
 target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt${QT_VERSION_MAJOR}::Widgets
         ${${PROJECT_NAME}_PLATFORM_LIBS}
+        uv_a
         smblob-node-embedded-windows-shared
         smblob-node-embedded-windows-consumer
         )
