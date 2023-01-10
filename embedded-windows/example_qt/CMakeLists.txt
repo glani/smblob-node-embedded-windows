@@ -22,6 +22,11 @@ elseif (APPLE)
     find_library(corefoundation_lib CoreFoundation REQUIRED)
     find_library(cocoa_lib Cocoa REQUIRED)
 
+    # todo fix
+    link_directories(
+            "/usr/local/Cellar/pcre2/10.42/lib/"
+    )
+
     set(${PROJECT_NAME}_PLATFORM_LIBS
             ${CMAKE_THREAD_LIBS_INIT}
             ${corefoundation_lib}
