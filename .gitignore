@@ -1,5 +1,6 @@
 .idea
 cmake-build-debug
+cmake-build-debug*
 build
 version_generated_header.h
 # Prerequisites
