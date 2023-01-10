@@ -14,7 +14,7 @@ message(STATUS "CMAKE_MODULE_PATH:" ${CMAKE_MODULE_PATH})
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/CompileOptions.cmake)
 
 include_directories(
-        ./embedded-windows/include
+        embedded-windows/logic/include
 )
 
 set(DEPEND_THIRD_PARTY_LIBS)

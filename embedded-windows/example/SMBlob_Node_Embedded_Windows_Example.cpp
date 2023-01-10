@@ -111,7 +111,8 @@ MyFrame::MyFrame(const wxString &title)
     mysizer->Add(textLog, 1, wxEXPAND | wxALL, 5);
     book->AddPage(panel, _T("Debug"), false);
 
-    const SMBlob::EmbeddedWindows::SMBlobApp &args = SMBlob::EmbeddedWindows::Init();
+    SMBlob::EmbeddedWindows::SMBlobAppInitConsumer params;
+    const SMBlob::EmbeddedWindows::SMBlobApp &args = SMBlob::EmbeddedWindows::Init(params);
     this->embeddedWindows = std::make_shared<SMBlob::EmbeddedWindows::SMBlobApp>(args);
 }
 
@@ -136,10 +137,4 @@ void MyFrame::OnButtonInitialize(wxCommandEvent & WXUNUSED(event)) {
 void MyFrame::OnButtonDestroy(wxCommandEvent & WXUNUSED(event)) {
     wxMessageBox("Click2", "Click",
                  wxOK | wxICON_INFORMATION, this);
-}
-
-void MyFrame::OnListBoxDoubleClick(wxCommandEvent &event) {
-    *textLog << "ListBox double click string is: \n";
-    *textLog << event.GetString();
-    *textLog << "\n";
 }

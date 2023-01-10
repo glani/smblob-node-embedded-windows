@@ -28,7 +28,12 @@ namespace SMBlob {
         };
 
 
-        SMBLOB_NODE_EMBEDDED_WINDOWS_EXTERN SMBlobApp Init();
+        struct SMBLOB_NODE_EMBEDDED_WINDOWS_EXTERN SMBlobAppInitConsumer {
+            SMBlobEmbeddedWindowsApplicationInstance applicationInstance;
+        };
+
+
+        SMBLOB_NODE_EMBEDDED_WINDOWS_EXTERN SMBlobApp Init(const SMBlobAppInitConsumer& setup);
         SMBLOB_NODE_EMBEDDED_WINDOWS_EXTERN void Release(SMBlobApp& app);
 
     }

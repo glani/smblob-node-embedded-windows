@@ -21,28 +21,6 @@ elseif (APPLE)
             ${cocoa_lib}
             )
 else ()
-    #    find_package(X11 REQUIRED)
-    #    if(!X11_XTest_FOUND)
-    #        message(FATAL_ERROR "X11 extensions are required, but not found!")
-    #    endif()
-    #    if(!X11_Xfixes_LIB)
-    #        message(FATAL_ERROR "X11 fixes extension is required, but not found!")
-    #    endif()
-    #    message(STATUS "X11_xcb_LIB:" ${X11_xcb_LIB})
-    #    message(STATUS "X11_Xfixes_LIB:" ${X11_Xfixes_LIB})
-    #    message(STATUS "X11_Xinerama_LIB:" ${X11_Xinerama_LIB})
-    #    find_package(Threads REQUIRED)
-    #    #	message(FATAL_ERROR "X11 fixes extension is required, but not found!" ${X11_xcb_LIB})
-    #    set(${PROJECT_NAME}_PLATFORM_LIBS
-    #            ${X11_LIBRARIES}
-    #            ${X11_Xfixes_LIB}
-    #            ${X11_XTest_LIB}
-    #            ${X11_xcb_LIB}
-    #            xcb-xinerama
-    #            X11-xcb
-    #            Xinerama
-    #            ${CMAKE_THREAD_LIBS_INIT}
-    #            )
 endif ()
 
 if (WIN32)
@@ -127,14 +105,16 @@ target_link_libraries(${PROJECT_NAME}
         ${wxWidgets_LIBRARIES}
         ${${PROJECT_NAME}_PLATFORM_LIBS}
         ${DEPEND_THIRDPARTY_LIBS}
-        smblob-node-embedded-windows
+        smblob-node-embedded-windows-shared
+        smblob-node-embedded-windows-consumer
         )
 
 target_link_libraries(${PROJECT_NAME}-console
         ${wxWidgets_LIBRARIES}
         ${${PROJECT_NAME}_PLATFORM_LIBS}
         ${DEPEND_THIRDPARTY_LIBS}
-        smblob-node-embedded-windows
+        smblob-node-embedded-windows-shared
+        smblob-node-embedded-windows-consumer
         )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

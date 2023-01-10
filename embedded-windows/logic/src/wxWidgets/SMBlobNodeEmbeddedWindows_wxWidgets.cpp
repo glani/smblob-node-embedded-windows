@@ -23,9 +23,11 @@ private:
 
 
 bool MyApp::OnInit() {
+
     MyFrame *frame = new MyFrame(
             _T("My wxWidgets Demo"));
-    frame->Show(true);
+//    frame->Show(true);
+//    frame->OnIdle()
     return true;
 }
 

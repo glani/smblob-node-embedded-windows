@@ -64,7 +64,8 @@ endif ()
 target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt${QT_VERSION_MAJOR}::Widgets
         ${${PROJECT_NAME}_PLATFORM_LIBS}
-        smblob-node-embedded-windows
+        smblob-node-embedded-windows-shared
+        smblob-node-embedded-windows-consumer
         )
 
 install(TARGETS ${PROJECT_NAME}
