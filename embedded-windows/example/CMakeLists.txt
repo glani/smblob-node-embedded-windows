@@ -1,4 +1,5 @@
-project(smblob-node-embedded-windows-example)
+set(EXAMPLE_APP smblob-node-embedded-windows-example)
+project(${EXAMPLE_APP})
 
 if(WIN32)
     set(${PROJECT_NAME}_PLATFORM_LIBS Dwmapi)
@@ -44,11 +45,53 @@ else()
 #            )
 endif()
 
+if(WIN32)
+    # Include a RC file for windows
+    list(APPEND SRC_FILES ./example.rc)
+elseif(APPLE)
+    # Add an icon for the apple .app file
+    list(APPEND SRC_FILES ../../src/osx/carbon/wxmac.icns)
+endif()
+
+find_package(wxWidgets REQUIRED COMPONENTS net core base xml xrc)
+include(${wxWidgets_USE_FILE})
+
+# Resources
+# One or more XRC files containing your resources.
+set(xrc_files ${CMAKE_CURRENT_SOURCE_DIR}/resource.xrc)
+
+# Generate this file somewhere under the build directory.
+set(resource_cpp ${CMAKE_CURRENT_BINARY_DIR}/resource.cpp)
+
+# Not needed with the installed version, just use "wxrc".
+set(wxrc wxrc)
+
+add_custom_command(
+        OUTPUT ${resource_cpp}
+        COMMAND ${wxrc} -c -o ${resource_cpp} ${xrc_files}
+        DEPENDS ${xrc_files}
+        COMMENT "Compiling XRC resources"
+)
+
+# Setup CMake to use GTK+, tell the compiler where to look for headers
+# and to the linker where to look for libraries
+include_directories(${wxWidgets_INCLUDE_DIRS})
+
+# Add an executable compiled from hello.c
+
 add_executable(${PROJECT_NAME}
         SMBlob_Node_Embedded_Windows_Example.cpp
         )
 
-target_link_libraries(${PROJECT_NAME}
+target_sources(${PROJECT_NAME} PRIVATE ${resource_cpp})
 
+message(STATUS "wxWidgets_LIBRARIES:" ${wxWidgets_LIBRARIES})
+message(STATUS "wxWidgets_INCLUDE_DIRS:" ${wxWidgets_INCLUDE_DIRS})
+message(STATUS "wxWidgets_LIBRARY_DIRS:" ${wxWidgets_LIBRARY_DIRS})
+
+link_directories(${wxWidgets_LIBRARY_DIRS})
+
+target_link_libraries(${PROJECT_NAME}
+        ${wxWidgets_LIBRARIES}
         ${${PROJECT_NAME}_PLATFORM_LIBS}
 )

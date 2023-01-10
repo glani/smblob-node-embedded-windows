@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.14)
+cmake_minimum_required(VERSION 3.22)
 message("CMAKE_VERSION: ${CMAKE_VERSION}")
 set(CPP_STANDARD 17)
 
@@ -35,6 +35,7 @@ else ()
 
 endif ()
 
+add_subdirectory(thirdparties)
 add_subdirectory(version)
 add_subdirectory(embedded-windows)
 
