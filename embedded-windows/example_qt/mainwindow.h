@@ -20,7 +20,12 @@ public:
 protected:
     bool event(QEvent *event) override;
 private:
+
     Ui::MainWindow *ui;
     std::shared_ptr<SMBlob::EmbeddedWindows::SMBlobApp> embeddedWindows;
+    QAction *m_initAction;
+
+    void releaseForeignWindowWrapper() const;
+    void initForeignWindow();
 };
 #endif // MAINWINDOW_H
