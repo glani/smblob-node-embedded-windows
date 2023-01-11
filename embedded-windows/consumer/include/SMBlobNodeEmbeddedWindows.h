@@ -7,6 +7,7 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include <string>
 
 #if defined(WINDOWS) || defined(WIN32)
 #if defined(SMBLOB_NODE_EMBEDDED_WINDOWS_DLL)
@@ -30,6 +31,10 @@ namespace SMBlob {
 
         struct SMBLOB_NODE_EMBEDDED_WINDOWS_EXTERN SMBlobAppInitConsumer {
             SMBlobEmbeddedWindowsApplicationInstance applicationInstance;
+            std::string logFileName;
+            int logSeverity;
+            int logMaxFilesize;
+            int logMaxFiles;
         };
 
 

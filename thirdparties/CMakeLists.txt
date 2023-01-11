@@ -42,3 +42,17 @@ if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/uvw)
     execute_process(COMMAND wget ${LIBUVW_URL} -O ${CMAKE_CURRENT_SOURCE_DIR}/uvw-src-${LIBUVW_VERSION}.tar.gz)
     execute_process(COMMAND tar -xzf ${CMAKE_CURRENT_SOURCE_DIR}/uvw-src-${LIBUVW_VERSION}.tar.gz -C ${CMAKE_CURRENT_SOURCE_DIR} --one-top-level=uvw --strip-components 1)
 endif()
+
+
+set(PLOG_MAJOR 1)
+set(PLOG_MINOR 1)
+set(PLOG_PATCH 9)
+
+set(PLOG_VERSION ${PLOG_MAJOR}.${PLOG_MINOR}.${PLOG_PATCH} CACHE STRING "Build with plog")
+if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/plog)
+    set(PLOG_URL https://github.com/SergiusTheBest/plog/archive/refs/tags/${PLOG_VERSION}.tar.gz)
+    message(STATUS "Downloading plog sources: ${PLOG_URL}")
+    execute_process(COMMAND wget ${PLOG_URL} -O ${CMAKE_CURRENT_SOURCE_DIR}/plog-src-${PLOG_VERSION}.tar.gz)
+    execute_process(COMMAND tar -xzf ${CMAKE_CURRENT_SOURCE_DIR}/plog-src-${PLOG_VERSION}.tar.gz -C ${CMAKE_CURRENT_SOURCE_DIR} --one-top-level=plog --strip-components 1)
+endif()
+

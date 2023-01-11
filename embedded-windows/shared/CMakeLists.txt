@@ -12,6 +12,7 @@ set(EMBEDDED_WINDOWS_SRC
 set(EMBEDDED_WINDOWS_HEADER
         include/SMBlobNodeEmbeddedWindowsShared.h
         include/internal/SMBlobNodeEmbeddedWindowsSharedInternal.h
+        include/internal/SMBlobNodeEmbeddedWindowsSharedLog.h
         )
 
 list(APPEND
@@ -26,6 +27,7 @@ include_directories(
         ./
         include
         src
+        ../../thirdparties/plog/include
 )
 
 set(DEPEND_THIRDPARTY_LIBS)

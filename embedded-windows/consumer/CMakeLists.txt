@@ -29,7 +29,9 @@ include_directories(
         src
         ../../thirdparties/libuv/include
         ../../thirdparties/uvw/src
+        ../../thirdparties/plog/include
 )
+find_library(LIBUV_LIBRARY uv_a HINTS "../../thirdparties/libuv/build")
 
 set(DEPEND_THIRDPARTY_LIBS)
 
@@ -39,7 +41,7 @@ link_directories(
 )
 target_link_libraries(
         ${EMBEDDED_WINDOWS_CONSUMER_LIB}
-
+        ${LIBUV_LIBRARY}
         ${DEPEND_THIRDPARTY_LIBS}
 )
 
