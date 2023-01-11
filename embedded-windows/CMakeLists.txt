@@ -14,8 +14,8 @@ include_directories(
 )
 
 add_subdirectory(shared)
+add_subdirectory(daemon)
 add_subdirectory(consumer)
-#add_subdirectory(daemon)
 add_subdirectory(example)
 
 find_package(QT NAMES Qt6 Qt5 OPTIONAL_COMPONENTS Widgets )

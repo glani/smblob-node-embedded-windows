@@ -113,6 +113,8 @@ namespace SMBlob {
                 this->startCondition.notify_one();
                 ___s.unlock();
             }
+
+            LOG_DEBUG << "UV onCheckCallback";
         }
 
         void ConsumerPrivate::onIdleCallback(const uvw::IdleEvent &evt, uvw::IdleHandle &idle) {
