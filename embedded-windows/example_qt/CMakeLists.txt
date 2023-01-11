@@ -36,10 +36,6 @@ else ()
 endif ()
 
 
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
@@ -62,14 +58,12 @@ else ()
 endif ()
 
 
-link_directories(
-        "../../thirdparties/libuv/build"
-)
+find_library(LIBUV_LIBRARY uv_a HINTS "../../thirdparties/libuv/build")
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt${QT_VERSION_MAJOR}::Widgets
         ${${PROJECT_NAME}_PLATFORM_LIBS}
-        uv_a
+        ${LIBUV_LIBRARY}
         smblob-node-embedded-windows-shared
         smblob-node-embedded-windows-consumer
         )

@@ -9,7 +9,6 @@ namespace SMBlob {
 
             SMBlobApp res;
             res.applicationInstance = reinterpret_cast<SMBlobEmbeddedWindowsApplicationInstance>(appPrivate);
-            appPrivate->initLog(setup);
             appPrivate->start(setup);
             return res;
         }

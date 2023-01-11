@@ -17,9 +17,13 @@ include_directories(
         ../../thirdparties/uvw/src
         ../../thirdparties/plog/include
 )
+
 find_library(LIBUV_LIBRARY uv_a HINTS "../../thirdparties/libuv/build")
 
-set(PROJECT_SOURCES)
+set(PROJECT_SOURCES
+        ProcessorPrivate.cpp
+        ProcessorPrivate.h
+    )
 
 if (WIN32)
     set(${PROJECT_NAME}_PLATFORM_LIBS Dwmapi)
@@ -45,7 +49,7 @@ elseif (APPLE)
             ${corefoundation_lib}
             ${cocoa_lib}
             )
-else ()
+elseif (LINUX)
 endif ()
 
 

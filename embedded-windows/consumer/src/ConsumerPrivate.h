@@ -23,9 +23,10 @@ namespace SMBlob {
             void wait();
             void close();
 
-            void initLog(const SMBlobAppInitConsumer &params);
 
         private:
+            void initLog(const SMBlobAppInitConsumer &params);
+
             void closeLoop();
             void startThread(std::shared_ptr<void> data);
             void onIdleCallback(const uvw::IdleEvent& evt, uvw::IdleHandle& idle);
@@ -35,6 +36,7 @@ namespace SMBlob {
 
 
             void onProcessErrorCallback(const uvw::ErrorEvent & evt, uvw::ProcessHandle & process);
+            void onProcessExitEventCallback(const uvw::ExitEvent & evt, uvw::ProcessHandle & process);
 
         private:
             std::string daemonExec;
@@ -64,6 +66,9 @@ namespace SMBlob {
             std::string logDaemonFilename;
             std::unique_ptr<char*[]> daemonArgv;
             std::string logDaemonFilenameParam;
+            std::string debugParam;
+            std::string debugStr;
+            bool debug;
         };
     }
 }

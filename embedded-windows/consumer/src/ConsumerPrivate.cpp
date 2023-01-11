@@ -26,6 +26,8 @@ namespace SMBlob {
 
             this->daemonExec = params.daemonExec;
             this->logSeverity = params.logSeverity;
+            this->debug = params.debug;
+            this->initLog(params);
 
             stopSign = false;
             this->loop = uvw::Loop::getDefault();
@@ -96,6 +98,7 @@ namespace SMBlob {
             // spawner
             this->processHandle = loop->resource<uvw::ProcessHandle>();
 //            this->spawnerHandle->on<uvw::ListenEvent>(CC_CALLBACK_2(ConsumerPrivate::onSpawnerListenCallback, this));
+            this->processHandle->on<uvw::ExitEvent>(CC_CALLBACK_2(ConsumerPrivate::onProcessExitEventCallback, this));
             this->processHandle->on<uvw::ErrorEvent>(CC_CALLBACK_2(ConsumerPrivate::onProcessErrorCallback, this));
 
 
@@ -127,19 +130,29 @@ namespace SMBlob {
                 ___s.unlock();
 
                 if (this->daemonExec.length() > 0) {
-                    daemonArgv = std::move(std::unique_ptr<char*[]>(new char*[111]));
+                    daemonArgv = std::unique_ptr<char*[]>(new char*[111]);
                     int i = 0;
+                    // 0
                     daemonArgv[i] = (char*)this->daemonExec.c_str();
                     i++;
-                    this->logSeverityParam = std::string("--log");
+                    this->logSeverityParam = S_LOG;
                     daemonArgv[i] = (char*)this->logSeverityParam.c_str();
                     i++;
+                    // 1
                     this->logSeverityStr = std::to_string(this->logSeverity);
                     std::string severity = logSeverityStr.c_str();
                     daemonArgv[i] = (char*)severity.c_str();
                     i++;
+                    // 2
+                    this->debugParam = S_DEBUG;
+                    daemonArgv[i] = (char*)this->debugParam.c_str();
+                    i++;
+                    this->debugStr = std::to_string(this->debug ? 1 : 0);
+                    daemonArgv[i] = (char*)debugStr.c_str();
+                    i++;
+
                     if (logDaemonFilename.length() > 0) {
-                        this->logDaemonFilenameParam = std::string("--logFile");
+                        this->logDaemonFilenameParam = S_LOG_FILE;
                         daemonArgv[i] = (char*)this->logDaemonFilenameParam.c_str();
                         i++;
                         daemonArgv[i] = (char*)this->logDaemonFilename.c_str();
@@ -166,7 +179,8 @@ namespace SMBlob {
             LOG_DEBUG << "onAsyncCallback";
             if (this->processHandle->pid() > 0) {
                 LOG_DEBUG << "Close daemon process";
-                this->processHandle->close();
+                // linux or macos
+                this->processHandle->kill(SIGNAL_TERMINATE);
             }
             LOG_DEBUG << "Close loop";
             closeLoop();
@@ -204,12 +218,18 @@ namespace SMBlob {
             LOG_DEBUG << "Log system initialized!";
         }
 
+
+        void ConsumerPrivate::onProcessExitEventCallback(const uvw::ExitEvent &evt, uvw::ProcessHandle &process) {
+            LOG_DEBUG << "onProcessExitEventCallback";
+        }
+
         void ConsumerPrivate::onProcessErrorCallback(const uvw::ErrorEvent &evt, uvw::ProcessHandle &process) {
             auto err = evt.code();
             if (err < 0) {
                 LOGE << "onProcessErrorCallback: " << uv_err_name(err) << " str: " << uv_strerror(err);
             }
         }
+
 
     }
 }
