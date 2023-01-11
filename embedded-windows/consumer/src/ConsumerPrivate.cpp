@@ -106,7 +106,7 @@ namespace SMBlob {
 
             //signal
             this->signalSigCloseHandle = loop->resource<uvw::SignalHandle>();
-            this->signalSigCloseHandle->on<uvw::CheckEvent>(CC_CALLBACK_2(ConsumerPrivate::onSignalCallback, this));
+            this->signalSigCloseHandle->on<uvw::SignalEvent>(CC_CALLBACK_2(ConsumerPrivate::onSignalCallback, this));
             this->signalSigCloseHandle->on<uvw::ErrorEvent>([](const uvw::ErrorEvent &t, uvw::SignalHandle &signal) {
             });
 
@@ -193,8 +193,8 @@ namespace SMBlob {
             closeLoop();
         }
 
-        void ConsumerPrivate::onSignalCallback(const uvw::CheckEvent &evt, uvw::SignalHandle &signal) {
-
+        void ConsumerPrivate::onSignalCallback(const uvw::SignalEvent &evt, uvw::SignalHandle &signal) {
+            LOG_DEBUG << "onSignalCallback: " << evt.signum;
         }
 
         void ConsumerPrivate::initLog(const SMBlobAppInitConsumer &params) {

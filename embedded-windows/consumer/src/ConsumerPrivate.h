@@ -32,7 +32,7 @@ namespace SMBlob {
             void onIdleCallback(const uvw::IdleEvent& evt, uvw::IdleHandle& idle);
             void onCheckCallback(const uvw::CheckEvent& evt, uvw::CheckHandle& check);
             void onAsyncCallback(const uvw::AsyncEvent& evt, uvw::AsyncHandle& async);
-            void onSignalCallback(const uvw::CheckEvent& evt, uvw::SignalHandle& signal);
+            void onSignalCallback(const uvw::SignalEvent& evt, uvw::SignalHandle& signal);
 
 
             void onProcessErrorCallback(const uvw::ErrorEvent & evt, uvw::ProcessHandle & process);

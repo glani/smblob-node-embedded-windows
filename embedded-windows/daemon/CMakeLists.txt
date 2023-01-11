@@ -23,7 +23,9 @@ find_library(LIBUV_LIBRARY uv_a HINTS "../../thirdparties/libuv/build")
 set(PROJECT_SOURCES
         ProcessorPrivate.cpp
         ProcessorPrivate.h
-    )
+        BaseProcessor.h
+        BaseProcessor.cpp
+        )
 
 if (WIN32)
     set(${PROJECT_NAME}_PLATFORM_LIBS Dwmapi)
@@ -56,6 +58,8 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 list(APPEND PROJECT_SOURCES
+        qt/application.cpp
+        qt/application.h
         qt/main.cpp
         qt/mainwindow.cpp
         qt/mainwindow.h

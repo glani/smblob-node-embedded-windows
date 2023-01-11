@@ -1,22 +1,14 @@
 #include "mainwindow.h"
 #include "ProcessorPrivate.h"
+#include "qt/application.h"
 
-#include <QApplication>
-#include <QWindow>
-#include <QScreen>
-#include <QKeyEvent>
-#include <QTimer>
 #include <QStringList>
-#include <QLayout>
-#include <QMenu>
-#include <QMenuBar>
-#include <QToolBar>
 #include <memory>
 
 
 int main(int argc, char *argv[]) {
-    QApplication a(argc, argv);
-    auto list = a.arguments();
+    Application application(argc, argv);
+    auto list = application.arguments();
     int i = 0;
     SMBlob::EmbeddedWindows::ProcessorPrivateSetup params;
     if (list.length() > 1) {
@@ -32,13 +24,13 @@ int main(int argc, char *argv[]) {
     }
 
     // process parameters
-    SMBlob::EmbeddedWindows::ProcessorPrivate process(params);
+    SMBlob::EmbeddedWindows::ProcessorPrivate process(params, &application);
     process.start();
 #ifdef _DEBUG
     MainWindow w;
     w.show();
 #endif
-    int ret = a.exec();
+    int ret = Application::exec();
     process.stop();
     return ret;
 }
