@@ -19,7 +19,7 @@ namespace SMBlob {
             virtual ~ConsumerPrivate();
 
 
-            void start();
+            void start(const SMBlobAppInitConsumer &params);
             void wait();
             void close();
 
@@ -32,7 +32,13 @@ namespace SMBlob {
             void onCheckCallback(const uvw::CheckEvent& evt, uvw::CheckHandle& check);
             void onAsyncCallback(const uvw::AsyncEvent& evt, uvw::AsyncHandle& async);
             void onSignalCallback(const uvw::CheckEvent& evt, uvw::SignalHandle& signal);
+
+
+            void onProcessErrorCallback(const uvw::ErrorEvent & evt, uvw::ProcessHandle & process);
+
         private:
+            std::string daemonExec;
+            int logSeverity;
             bool firstCheck;
             bool startSign;
             std::mutex startMutex;
@@ -49,9 +55,15 @@ namespace SMBlob {
             std::shared_ptr<uvw::AsyncHandle> asyncHandle;
             std::shared_ptr<uvw::SignalHandle> signalSigCloseHandle;
             std::shared_ptr<uvw::CheckHandle> checkHandle;
+            std::shared_ptr<uvw::ProcessHandle> processHandle;
 
             std::shared_ptr<plog::RollingFileAppender<plog::TxtFormatter>> fileAppender;
             std::shared_ptr<plog::ConsoleAppender<plog::TxtFormatter>> consoleAppender;
+            std::string logSeverityParam;
+            std::string logSeverityStr;
+            std::string logDaemonFilename;
+            std::unique_ptr<char*[]> daemonArgv;
+            std::string logDaemonFilenameParam;
         };
     }
 }

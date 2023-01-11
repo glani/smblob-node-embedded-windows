@@ -20,8 +20,13 @@ namespace SMBlob {
 
         }
 
-        void ConsumerPrivate::start() {
+        void ConsumerPrivate::start(const SMBlobAppInitConsumer &params) {
             LOG_DEBUG << "Welcome to Consumer!";
+
+
+            this->daemonExec = params.daemonExec;
+            this->logSeverity = params.logSeverity;
+
             stopSign = false;
             this->loop = uvw::Loop::getDefault();
             this->thread = loop->resource<uvw::Thread>(CC_CALLBACK_1(ConsumerPrivate::startThread, this));
@@ -29,6 +34,7 @@ namespace SMBlob {
 
             std::unique_lock<std::mutex> lock(this->startMutex);
             this->startCondition.wait(lock, [this] { return this->startSign; });
+            lock.unlock();
         }
 
         void ConsumerPrivate::wait() {
@@ -87,6 +93,12 @@ namespace SMBlob {
             this->asyncHandle = loop->resource<uvw::AsyncHandle>();
             this->asyncHandle->on<uvw::AsyncEvent>(CC_CALLBACK_2(ConsumerPrivate::onAsyncCallback, this));
 
+            // spawner
+            this->processHandle = loop->resource<uvw::ProcessHandle>();
+//            this->spawnerHandle->on<uvw::ListenEvent>(CC_CALLBACK_2(ConsumerPrivate::onSpawnerListenCallback, this));
+            this->processHandle->on<uvw::ErrorEvent>(CC_CALLBACK_2(ConsumerPrivate::onProcessErrorCallback, this));
+
+
             //signal
             this->signalSigCloseHandle = loop->resource<uvw::SignalHandle>();
             this->signalSigCloseHandle->on<uvw::CheckEvent>(CC_CALLBACK_2(ConsumerPrivate::onSignalCallback, this));
@@ -94,6 +106,7 @@ namespace SMBlob {
             });
 
             this->signalSigCloseHandle->oneShot(SIGNAL_TERMINATE);
+
             LOG_DEBUG << "Before UV start";
             loop->run();
             loop = nullptr;
@@ -112,9 +125,37 @@ namespace SMBlob {
                 this->startSign = true;
                 this->startCondition.notify_one();
                 ___s.unlock();
+
+                if (this->daemonExec.length() > 0) {
+                    daemonArgv = std::move(std::unique_ptr<char*[]>(new char*[111]));
+                    int i = 0;
+                    daemonArgv[i] = (char*)this->daemonExec.c_str();
+                    i++;
+                    this->logSeverityParam = std::string("--log");
+                    daemonArgv[i] = (char*)this->logSeverityParam.c_str();
+                    i++;
+                    this->logSeverityStr = std::to_string(this->logSeverity);
+                    std::string severity = logSeverityStr.c_str();
+                    daemonArgv[i] = (char*)severity.c_str();
+                    i++;
+                    if (logDaemonFilename.length() > 0) {
+                        this->logDaemonFilenameParam = std::string("--logFile");
+                        daemonArgv[i] = (char*)this->logDaemonFilenameParam.c_str();
+                        i++;
+                        daemonArgv[i] = (char*)this->logDaemonFilename.c_str();
+                        i++;
+                    }
+
+                    daemonArgv[i] = nullptr;
+
+
+                    LOG_DEBUG << "UV try to spawn a daemon";
+                    this->processHandle->spawn(
+                            (char*)this->daemonExec.c_str(),
+                            daemonArgv.get());
+                }
             }
 
-            LOG_DEBUG << "UV onCheckCallback";
         }
 
         void ConsumerPrivate::onIdleCallback(const uvw::IdleEvent &evt, uvw::IdleHandle &idle) {
@@ -123,6 +164,11 @@ namespace SMBlob {
 
         void ConsumerPrivate::onAsyncCallback(const uvw::AsyncEvent &evt, uvw::AsyncHandle &async) {
             LOG_DEBUG << "onAsyncCallback";
+            if (this->processHandle->pid() > 0) {
+                LOG_DEBUG << "Close daemon process";
+                this->processHandle->close();
+            }
+            LOG_DEBUG << "Close loop";
             closeLoop();
         }
 
@@ -133,6 +179,7 @@ namespace SMBlob {
         void ConsumerPrivate::initLog(const SMBlobAppInitConsumer &params) {
 
             std::string fileName(params.logFileName);
+            this->logDaemonFilename = params.logDaemonFilename;
 
             plog::Severity severity = __SEVERITY_D__(params.logSeverity);
 
@@ -155,6 +202,13 @@ namespace SMBlob {
             plog::get()->addAppender(this->consoleAppender.get());
 
             LOG_DEBUG << "Log system initialized!";
+        }
+
+        void ConsumerPrivate::onProcessErrorCallback(const uvw::ErrorEvent &evt, uvw::ProcessHandle &process) {
+            auto err = evt.code();
+            if (err < 0) {
+                LOGE << "onProcessErrorCallback: " << uv_err_name(err) << " str: " << uv_strerror(err);
+            }
         }
 
     }

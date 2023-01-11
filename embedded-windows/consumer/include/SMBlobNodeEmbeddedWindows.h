@@ -35,6 +35,8 @@ namespace SMBlob {
             int logSeverity;
             int logMaxFilesize;
             int logMaxFiles;
+            std::string daemonExec;
+            std::string logDaemonFilename;
         };
 
 

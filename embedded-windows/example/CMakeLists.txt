@@ -101,6 +101,11 @@ link_directories(
 
 )
 
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_definitions(${PROJECT_NAME} PUBLIC DAEMON_PATH="${CMAKE_BINARY_DIR}/")
+    target_compile_definitions(${PROJECT_NAME}-console PUBLIC DAEMON_PATH="${CMAKE_BINARY_DIR}/")
+endif()
+
 find_library(LIBUV_LIBRARY uv_a HINTS "../../thirdparties/libuv/build")
 
 message(STATUS "LIBUV_LIBRARY: " ${LIBUV_LIBRARY})
