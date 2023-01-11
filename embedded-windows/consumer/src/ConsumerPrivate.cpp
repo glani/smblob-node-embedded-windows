@@ -6,14 +6,16 @@
 #include <plog/Init.h>
 
 
-#define SIGNAL_TERMINATE SIGTERM
-
-
 namespace SMBlob {
     namespace EmbeddedWindows {
 
         ConsumerPrivate::ConsumerPrivate() : startSign(false), stopSign(true), firstCheck(false) {
-
+            std::srand(unsigned(std::time(0)));
+#ifdef _DEBUG
+            this->pipeName = std::string(PIPE_NAME);
+#else
+            this->pipeName = std::string(PIPE_NAME) + std::to_string(std::rand());
+#endif
         }
 
         ConsumerPrivate::~ConsumerPrivate() {
@@ -150,6 +152,12 @@ namespace SMBlob {
                     this->debugStr = std::to_string(this->debug ? 1 : 0);
                     daemonArgv[i] = (char*)debugStr.c_str();
                     i++;
+                    // 3
+                    this->pipeNameParam = S_PIPE_NAME;
+                    daemonArgv[i] = (char*)this->pipeNameParam.c_str();
+                    i++;
+                    daemonArgv[i] = (char*)this->pipeName.c_str();
+                    i++;
 
                     if (logDaemonFilename.length() > 0) {
                         this->logDaemonFilenameParam = S_LOG_FILE;
@@ -160,7 +168,6 @@ namespace SMBlob {
                     }
 
                     daemonArgv[i] = nullptr;
-
 
                     LOG_DEBUG << "UV try to spawn a daemon";
                     this->processHandle->spawn(

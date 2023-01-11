@@ -210,3 +210,14 @@
          message(STATUS "${_variableName}=${${_variableName}}")
      endforeach()
  endfunction()
+
+ function(addPipeNameDefinition project)
+     if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+         if (WIN32)
+             target_compile_definitions(${project} PUBLIC TEST_PIPENAME="\\\\?\\pipe\\uv-test")
+         else ()
+             # Add an icon for the apple .app file
+             target_compile_definitions(${project} PUBLIC TEST_PIPENAME="/tmp/uv-test-sock")
+         endif ()
+     endif()
+ endfunction()

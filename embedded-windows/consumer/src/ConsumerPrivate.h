@@ -68,6 +68,8 @@ namespace SMBlob {
             std::string logDaemonFilenameParam;
             std::string debugParam;
             std::string debugStr;
+            std::string pipeNameParam;
+            std::string pipeName;
             bool debug;
         };
     }

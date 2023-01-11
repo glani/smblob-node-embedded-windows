@@ -36,6 +36,9 @@ find_library(LIBUV_LIBRARY uv_a HINTS "../../thirdparties/libuv/build")
 set(DEPEND_THIRDPARTY_LIBS)
 
 add_library(${EMBEDDED_WINDOWS_CONSUMER_LIB} STATIC ${EMBEDDED_WINDOWS_CONSUMER_LIB_SRC})
+
+addPipeNameDefinition(${EMBEDDED_WINDOWS_CONSUMER_LIB})
+
 link_directories(
         "../../thirdparties/libuv/build"
 )
