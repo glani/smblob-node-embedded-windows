@@ -31,6 +31,7 @@ elseif (APPLE)
     list(APPEND SRC_FILES ../../src/osx/carbon/wxmac.icns)
 endif ()
 
+
 find_package(wxWidgets REQUIRED COMPONENTS net core base xml xrc)
 include(${wxWidgets_USE_FILE})
 
@@ -64,12 +65,20 @@ add_custom_command(
 # and to the linker where to look for libraries
 include_directories(${wxWidgets_INCLUDE_DIRS})
 
+set(EXAMPLE_APP_SRC)
+if (WIN32)
+    list(APPEND EXAMPLE_APP_SRC SMBlob_Node_Embedded_Windows_Console_Example_Win.cpp)
+else ()
+    list(APPEND EXAMPLE_APP_SRC SMBlob_Node_Embedded_Windows_Console_Example_Unix.cpp)
+endif ()
+
 add_executable(${PROJECT_NAME}
-        SMBlob_Node_Embedded_Windows_Example.cpp
-        )
+        SMBlob_Node_Embedded_Windows_Example.cpp)
 
 add_executable(${PROJECT_NAME}-console
         SMBlob_Node_Embedded_Windows_Console_Example.cpp
+        SMBlob_Node_Embedded_Windows_Console_Example.h
+        ${EXAMPLE_APP_SRC}
         )
 
 target_sources(${PROJECT_NAME} PRIVATE ${resource_cpp})

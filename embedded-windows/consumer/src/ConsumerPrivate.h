@@ -39,16 +39,14 @@ namespace SMBlob {
             void onProcessExitEventCallback(const uvw::ExitEvent & evt, uvw::ProcessHandle & process);
 
         private:
-            std::string daemonExec;
-            int logSeverity;
             bool firstCheck;
             bool startSign;
             std::mutex startMutex;
             std::condition_variable startCondition;
 
             bool stopSign;
-            std::mutex endMutex;
-            std::condition_variable endCondition;
+            std::mutex stopMutex;
+            std::condition_variable stopCondition;
 
 
             std::shared_ptr<uvw::Loop> loop;
@@ -61,6 +59,9 @@ namespace SMBlob {
 
             std::shared_ptr<plog::RollingFileAppender<plog::TxtFormatter>> fileAppender;
             std::shared_ptr<plog::ConsoleAppender<plog::TxtFormatter>> consoleAppender;
+
+            std::string daemonExec;
+            int logSeverity;
             std::string logSeverityParam;
             std::string logSeverityStr;
             std::string logDaemonFilename;

@@ -42,8 +42,8 @@ namespace SMBlob {
         }
 
         void ConsumerPrivate::wait() {
-            std::unique_lock<std::mutex> lock(this->endMutex);
-            this->endCondition.wait(lock, [this] { return this->stopSign; });
+            std::unique_lock<std::mutex> lock(this->stopMutex);
+            this->stopCondition.wait(lock, [this] { return this->stopSign; });
         }
 
         void ConsumerPrivate::close() {
@@ -116,9 +116,9 @@ namespace SMBlob {
             loop->run();
             loop = nullptr;
             // notify exit monitor
-            std::unique_lock<std::mutex> ___e(this->endMutex);
+            std::unique_lock<std::mutex> ___e(this->stopMutex);
             this->stopSign = true;
-            this->endCondition.notify_one();
+            this->stopCondition.notify_one();
             ___e.unlock();
         }
 
