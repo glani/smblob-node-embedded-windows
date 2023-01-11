@@ -45,6 +45,16 @@ namespace SMBlob {
             void onAsyncCallback(const uvw::AsyncEvent& evt, uvw::AsyncHandle& async);
             void onSignalCallback(const uvw::SignalEvent& evt, uvw::SignalHandle& signal);
 
+            void onIpcClientErrorCallback(const uvw::ErrorEvent & evt, uvw::PipeHandle & client);
+            void onIpcClientConnectCallback(const uvw::ConnectEvent & evt, uvw::PipeHandle & client);
+            void onIpcClientShutdownCallback(const uvw::ShutdownEvent &evt, uvw::PipeHandle &client);
+
+            void onIpcClientDataCallback(const uvw::DataEvent & evt, uvw::PipeHandle & client);
+            void onIpcClientWriteCallback(const uvw::WriteEvent & evt, uvw::PipeHandle & client);
+            void onIpcClientEndCallback(const uvw::EndEvent & evt, uvw::PipeHandle & client);
+
+
+
 
         private:
             ProcessorPrivateSetup params;
@@ -64,10 +74,12 @@ namespace SMBlob {
             std::shared_ptr<uvw::IdleHandle> idleHandle;
             std::shared_ptr<uvw::AsyncHandle> asyncHandle;
             std::shared_ptr<uvw::SignalHandle> signalSigCloseHandle;
+            std::shared_ptr<uvw::PipeHandle> ipcClient;
 
             std::shared_ptr<uvw::CheckHandle> checkHandle;
             std::shared_ptr<plog::RollingFileAppender<plog::TxtFormatter>> fileAppender;
             std::shared_ptr<plog::ConsoleAppender<plog::TxtFormatter>> consoleAppender;
+            bool daemonConnected;
         };
     }
 }

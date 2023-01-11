@@ -18,7 +18,6 @@ namespace SMBlob {
             explicit ConsumerPrivate();
             virtual ~ConsumerPrivate();
 
-
             void start(const SMBlobAppInitConsumer &params);
             void wait();
             void close();
@@ -33,6 +32,18 @@ namespace SMBlob {
             void onCheckCallback(const uvw::CheckEvent& evt, uvw::CheckHandle& check);
             void onAsyncCallback(const uvw::AsyncEvent& evt, uvw::AsyncHandle& async);
             void onSignalCallback(const uvw::SignalEvent& evt, uvw::SignalHandle& signal);
+
+            void onIpcServerListenCallback(const uvw::ListenEvent evt, uvw::PipeHandle& server);
+            void onIpcServerErrorCallback(const uvw::ErrorEvent & evt, uvw::PipeHandle & server);
+
+
+            // client callbacks
+            void onIpcClientErrorCallback(const uvw::ErrorEvent & evt, uvw::PipeHandle & client);
+            void onIpcClientCloseCallback(const uvw::CloseEvent & evt, uvw::PipeHandle & client);
+            void onIpcClientEndCallback(const uvw::EndEvent & evt, uvw::PipeHandle & client);
+            void onIpcClientDataCallback(const uvw::DataEvent & evt, uvw::PipeHandle & client);
+            void onIpcClientWriteCallback(const uvw::WriteEvent & evt, uvw::PipeHandle & client);
+            void onIpcClientShutdownCallback(const uvw::ShutdownEvent & evt, uvw::PipeHandle & client);
 
 
             void onProcessErrorCallback(const uvw::ErrorEvent & evt, uvw::ProcessHandle & process);
@@ -56,6 +67,8 @@ namespace SMBlob {
             std::shared_ptr<uvw::SignalHandle> signalSigCloseHandle;
             std::shared_ptr<uvw::CheckHandle> checkHandle;
             std::shared_ptr<uvw::ProcessHandle> processHandle;
+            std::shared_ptr<uvw::PipeHandle> ipcServer;
+            std::shared_ptr<uvw::PipeHandle> ipcClient;
 
             std::shared_ptr<plog::RollingFileAppender<plog::TxtFormatter>> fileAppender;
             std::shared_ptr<plog::ConsoleAppender<plog::TxtFormatter>> consoleAppender;

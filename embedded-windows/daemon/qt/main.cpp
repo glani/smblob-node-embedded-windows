@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ProcessorPrivate.h"
 #include "qt/application.h"
+#include "internal/SMBlobNodeEmbeddedWindowsSharedInternal.h"
 
 #include <QStringList>
 #include <memory>
@@ -22,6 +23,13 @@ int main(int argc, char *argv[]) {
             }
         params = SMBlob::EmbeddedWindows::ProcessorPrivateSetup::fromArgs(args, size);
     }
+
+#ifdef _DEBUG
+    if (params.pipeName.length() == 0) {
+        params.pipeName = std::string(PIPE_NAME);
+    }
+#endif
+
 
     // process parameters
     SMBlob::EmbeddedWindows::ProcessorPrivate process(params, &application);

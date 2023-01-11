@@ -6,16 +6,16 @@
 #include <plog/Init.h>
 
 
-
 namespace SMBlob {
     namespace EmbeddedWindows {
 
-        ProcessorPrivate::ProcessorPrivate(const ProcessorPrivateSetup &setup, BaseProcessor* processor) : params(setup), processor(processor) {
+        ProcessorPrivate::ProcessorPrivate(const ProcessorPrivateSetup &setup, BaseProcessor *processor) : params(
+                setup), processor(processor), daemonConnected(false) {
 
         }
 
         ProcessorPrivate::~ProcessorPrivate() {
-
+            uv_library_shutdown();
         }
 
 
@@ -84,6 +84,20 @@ namespace SMBlob {
             this->checkHandle = loop->resource<uvw::CheckHandle>();
             this->checkHandle->on<uvw::CheckEvent>(CC_CALLBACK_2(ProcessorPrivate::onCheckCallback, this));
             this->checkHandle->start();
+
+            // pipe
+            this->ipcClient = loop->resource<uvw::PipeHandle>();
+            this->ipcClient->on<uvw::ErrorEvent>(CC_CALLBACK_2(ProcessorPrivate::onIpcClientErrorCallback, this));
+            this->ipcClient->once<uvw::ConnectEvent>(CC_CALLBACK_2(ProcessorPrivate::onIpcClientConnectCallback, this));
+            this->ipcClient->once<uvw::ShutdownEvent>(CC_CALLBACK_2(ProcessorPrivate::onIpcClientShutdownCallback, this));
+            this->ipcClient->on<uvw::DataEvent>(CC_CALLBACK_2(ProcessorPrivate::onIpcClientDataCallback, this));
+            this->ipcClient->on<uvw::WriteEvent>(CC_CALLBACK_2(ProcessorPrivate::onIpcClientWriteCallback, this));
+            this->ipcClient->on<uvw::EndEvent>(CC_CALLBACK_2(ProcessorPrivate::onIpcClientEndCallback, this));
+
+
+
+            this->ipcClient->connect(this->params.pipeName);
+            LOGD << "Pipe name: " << this->params.pipeName;
 
             //async
             this->asyncHandle = loop->resource<uvw::AsyncHandle>();
@@ -165,17 +179,46 @@ namespace SMBlob {
             LOG_DEBUG << "Log system initialized!";
         }
 
+        void ProcessorPrivate::onIpcClientErrorCallback(const uvw::ErrorEvent &evt, uvw::PipeHandle &client) {
+            LIBUV_ERR("onIpcClientErrorCallback: ")
+        }
+
+        void ProcessorPrivate::onIpcClientConnectCallback(const uvw::ConnectEvent &evt, uvw::PipeHandle &client) {
+            LOG_DEBUG << "onIpcClientConnectCallback";
+            this->daemonConnected = true;
+            auto data = std::unique_ptr<char[]>(new char[3]{ 'a', 'b', 'c' });
+            client.write(data.get(), 3);
+
+        }
+
+        void ProcessorPrivate::onIpcClientShutdownCallback(const uvw::ShutdownEvent &evt, uvw::PipeHandle &client) {
+            LOG_DEBUG << "onIpcClientShutdownCallback";
+            this->daemonConnected = false;
+            client.close();
+        }
+
+        void ProcessorPrivate::onIpcClientEndCallback(const uvw::EndEvent &evt, uvw::PipeHandle &client) {
+            LOG_DEBUG << "onIpcClientEndCallback";
+            this->daemonConnected = false;
+            client.close();
+        }
+
+        void ProcessorPrivate::onIpcClientDataCallback(const uvw::DataEvent &evt, uvw::PipeHandle &client) {
+            LOG_DEBUG << "onIpcClientDataCallback";
+        }
+
+        void ProcessorPrivate::onIpcClientWriteCallback(const uvw::WriteEvent &evt, uvw::PipeHandle &client) {
+            LOG_DEBUG << "onIpcClientWriteCallback";
+        }
+
         // ProcessorPrivateSetup
         ProcessorPrivateSetup ProcessorPrivateSetup::fromArgs(const std::unique_ptr<char *[]> &args, size_t size) {
             ProcessorPrivateSetup res;
 
-#ifdef _DEBUG
-            if (res.pipeName.length()) {
-                res.pipeName = std::string(PIPE_NAME);
-            }
-#endif
 
             return res;
         }
     }
+
+
 }

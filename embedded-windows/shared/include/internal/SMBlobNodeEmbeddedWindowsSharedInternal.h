@@ -17,3 +17,9 @@
         #define PIPE_NAME "/tmp/snew-sock"
     #endif
 #endif
+
+#define LIBUV_ERR(prompt) \
+    auto err = evt.code(); \
+    if (err < 0) { \
+        LOGE << #prompt "" << uv_err_name(err) << " str: " << uv_strerror(err);\
+    }

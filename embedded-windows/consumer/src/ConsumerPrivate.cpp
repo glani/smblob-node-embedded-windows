@@ -19,7 +19,7 @@ namespace SMBlob {
         }
 
         ConsumerPrivate::~ConsumerPrivate() {
-
+            uv_library_shutdown();
         }
 
         void ConsumerPrivate::start(const SMBlobAppInitConsumer &params) {
@@ -93,13 +93,36 @@ namespace SMBlob {
             this->checkHandle->on<uvw::CheckEvent>(CC_CALLBACK_2(ConsumerPrivate::onCheckCallback, this));
             this->checkHandle->start();
 
+            // pipe
+            this->ipcServer = loop->resource<uvw::PipeHandle>();
+            this->ipcServer->on<uvw::ListenEvent>(CC_CALLBACK_2(ConsumerPrivate::onIpcServerListenCallback, this));
+            this->ipcServer->on<uvw::ErrorEvent>(CC_CALLBACK_2(ConsumerPrivate::onIpcServerErrorCallback, this));
+
+
+            auto fsReq = loop->resource<uvw::FsReq>();
+
+            fsReq->on<uvw::FsEvent<uvw::FsReq::Type::UNLINK>>([&](const auto &, auto &) {
+                LOGW << "unlink succeed";
+            });
+
+            fsReq->on<uvw::ErrorEvent>([](const auto &evt, auto &handle) {
+                int err = evt.code();
+                LOGI << "unlink failed: " << uv_err_name(err) << " str: " << uv_strerror(err);
+            });
+
+            fsReq->unlink(this->pipeName);
+            LOGD << "Pipe name: " << this->pipeName;
+
+            this->ipcServer->bind(this->pipeName);
+            this->ipcServer->listen();
+
+
             //async
             this->asyncHandle = loop->resource<uvw::AsyncHandle>();
             this->asyncHandle->on<uvw::AsyncEvent>(CC_CALLBACK_2(ConsumerPrivate::onAsyncCallback, this));
 
             // spawner
             this->processHandle = loop->resource<uvw::ProcessHandle>();
-//            this->spawnerHandle->on<uvw::ListenEvent>(CC_CALLBACK_2(ConsumerPrivate::onSpawnerListenCallback, this));
             this->processHandle->on<uvw::ExitEvent>(CC_CALLBACK_2(ConsumerPrivate::onProcessExitEventCallback, this));
             this->processHandle->on<uvw::ErrorEvent>(CC_CALLBACK_2(ConsumerPrivate::onProcessErrorCallback, this));
 
@@ -132,38 +155,38 @@ namespace SMBlob {
                 ___s.unlock();
 
                 if (this->daemonExec.length() > 0) {
-                    daemonArgv = std::unique_ptr<char*[]>(new char*[111]);
+                    daemonArgv = std::unique_ptr<char *[]>(new char *[111]);
                     int i = 0;
                     // 0
-                    daemonArgv[i] = (char*)this->daemonExec.c_str();
+                    daemonArgv[i] = (char *) this->daemonExec.c_str();
                     i++;
                     this->logSeverityParam = S_LOG;
-                    daemonArgv[i] = (char*)this->logSeverityParam.c_str();
+                    daemonArgv[i] = (char *) this->logSeverityParam.c_str();
                     i++;
                     // 1
                     this->logSeverityStr = std::to_string(this->logSeverity);
                     std::string severity = logSeverityStr.c_str();
-                    daemonArgv[i] = (char*)severity.c_str();
+                    daemonArgv[i] = (char *) severity.c_str();
                     i++;
                     // 2
                     this->debugParam = S_DEBUG;
-                    daemonArgv[i] = (char*)this->debugParam.c_str();
+                    daemonArgv[i] = (char *) this->debugParam.c_str();
                     i++;
                     this->debugStr = std::to_string(this->debug ? 1 : 0);
-                    daemonArgv[i] = (char*)debugStr.c_str();
+                    daemonArgv[i] = (char *) debugStr.c_str();
                     i++;
                     // 3
                     this->pipeNameParam = S_PIPE_NAME;
-                    daemonArgv[i] = (char*)this->pipeNameParam.c_str();
+                    daemonArgv[i] = (char *) this->pipeNameParam.c_str();
                     i++;
-                    daemonArgv[i] = (char*)this->pipeName.c_str();
+                    daemonArgv[i] = (char *) this->pipeName.c_str();
                     i++;
 
                     if (logDaemonFilename.length() > 0) {
                         this->logDaemonFilenameParam = S_LOG_FILE;
-                        daemonArgv[i] = (char*)this->logDaemonFilenameParam.c_str();
+                        daemonArgv[i] = (char *) this->logDaemonFilenameParam.c_str();
                         i++;
-                        daemonArgv[i] = (char*)this->logDaemonFilename.c_str();
+                        daemonArgv[i] = (char *) this->logDaemonFilename.c_str();
                         i++;
                     }
 
@@ -171,7 +194,7 @@ namespace SMBlob {
 
                     LOG_DEBUG << "UV try to spawn a daemon";
                     this->processHandle->spawn(
-                            (char*)this->daemonExec.c_str(),
+                            (char *) this->daemonExec.c_str(),
                             daemonArgv.get());
                 }
             }
@@ -195,6 +218,9 @@ namespace SMBlob {
 
         void ConsumerPrivate::onSignalCallback(const uvw::SignalEvent &evt, uvw::SignalHandle &signal) {
             LOG_DEBUG << "onSignalCallback: " << evt.signum;
+            if (evt.signum == SIGNAL_TERMINATE) {
+                closeLoop();
+            }
         }
 
         void ConsumerPrivate::initLog(const SMBlobAppInitConsumer &params) {
@@ -231,10 +257,55 @@ namespace SMBlob {
         }
 
         void ConsumerPrivate::onProcessErrorCallback(const uvw::ErrorEvent &evt, uvw::ProcessHandle &process) {
-            auto err = evt.code();
-            if (err < 0) {
-                LOGE << "onProcessErrorCallback: " << uv_err_name(err) << " str: " << uv_strerror(err);
-            }
+            LIBUV_ERR("onProcessErrorCallback: ")
+        }
+
+        void ConsumerPrivate::onIpcServerListenCallback(const uvw::ListenEvent evt, uvw::PipeHandle &server) {
+            LOG_DEBUG << "onIpcServerListenCallback";
+            // for now we support only one demon
+            ipcClient = server.loop().resource<uvw::PipeHandle>();
+
+            ipcClient->on<uvw::ErrorEvent>(CC_CALLBACK_2(ConsumerPrivate::onIpcClientErrorCallback, this));
+            ipcClient->on<uvw::CloseEvent>(CC_CALLBACK_2(ConsumerPrivate::onIpcClientCloseCallback, this));
+            ipcClient->on<uvw::DataEvent>(CC_CALLBACK_2(ConsumerPrivate::onIpcClientDataCallback, this));
+            ipcClient->on<uvw::WriteEvent>(CC_CALLBACK_2(ConsumerPrivate::onIpcClientWriteCallback, this));
+            ipcClient->on<uvw::EndEvent>(CC_CALLBACK_2(ConsumerPrivate::onIpcClientEndCallback, this));
+            ipcClient->on<uvw::ShutdownEvent>(CC_CALLBACK_2(ConsumerPrivate::onIpcClientShutdownCallback, this));
+
+            server.accept(*ipcClient);
+            ipcClient->read();
+        }
+
+
+        void ConsumerPrivate::onIpcServerErrorCallback(const uvw::ErrorEvent &evt, uvw::PipeHandle &server) {
+            LIBUV_ERR("onIpcServerErrorCallback: ")
+        }
+
+        void ConsumerPrivate::onIpcClientErrorCallback(const uvw::ErrorEvent &evt, uvw::PipeHandle &client) {
+            LIBUV_ERR("onIpcClientErrorCallback: ")
+        }
+
+        void ConsumerPrivate::onIpcClientCloseCallback(const uvw::CloseEvent &evt, uvw::PipeHandle &client) {
+            LOG_DEBUG << "onIpcClientCloseCallback";
+
+            this->ipcServer->close();
+        }
+
+        void ConsumerPrivate::onIpcClientEndCallback(const uvw::EndEvent &evt, uvw::PipeHandle &client) {
+            LOG_DEBUG << "onIpcClientEndCallback";
+            client.close();
+        }
+
+        void ConsumerPrivate::onIpcClientDataCallback(const uvw::DataEvent &evt, uvw::PipeHandle &client) {
+            LOG_DEBUG << "onIpcClientDataCallback";
+        }
+
+        void ConsumerPrivate::onIpcClientWriteCallback(const uvw::WriteEvent &evt, uvw::PipeHandle &client) {
+            LOG_DEBUG << "onIpcClientWriteCallback";
+        }
+
+        void ConsumerPrivate::onIpcClientShutdownCallback(const uvw::ShutdownEvent &evt, uvw::PipeHandle &client) {
+            LOG_DEBUG << "onClientShutdownCallback";
         }
 
 
