@@ -6,7 +6,7 @@
 
 #define __SEVERITY_D__(logSeverity) __SEVERITY__(logSeverity, plog::Severity::debug)
 
-#define S_PIPE_NAME std::string("--pipe-name")
-#define S_LOG std::string("--log")
-#define S_LOG_FILE std::string("--logFile")
-#define S_DEBUG std::string("--debug")
+#define SMBEW_S_PIPE_NAME std::string("--pipe-name")
+#define SMBEW_S_LOG std::string("--log")
+#define SMBEW_S_LOG_FILE std::string("--logFile")
+#define SMBEW_S_DEBUG std::string("--debug")

@@ -7,11 +7,13 @@
 #include <plog/Formatters/TxtFormatter.h>
 #include <plog/Appenders/RollingFileAppender.h>
 #include <plog/Appenders/ConsoleAppender.h>
+#include <queue>
 
 
 namespace SMBlob {
     namespace EmbeddedWindows {
         struct SMBlobAppInitConsumer;
+        struct RequestDataHolder;
 
         class ConsumerPrivate {
         public:
@@ -22,6 +24,8 @@ namespace SMBlob {
             void wait();
             void close();
 
+
+            void enqueueRequest(std::unique_ptr<char[]>& data, size_t size);
 
         private:
             void initLog(const SMBlobAppInitConsumer &params);
@@ -90,6 +94,10 @@ namespace SMBlob {
             bool debug;
             std::shared_ptr<uvw::PipeHandle> pipeStdout;
             std::shared_ptr<uvw::PipeHandle> pipeStderr;
+
+            std::mutex requestQueueMutex;
+            std::queue<struct RequestDataHolder> requestQueue;
+
         };
     }
 }

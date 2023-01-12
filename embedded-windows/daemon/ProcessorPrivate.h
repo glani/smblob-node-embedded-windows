@@ -8,7 +8,7 @@
 #include <plog/Formatters/TxtFormatter.h>
 #include <plog/Appenders/RollingFileAppender.h>
 #include <plog/Appenders/ConsoleAppender.h>
-
+#include <queue>
 
 namespace SMBlob {
     namespace EmbeddedWindows {
@@ -16,13 +16,20 @@ namespace SMBlob {
 
         struct ProcessorPrivateSetup {
 
-            static ProcessorPrivateSetup fromArgs(const std::unique_ptr<char *[]> &args, size_t size);
+            static ProcessorPrivateSetup fromArgs(int argc, char *argv[]);
 
             std::string pipeName;
             std::string logFileName;
+            bool debug;
             int logSeverity;
             int logMaxFilesize;
             int logMaxFiles;
+
+            ProcessorPrivateSetup() :
+                    pipeName(""), logFileName(""), debug(false), logSeverity(-1), logMaxFilesize(-1),  logMaxFiles(-1)
+            {
+
+            }
         };
 
         class ProcessorPrivate {
@@ -34,6 +41,10 @@ namespace SMBlob {
             void start();
             void wait();
             void stop();
+
+            void enqueueRequest(std::unique_ptr<char[]>& data, size_t size);
+
+            void initApplication();
 
         private:
             void initLog();
@@ -80,6 +91,9 @@ namespace SMBlob {
             std::shared_ptr<plog::RollingFileAppender<plog::TxtFormatter>> fileAppender;
             std::shared_ptr<plog::ConsoleAppender<plog::TxtFormatter>> consoleAppender;
             bool daemonConnected;
+            std::mutex requestQueueMutex;
+            std::queue<struct RequestDataHolder> requestQueue;
+
         };
     }
 }

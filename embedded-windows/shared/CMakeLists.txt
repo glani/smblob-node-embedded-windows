@@ -17,6 +17,7 @@ set(EMBEDDED_WINDOWS_HEADER
 
 list(APPEND
         EMBEDDED_WINDOWS_SRC src/stub.cpp
+        src/models/embedded-windows.scheme.pb.cc
         )
 
 list(APPEND
@@ -32,10 +33,14 @@ include_directories(
 
 set(DEPEND_THIRDPARTY_LIBS)
 
+find_package(Protobuf REQUIRED)
+include_directories(${Protobuf_INCLUDE_DIRS})
+
 add_library(${EMBEDDED_WINDOWS_SHARED_LIB} STATIC ${EMBEDDED_WINDOWS_SRC})
 target_link_libraries(
         ${EMBEDDED_WINDOWS_SHARED_LIB}
         ${DEPEND_THIRDPARTY_LIBS}
+        ${Protobuf_LIBRARIES}
 )
 
 set_target_properties(${EMBEDDED_WINDOWS_SHARED_LIB}

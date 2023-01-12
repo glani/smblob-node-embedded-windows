@@ -33,6 +33,9 @@ include_directories(
 )
 find_library(LIBUV_LIBRARY uv_a HINTS "../../thirdparties/libuv/build")
 
+find_package(Protobuf REQUIRED)
+
+
 set(DEPEND_THIRDPARTY_LIBS)
 
 add_library(${EMBEDDED_WINDOWS_CONSUMER_LIB} STATIC ${EMBEDDED_WINDOWS_CONSUMER_LIB_SRC})
@@ -46,6 +49,7 @@ target_link_libraries(
         ${EMBEDDED_WINDOWS_CONSUMER_LIB}
         ${LIBUV_LIBRARY}
         ${DEPEND_THIRDPARTY_LIBS}
+        smblob-node-embedded-windows-shared
 )
 
 set_target_properties(${EMBEDDED_WINDOWS_CONSUMER_LIB}

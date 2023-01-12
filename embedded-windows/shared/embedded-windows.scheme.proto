@@ -1,0 +1,81 @@
+syntax = "proto3";
+package SMBlob.EmbeddedWindows.Scheme;
+// shared
+message Window {
+  uint64 nativeWindowId = 1;
+  uint64 windowId = 2;
+  optional string windowUuid = 3;
+  optional uint64 processId = 4;
+}
+
+message Status {
+  int32 status = 1;
+  optional string message = 2;
+  optional string code = 3;
+  optional uint64 time = 4;
+}
+// close application
+message CloseApplicationReq {
+
+}
+
+message CloseApplicationRes {
+    Status status = 1;
+}
+// connect application
+message ConnectApplicationRes {
+  Status status = 1;
+}
+// init application
+message InitApplicationRes {
+  Status status = 1;
+}
+
+// close
+message CloseWindowReq {
+  Window window = 1;
+}
+
+message CloseWindowRes {
+  Status status = 1;
+}
+// embed
+message EmbedWindowReq {
+    Window window = 1;
+}
+
+message EmbedWindowRes {
+    Status status = 1;
+    Window window = 2;
+    Window parentWindow = 3;
+}
+// release
+message ReleaseWindowReq {
+    Window parentWindow = 1;
+}
+
+message ReleaseWindowRes {
+    Status status = 1;
+    Window parentWindow = 2;
+    Window window = 3;
+}
+// request
+message Request {
+  oneof Message {
+    CloseApplicationReq closeApplication = 1;
+    EmbedWindowReq embedWindow = 2;
+    ReleaseWindowReq releaseWindow = 3;
+    CloseWindowReq closeWindow = 4;
+  }
+}
+// response
+message Response {
+  oneof Message {
+    CloseApplicationRes closeApplication = 1;
+    EmbedWindowRes embedWindow = 2;
+    ReleaseWindowRes releaseWindow = 3;
+    CloseWindowRes closeWindow = 4;
+    ConnectApplicationRes connectApplication = 5;
+    InitApplicationRes initApplication = 6;
+  }
+}

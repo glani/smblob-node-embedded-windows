@@ -136,7 +136,6 @@ target_link_libraries(${PROJECT_NAME}
         ${LIBUV_LIBRARY}
         ${${PROJECT_NAME}_PLATFORM_LIBS}
         ${DEPEND_THIRDPARTY_LIBS}
-        smblob-node-embedded-windows-shared
         smblob-node-embedded-windows-consumer
         )
 

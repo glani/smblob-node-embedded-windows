@@ -28,6 +28,13 @@ namespace SMBlob {
             SMBlobEmbeddedWindowsApplicationInstance applicationInstance;
         };
 
+        struct SMBLOB_NODE_EMBEDDED_WINDOWS_EXTERN SMBlobWindow {
+            unsigned long nativeWindowId;
+            unsigned long windowId;
+            std::string windowUuid;
+            unsigned long processId;
+        };
+
 
         struct SMBLOB_NODE_EMBEDDED_WINDOWS_EXTERN SMBlobAppInitConsumer {
             SMBlobEmbeddedWindowsApplicationInstance applicationInstance;
@@ -38,11 +45,16 @@ namespace SMBlob {
             bool debug;
             std::string daemonExec;
             std::string logDaemonFilename;
+
+            SMBlobAppInitConsumer();
         };
+
+
 
 
         SMBLOB_NODE_EMBEDDED_WINDOWS_EXTERN SMBlobApp Init(const SMBlobAppInitConsumer& setup);
         SMBLOB_NODE_EMBEDDED_WINDOWS_EXTERN void Release(SMBlobApp& app);
+        SMBLOB_NODE_EMBEDDED_WINDOWS_EXTERN void EmbedWindow(SMBlobApp& app, const SMBlobWindow& window);
 
     }
 }
