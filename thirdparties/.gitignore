@@ -7,4 +7,5 @@ xdotool-sources
 *.tar.gz
 xdotool-wrapper/src
 xdotool-wrapper/include
+protobuf
 

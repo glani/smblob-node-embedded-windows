@@ -63,7 +63,16 @@ add_custom_command(
 
 # Setup CMake to use GTK+, tell the compiler where to look for headers
 # and to the linker where to look for libraries
-include_directories(${wxWidgets_INCLUDE_DIRS})
+
+include_directories(
+        ${wxWidgets_INCLUDE_DIRS}
+        ./
+        include
+        src
+        ../../thirdparties/libuv/include
+        ../../thirdparties/uvw/src
+        ../../thirdparties/plog/include
+)
 
 set(EXAMPLE_APP_SRC)
 if (WIN32)
@@ -78,6 +87,8 @@ add_executable(${PROJECT_NAME}
 add_executable(${PROJECT_NAME}-console
         SMBlob_Node_Embedded_Windows_Console_Example.cpp
         SMBlob_Node_Embedded_Windows_Console_Example.h
+        ProcessRunner.cpp
+        ProcessRunner.h
         ${EXAMPLE_APP_SRC}
         )
 

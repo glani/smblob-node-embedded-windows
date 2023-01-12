@@ -30,7 +30,6 @@ int main(int argc, char *argv[]) {
     }
 #endif
 
-
     // process parameters
     SMBlob::EmbeddedWindows::ProcessorPrivate process(params, &application);
     process.start();
