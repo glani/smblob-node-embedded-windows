@@ -25,8 +25,11 @@ int main(int argc, char **argv) {
 
 
     ProcessRunner runner;
-    char *rargv[1] = {"-l"};
-    runner.RunCommand("/usr/bin/wmctrl", rargv, 1);
+    auto rargvPtr = std::unique_ptr<char*[]>(
+            new char*[3]{ "search1", "--name", "New Tab" }
+    );
+    int argc1 = sizeof(rargvPtr.get()) / sizeof (rargvPtr.get()[0]);
+    runner.RunCommand("/usr/bin/xdotool", rargvPtr.get(), 3);
 
     SMBlob::EmbeddedWindows::SMBlobAppInitConsumer params;
     params.daemonExec = daemonExec;

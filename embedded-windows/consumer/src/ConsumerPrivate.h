@@ -44,10 +44,13 @@ namespace SMBlob {
             void onIpcClientDataCallback(const uvw::DataEvent & evt, uvw::PipeHandle & client);
             void onIpcClientWriteCallback(const uvw::WriteEvent & evt, uvw::PipeHandle & client);
             void onIpcClientShutdownCallback(const uvw::ShutdownEvent & evt, uvw::PipeHandle & client);
-
-
             void onProcessErrorCallback(const uvw::ErrorEvent & evt, uvw::ProcessHandle & process);
+
+
             void onProcessExitEventCallback(const uvw::ExitEvent & evt, uvw::ProcessHandle & process);
+
+            void onProcessStdOutDataCallback(const uvw::DataEvent & evt, uvw::PipeHandle & client);
+            void onProcessStdErrDataCallback(const uvw::DataEvent & evt, uvw::PipeHandle & client);
 
         private:
             bool firstCheck;
@@ -85,6 +88,8 @@ namespace SMBlob {
             std::string pipeNameParam;
             std::string pipeName;
             bool debug;
+            std::shared_ptr<uvw::PipeHandle> pipeStdout;
+            std::shared_ptr<uvw::PipeHandle> pipeStderr;
         };
     }
 }

@@ -192,6 +192,31 @@ namespace SMBlob {
 
                     daemonArgv[i] = nullptr;
 
+
+                    this->pipeStdout = loop->resource<uvw::PipeHandle>();
+                    this->pipeStderr = loop->resource<uvw::PipeHandle>();
+
+                    pipeStdout->on<uvw::DataEvent>(
+                            CC_CALLBACK_2(ConsumerPrivate::onProcessStdOutDataCallback, this)
+                    );
+                    pipeStderr->on<uvw::DataEvent>(
+                            CC_CALLBACK_2(ConsumerPrivate::onProcessStdErrDataCallback, this)
+                    );
+                    processHandle->stdio(uvw::StdIN, uvw::ProcessHandle::StdIO::IGNORE_STREAM);
+                    processHandle->stdio(*pipeStdout,
+                                         uvw::Flags<uvw::ProcessHandle::StdIO>::from<uvw::ProcessHandle::StdIO::CREATE_PIPE, uvw::ProcessHandle::StdIO::WRITABLE_PIPE>());
+                    processHandle->stdio(*pipeStderr,
+                                         uvw::Flags<uvw::ProcessHandle::StdIO>::from<uvw::ProcessHandle::StdIO::CREATE_PIPE, uvw::ProcessHandle::StdIO::WRITABLE_PIPE>());
+
+
+                    pipeStdout->on<uvw::ErrorEvent>([&](const auto &evt, auto &) {
+                        LIBUV_ERR("pipeStdout:")
+                    });
+
+                    pipeStderr->on<uvw::ErrorEvent>([&](const auto &evt, auto &) {
+                        LIBUV_ERR("pipeStdout:")
+                    });
+
                     LOG_DEBUG << "UV try to spawn a daemon";
                     this->processHandle->spawn(
                             (char *) this->daemonExec.c_str(),
@@ -278,34 +303,41 @@ namespace SMBlob {
 
 
         void ConsumerPrivate::onIpcServerErrorCallback(const uvw::ErrorEvent &evt, uvw::PipeHandle &server) {
-            LIBUV_ERR("onIpcServerErrorCallback: ")
+            LIBUV_ERR("onIpcServerErrorCallback:")
         }
 
         void ConsumerPrivate::onIpcClientErrorCallback(const uvw::ErrorEvent &evt, uvw::PipeHandle &client) {
-            LIBUV_ERR("onIpcClientErrorCallback: ")
+            LIBUV_ERR("onIpcClientErrorCallback:")
         }
 
         void ConsumerPrivate::onIpcClientCloseCallback(const uvw::CloseEvent &evt, uvw::PipeHandle &client) {
-            LOG_DEBUG << "onIpcClientCloseCallback";
-
+            LOG_DEBUG << "onIpcClientCloseCallback:";
             this->ipcServer->close();
         }
 
         void ConsumerPrivate::onIpcClientEndCallback(const uvw::EndEvent &evt, uvw::PipeHandle &client) {
-            LOG_DEBUG << "onIpcClientEndCallback";
+            LOG_DEBUG << "onIpcClientEndCallback:";
             client.close();
         }
 
         void ConsumerPrivate::onIpcClientDataCallback(const uvw::DataEvent &evt, uvw::PipeHandle &client) {
-            LOG_DEBUG << "onIpcClientDataCallback";
+            LOG_DEBUG << "onIpcClientDataCallback:";
         }
 
         void ConsumerPrivate::onIpcClientWriteCallback(const uvw::WriteEvent &evt, uvw::PipeHandle &client) {
-            LOG_DEBUG << "onIpcClientWriteCallback";
+            LOG_DEBUG << "onIpcClientWriteCallback:";
         }
 
         void ConsumerPrivate::onIpcClientShutdownCallback(const uvw::ShutdownEvent &evt, uvw::PipeHandle &client) {
-            LOG_DEBUG << "onClientShutdownCallback";
+            LOG_DEBUG << "onClientShutdownCallback:";
+        }
+
+        void ConsumerPrivate::onProcessStdOutDataCallback(const uvw::DataEvent &evt, uvw::PipeHandle &client) {
+            LOGD << evt.data.get();
+        }
+
+        void ConsumerPrivate::onProcessStdErrDataCallback(const uvw::DataEvent &evt, uvw::PipeHandle &client) {
+            LOGE << evt.data.get();
         }
 
 

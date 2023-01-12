@@ -11,13 +11,25 @@ public:
 
     void RunCommand(const std::string& command, char** argv = nullptr, int argc = 0);
 
-    void StoreOutput(const std::string &result);
-
     void DisplayOutput();
 
-    const std::string &getOutputStore() const;
+    const std::string &getOutput() const;
+    const std::string &getError() const;
+
+    int64_t getStatus() const;
+
 
 private:
-    std::string outputStore;
+
+    void StoreStatus(int64_t status);
+
+    void StoreError(const std::string &result);
+
+    void StoreOutput(const std::string &result);
+
+    int64_t status;
+
+    std::string output;
+    std::string error;
 };
 
