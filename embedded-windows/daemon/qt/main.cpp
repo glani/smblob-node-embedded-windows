@@ -9,7 +9,7 @@
 
 
 int main(int argc, char *argv[]) {
-    Application application(argc, argv);
+    ::SMBlob::EmbeddedWindows::Application application(argc, argv);
     auto list = application.arguments();
     int i = 0;
     SMBlob::EmbeddedWindows::ProcessorPrivateSetup params;
@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     w.show();
 #endif
     process.initApplication();
-    int ret = Application::exec();
+    int ret = ::SMBlob::EmbeddedWindows::Application::exec();
     process.stop();
     return ret;
 }

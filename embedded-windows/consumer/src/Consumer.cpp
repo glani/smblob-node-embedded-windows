@@ -1,5 +1,6 @@
 #include "SMBlobNodeEmbeddedWindows.h"
 #include "SMBlobNodeEmbeddedWindowsShared.h"
+#include "internal/SMBlobNodeEmbeddedWindowsSharedPbModels.h"
 #include "internal/SMBlobNodeEmbeddedWindowsSharedInternal.h"
 #include "ConsumerPrivate.h"
 

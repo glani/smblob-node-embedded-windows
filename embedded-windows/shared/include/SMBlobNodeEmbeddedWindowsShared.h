@@ -1,5 +1,4 @@
 #pragma once
-#include "../src/models/embedded-windows.scheme.pb.h"
 
 #define SMBEW_STATUS_OK 0
 #define SMBEW_STATUS_FAIL 1
@@ -9,7 +8,7 @@
 namespace SMBlob {
     namespace EmbeddedWindows {
 
-        struct RequestDataHolder {
+        struct IODataHolder {
             std::unique_ptr<char[]> data;
             size_t size;
         };

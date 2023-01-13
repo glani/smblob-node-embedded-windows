@@ -11,12 +11,15 @@ set(EMBEDDED_WINDOWS_SRC
         )
 set(EMBEDDED_WINDOWS_HEADER
         include/SMBlobNodeEmbeddedWindowsShared.h
+        include/SMBlobNodeEmbeddedWindowsSharedModels.h
+        include/internal/SMBlobNodeEmbeddedWindowsSharedPbModels.h
         include/internal/SMBlobNodeEmbeddedWindowsSharedInternal.h
         include/internal/SMBlobNodeEmbeddedWindowsSharedLog.h
         )
 
 list(APPEND
         EMBEDDED_WINDOWS_SRC src/stub.cpp
+        src/models/embedded-windows.scheme.pb.h
         src/models/embedded-windows.scheme.pb.cc
         )
 

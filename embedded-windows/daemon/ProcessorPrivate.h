@@ -92,7 +92,7 @@ namespace SMBlob {
             std::shared_ptr<plog::ConsoleAppender<plog::TxtFormatter>> consoleAppender;
             bool daemonConnected;
             std::mutex requestQueueMutex;
-            std::queue<struct RequestDataHolder> requestQueue;
+            std::queue<struct IODataHolder> requestQueue;
 
         };
     }

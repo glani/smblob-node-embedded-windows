@@ -1,9 +1,18 @@
 #pragma once
 
 #include <memory>
+#include "SMBlobNodeEmbeddedWindowsShared.h"
+// TODO fix it with propper structure
+#include "SMBlobNodeEmbeddedWindowsSharedModels.h"
+
 
 namespace SMBlob {
     namespace EmbeddedWindows {
+//
+//        class SMBEWReleaseWindowReq;
+//        class SMBEWCloseWindowReq;
+//        class SMBEWEmbedWindowReq;
+
         namespace Scheme {
             class Status;
         }
@@ -14,19 +23,19 @@ namespace SMBlob {
         public:
             virtual void requestExit() = 0;
 
-//            std::shared_ptr<struct RequestDataHolder> getInitApplication();
+            virtual void embedWindow(const SMBEWEmbedWindowReq &req) = 0;
 
-            void connectApplication();
+            virtual void releaseWindow(const SMBEWReleaseWindowReq &req) = 0;
+
+            virtual void closeWindow(const SMBEWCloseWindowReq &req) = 0;
 
         protected:
             BaseProcessor() {}
 
             virtual ~BaseProcessor() {}
 
-
+        private:
             ProcessorPrivate *processorPrivate;
-
-            friend class ProcessorPrivate;
 
             void fillStatus(Scheme::Status *pbStatus,
                                       int status,
@@ -34,6 +43,12 @@ namespace SMBlob {
                                       const std::string *message = nullptr);
 
             void initApplication();
+
+            void connectApplication();
+            void request(SMBlob::EmbeddedWindows::IODataHolder holder);
+
+            friend class ProcessorPrivate;
+
         };
     }
 }

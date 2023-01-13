@@ -13,7 +13,7 @@
 namespace SMBlob {
     namespace EmbeddedWindows {
         struct SMBlobAppInitConsumer;
-        struct RequestDataHolder;
+        struct IODataHolder;
 
         class ConsumerPrivate {
         public:
@@ -96,7 +96,7 @@ namespace SMBlob {
             std::shared_ptr<uvw::PipeHandle> pipeStderr;
 
             std::mutex requestQueueMutex;
-            std::queue<struct RequestDataHolder> requestQueue;
+            std::queue<struct IODataHolder> requestQueue;
 
         };
     }

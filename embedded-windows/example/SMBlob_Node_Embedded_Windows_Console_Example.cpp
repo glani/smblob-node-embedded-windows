@@ -34,6 +34,8 @@ int main(int argc, char **argv) {
     );
     runner.RunCommand("/usr/bin/xdotool", runnerArgvPtr.get(), 3);
 
+    PLOGD_(SecondLog) << "window Id:" << runner.getOutput();
+
     SMBlob::EmbeddedWindows::SMBlobAppInitConsumer params;
     params.daemonExec = daemonExec;
     params.debug = true;

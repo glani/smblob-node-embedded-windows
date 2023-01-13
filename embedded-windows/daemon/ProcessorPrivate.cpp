@@ -134,7 +134,7 @@ namespace SMBlob {
                 ___s.unlock();
             }
 
-            std::vector<struct RequestDataHolder> internalVector;
+            std::vector<struct IODataHolder> internalVector;
             internalVector.reserve(10);
             std::unique_lock<std::mutex> lk(requestQueueMutex);
             if (requestQueue.size() > 0) {
@@ -208,13 +208,7 @@ namespace SMBlob {
         void ProcessorPrivate::onIpcClientConnectCallback(const uvw::ConnectEvent &evt, uvw::PipeHandle &client) {
             LOG_DEBUG << "onIpcClientConnectCallback";
             client.read();
-
             this->daemonConnected = true;
-            auto r = &client;
-            auto v = this->ipcClient.get();
-            if (r == v) {
-
-            }
             this->processor->connectApplication();
         }
 
@@ -232,6 +226,12 @@ namespace SMBlob {
 
         void ProcessorPrivate::onIpcClientDataCallback(const uvw::DataEvent &evt, uvw::PipeHandle &client) {
             LOG_DEBUG << "onIpcClientDataCallback";
+            struct IODataHolder req;
+            std::unique_ptr<char[]> ptr(new char[evt.length]);
+            memcpy(ptr.get(), evt.data.get(), evt.length);
+            req.data = std::move(ptr);
+            req.size = evt.length;
+            this->processor->request(std::move(req));
         }
 
         void ProcessorPrivate::onIpcClientWriteCallback(const uvw::WriteEvent &evt, uvw::PipeHandle &client) {
@@ -240,7 +240,7 @@ namespace SMBlob {
 
         void ProcessorPrivate::enqueueRequest(std::unique_ptr<char[]> &data, size_t size) {
             std::unique_lock<std::mutex> lk(requestQueueMutex);
-            struct RequestDataHolder req;
+            struct IODataHolder req;
             req.data = std::move(data);
             req.size = size;
             requestQueue.emplace(std::move(req));

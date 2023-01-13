@@ -239,7 +239,7 @@ namespace SMBlob {
                 }
             }
 
-            std::vector<struct RequestDataHolder> internalVector;
+            std::vector<struct IODataHolder> internalVector;
             internalVector.reserve(10);
             std::unique_lock<std::mutex> lk(requestQueueMutex);
             if (requestQueue.size() > 0) {
@@ -320,6 +320,7 @@ namespace SMBlob {
 
         void ConsumerPrivate::onProcessExitEventCallback(const uvw::ExitEvent &evt, uvw::ProcessHandle &process) {
             LOG_DEBUG << "onProcessExitEventCallback";
+            // TODO notification
         }
 
         void ConsumerPrivate::onProcessErrorCallback(const uvw::ErrorEvent &evt, uvw::ProcessHandle &process) {
@@ -354,6 +355,7 @@ namespace SMBlob {
         void ConsumerPrivate::onIpcClientCloseCallback(const uvw::CloseEvent &evt, uvw::PipeHandle &client) {
             LOG_DEBUG << "onIpcClientCloseCallback:";
             // connection to Daemon closed
+            // TODO notification
         }
 
         void ConsumerPrivate::onIpcClientEndCallback(const uvw::EndEvent &evt, uvw::PipeHandle &client) {
@@ -363,6 +365,7 @@ namespace SMBlob {
 
         void ConsumerPrivate::onIpcClientDataCallback(const uvw::DataEvent &evt, uvw::PipeHandle &client) {
             LOG_DEBUG << "onIpcClientDataCallback:";
+
         }
 
         void ConsumerPrivate::onIpcClientWriteCallback(const uvw::WriteEvent &evt, uvw::PipeHandle &client) {
@@ -383,7 +386,7 @@ namespace SMBlob {
 
         void ConsumerPrivate::enqueueRequest(std::unique_ptr<char[]> &data, size_t size) {
             std::unique_lock<std::mutex> lk(requestQueueMutex);
-            struct RequestDataHolder req;
+            struct IODataHolder req;
             req.data = std::move(data);
             req.size = size;
             requestQueue.emplace(std::move(req));
