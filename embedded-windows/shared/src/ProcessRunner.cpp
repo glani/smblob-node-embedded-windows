@@ -9,9 +9,8 @@ ProcessRunner::~ProcessRunner() {
 }
 
 void ProcessRunner::RunCommand(const std::string &command, char **argv, int argc) {
-    auto loop = uvw::Loop::getDefault();
+    auto loop = uvw::Loop::create();
 
-//    uvw::ProcessHandle::disableStdIOInheritance();
     auto processHandle = loop->resource<uvw::ProcessHandle>();
 
     auto pipeStdout = loop->resource<uvw::PipeHandle>();
@@ -21,9 +20,6 @@ void ProcessRunner::RunCommand(const std::string &command, char **argv, int argc
                          uvw::Flags<uvw::ProcessHandle::StdIO>::from<uvw::ProcessHandle::StdIO::CREATE_PIPE, uvw::ProcessHandle::StdIO::WRITABLE_PIPE>());
     processHandle->stdio(*pipeStderr,
                          uvw::Flags<uvw::ProcessHandle::StdIO>::from<uvw::ProcessHandle::StdIO::CREATE_PIPE, uvw::ProcessHandle::StdIO::WRITABLE_PIPE>());
-
-//    processHandle->stdio(uvw::StdERR, uvw::ProcessHandle::StdIO::INHERIT_FD);
-//    processHandle->stdio(uvw::StdOUT, uvw::ProcessHandle::StdIO::INHERIT_FD);
 
     std::stringstream ssStdOut;
     pipeStdout->on<uvw::DataEvent>([&](const auto &evt, auto &req) {
@@ -43,6 +39,7 @@ void ProcessRunner::RunCommand(const std::string &command, char **argv, int argc
     processHandle->on<uvw::ErrorEvent>([&](const auto &evt, auto &) {
         auto err = evt.code();
         if (err < 0) {
+            loop->close();
             PLOGE_(SecondaryLog) << "Error RunCommand: " << uv_err_name(err) << " str: " << uv_strerror(err);
         }
     });
@@ -66,6 +63,7 @@ void ProcessRunner::RunCommand(const std::string &command, char **argv, int argc
     pipeStderr->read();
 
     loop->run();
+    loop->close();
     loop = nullptr;
     StoreOutput(ssStdOut.str());
     StoreError(ssStdErr.str());

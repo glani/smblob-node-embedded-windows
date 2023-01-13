@@ -19,6 +19,22 @@ extern "C" {
 #endif
 
 /**
+ * Small adjustments
+ */
+
+// Logger callback function prototype.
+typedef int (*logger_fprintf)(FILE *__restrict __stream,
+                              const char *__restrict __format, ...);
+extern logger_fprintf main_logger_fprintf;
+
+typedef int (*logger_vfprintf)(FILE *__restrict __s, const char *__restrict __format,
+                               __gnuc_va_list __arg);
+
+extern logger_vfprintf main_logger_vfprintf;
+
+
+
+/**
  * @mainpage
  *
  * libxdo helps you send fake mouse and keyboard input, search for windows,

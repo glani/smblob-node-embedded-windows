@@ -25,6 +25,8 @@ set(PROJECT_SOURCES
         ProcessorPrivate.h
         BaseProcessor.h
         BaseProcessor.cpp
+        BaseWindowActor.cpp
+        BaseWindowActor.h
         )
 
 if (WIN32)
@@ -58,6 +60,11 @@ elseif (LINUX)
     include_directories(
             ../../thirdparties/xdotool-wrapper/src
     )
+
+    list(APPEND PROJECT_SOURCES
+            linux/LinuxWindowActor.cpp
+            linux/LinuxWindowActor.h
+            )
 endif ()
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)

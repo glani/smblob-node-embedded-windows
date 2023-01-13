@@ -8,10 +8,25 @@
 #include "uv.h"
 #include "plog/Log.h"
 
+#ifdef LINUX
+#include "linux/LinuxWindowActor.h"
+#endif
+
 typedef SMBlob::EmbeddedWindows::Scheme::Request SMBEWRequest;
 
 namespace SMBlob {
     namespace EmbeddedWindows {
+
+        BaseProcessor::BaseProcessor() {
+#ifdef LINUX
+            auto *pLinuxWindowActor = new LinuxWindowActor();
+            this->windowActor = std::move(std::unique_ptr<BaseWindowActor>(pLinuxWindowActor));
+#endif
+        }
+
+        BaseProcessor::~BaseProcessor() {
+
+        }
 
         void BaseProcessor::fillStatus(Scheme::Status *pbStatus, int status, const std::string *code,
                                        const std::string *message) {
@@ -63,5 +78,7 @@ namespace SMBlob {
                 LOGW << "Request parsed but not supported yet: " << messageCase;
             }
         }
+
+
     }
 }

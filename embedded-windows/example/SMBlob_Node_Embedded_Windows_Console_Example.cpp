@@ -13,28 +13,19 @@ int main(int argc, char **argv) {
     std::string daemonExec;
     std::string daemonLog;
 #ifdef DAEMON_PATH
-    daemonExec = std::string(DAEMON_PATH);
-    daemonExec.append("").append(
-            "embedded-windows/daemon/smblob-node-embedded-windows-daemon"
-            );
-    daemonLog = std::string(DAEMON_PATH);
-    daemonLog.append("").append(
-            "log-smblob-node-embedded-windows-daemon.log"
-    );
+//    daemonExec = std::string(DAEMON_PATH);
+//    daemonExec.append("").append(
+//            "embedded-windows/daemon/smblob-node-embedded-windows-daemon"
+//    );
+//    daemonLog = std::string(DAEMON_PATH);
+//    daemonLog.append("").append(
+//            "log-smblob-node-embedded-windows-daemon.log"
+//    );
 #endif
-
     plog::init<SecondaryLog>(plog::Severity::debug);
 
     auto consoleAppender = std::make_shared<plog::ConsoleAppender<plog::TxtFormatter>>();
     plog::get<SecondaryLog>()->addAppender(consoleAppender.get());
-
-    ProcessRunner runner;
-    auto runnerArgvPtr = std::unique_ptr<char*[]>(
-            new char*[3]{ "search", "--name", "New Tab" }
-    );
-    runner.RunCommand("/usr/bin/xdotool", runnerArgvPtr.get(), 3);
-
-    PLOGD_(SecondaryLog) << "window Id:" << runner.getOutput();
 
     SMBlob::EmbeddedWindows::SMBlobAppInitConsumer params;
     params.daemonExec = daemonExec;
@@ -45,14 +36,34 @@ int main(int argc, char **argv) {
     auto embeddedWindows = std::make_shared<SMBlob::EmbeddedWindows::SMBlobApp>(args);
 
     std::cout << std::endl;
-    PressAnyKey( "Embed window press button: " );
-    SMBlob::EmbeddedWindows::SMBlobWindow window;
-    window.nativeWindowId = std::atoi(runner.getOutput().c_str());
-    window.windowId = 0L;
-    SMBlob::EmbeddedWindows::EmbedWindow(*embeddedWindows, window);
+//    PressAnyKey( "Embed window press button: " );
+    while (true) {
+        // std::cin.ignore();
+        auto c = std::cin.get();
+        std::cout << c << std::endl;
+        if (c == (int) 'f') {
+            break;
+        } else if (c == (int) 'n') {
+            auto runnerArgvPtr = std::unique_ptr<char *[]>(
+                    new char *[3]{"search", "--name", "New Tab"}
+            );
+            std::string command("/usr/bin/xdotool");
+            ProcessRunner runner;
 
-    std::cout << std::endl;
-    PressAnyKey( "Press any button: " );
+            runner.RunCommand(command, runnerArgvPtr.get(), 3);
+
+            PLOGD_(SecondaryLog) << "window Id:" << runner.getOutput();
+            SMBlob::EmbeddedWindows::SMBlobWindow window;
+            window.nativeWindowId = std::atoi(runner.getOutput().c_str());
+            window.windowId = 0L;
+            if (window.nativeWindowId > 0) {
+                SMBlob::EmbeddedWindows::EmbedWindow(*embeddedWindows, window);
+            } else {
+                LOGE << "No Window found";
+            }
+        }
+    }
+
 
     if (embeddedWindows) {
         SMBlob::EmbeddedWindows::Release(*embeddedWindows);

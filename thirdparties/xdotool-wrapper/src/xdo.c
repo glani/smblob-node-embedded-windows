@@ -41,6 +41,17 @@
 #define DEFAULT_DELAY 12
 
 /**
+ * Small adjustments
+ */
+//logger_printf
+// Logger callback function prototype.
+logger_fprintf default_logger_fprintf = &fprintf;
+logger_vfprintf default_logger_vfprintf = &vfprintf;
+
+logger_fprintf main_logger_fprintf = &default_logger_fprintf;
+logger_vfprintf main_logger_vfprintf = &default_logger_vfprintf;
+
+/**
  * The number of tries to check for a wait condition before aborting.
  * TODO(sissel): Make this tunable at runtime?
  */
@@ -91,12 +102,12 @@ xdo_t* xdo_new(const char *display_name) {
 
 #define DISPLAY_HINT "Is there an Xorg or other X server running? You can try setting 'export DISPLAY=:0' and trying again."
   if (display_name == NULL) {
-    fprintf(stderr, "Error: No DISPLAY environment variable is set. " DISPLAY_HINT "\n");
+    main_logger_fprintf(stderr, "Error: No DISPLAY environment variable is set. " DISPLAY_HINT "\n");
     return NULL;
   }
 
   if (*display_name == '\0') {
-    fprintf(stderr, "Error: DISPLAY environment variable is empty. " DISPLAY_HINT "\n");
+    main_logger_fprintf(stderr, "Error: DISPLAY environment variable is empty. " DISPLAY_HINT "\n");
     return NULL;
   }
 
@@ -113,7 +124,7 @@ xdo_t* xdo_new_with_opened_display(Display *xdpy, const char *display,
 
   if (xdpy == NULL) {
     /* Can't use _xdo_eprintf yet ... */
-    fprintf(stderr, "xdo_new: xdisplay I was given is a null pointer\n");
+    main_logger_fprintf(stderr, "xdo_new: xdisplay I was given is a null pointer\n");
     return NULL;
   }
 
@@ -122,7 +133,7 @@ xdo_t* xdo_new_with_opened_display(Display *xdpy, const char *display,
   // TODO(sissel): This was disabled due to issue #346
   //  -- xdotool works on XWayland for some operations, so it isn't helpful to refuse all usage on XWayland.
   //if (appears_to_be_wayland(xdpy)) {
-    //fprintf(stderr, "The X server at %s appears to be XWayland. Unfortunately, XWayland does not correctly support the features used by libxdo and xdotool.\n", display);
+    //main_logger(stderr, "The X server at %s appears to be XWayland. Unfortunately, XWayland does not correctly support the features used by libxdo and xdotool.\n", display);
     //return NULL;
   //}
 
@@ -288,7 +299,7 @@ int xdo_translate_window_with_sizehint(const xdo_t *xdo, Window window,
     width *= hints.width_inc;
     height *= hints.height_inc;
   } else {
-    fprintf(stderr, "No size hints found for window %ld\n", window);
+    main_logger_fprintf(stderr, "No size hints found for window %ld\n", window);
     *width_ret = width;
     *height_ret = width;
   }
@@ -484,7 +495,7 @@ int xdo_activate_window(const xdo_t *xdo, Window wid) {
   XWindowAttributes wattr;
 
   if (_xdo_ewmh_is_supported(xdo, "_NET_ACTIVE_WINDOW") == False) {
-    fprintf(stderr,
+    main_logger_fprintf(stderr,
             "Your windowmanager claims not to support _NET_ACTIVE_WINDOW, "
             "so the attempt to activate the window was aborted.\n");
     return XDO_ERROR;
@@ -524,7 +535,7 @@ int xdo_set_number_of_desktops(const xdo_t *xdo, long ndesktops) {
   int ret = 0;
 
   if (_xdo_ewmh_is_supported(xdo, "_NET_NUMBER_OF_DESKTOPS") == False) {
-    fprintf(stderr,
+    main_logger_fprintf(stderr,
             "Your windowmanager claims not to support _NET_NUMBER_OF_DESKTOPS, "
             "so the attempt to change the number of desktops was aborted.\n");
     return XDO_ERROR;
@@ -557,7 +568,7 @@ int xdo_get_number_of_desktops(const xdo_t *xdo, long *ndesktops) {
   Atom request;
 
   if (_xdo_ewmh_is_supported(xdo, "_NET_NUMBER_OF_DESKTOPS") == False) {
-    fprintf(stderr,
+    main_logger_fprintf(stderr,
             "Your windowmanager claims not to support _NET_NUMBER_OF_DESKTOPS, "
             "so the attempt to query the number of desktops was aborted.\n");
     return XDO_ERROR;
@@ -588,7 +599,7 @@ int xdo_set_current_desktop(const xdo_t *xdo, long desktop) {
   root = RootWindow(xdo->xdpy, 0);
 
   if (_xdo_ewmh_is_supported(xdo, "_NET_CURRENT_DESKTOP") == False) {
-    fprintf(stderr,
+    main_logger_fprintf(stderr,
             "Your windowmanager claims not to support _NET_CURRENT_DESKTOP, "
             "so the attempt to change desktops was aborted.\n");
     return XDO_ERROR;
@@ -621,7 +632,7 @@ int xdo_get_current_desktop(const xdo_t *xdo, long *desktop) {
   Atom request;
 
   if (_xdo_ewmh_is_supported(xdo, "_NET_CURRENT_DESKTOP") == False) {
-    fprintf(stderr,
+    main_logger_fprintf(stderr,
             "Your windowmanager claims not to support _NET_CURRENT_DESKTOP, "
             "so the query for the current desktop was aborted.\n");
     return XDO_ERROR;
@@ -650,7 +661,7 @@ int xdo_set_desktop_for_window(const xdo_t *xdo, Window wid, long desktop) {
   XGetWindowAttributes(xdo->xdpy, wid, &wattr);
 
   if (_xdo_ewmh_is_supported(xdo, "_NET_WM_DESKTOP") == False) {
-    fprintf(stderr,
+    main_logger_fprintf(stderr,
             "Your windowmanager claims not to support _NET_WM_DESKTOP, "
             "so the attempt to change a window's desktop location was "
             "aborted.\n");
@@ -682,7 +693,7 @@ int xdo_get_desktop_for_window(const xdo_t *xdo, Window wid, long *desktop) {
   Atom request;
 
   if (_xdo_ewmh_is_supported(xdo, "_NET_WM_DESKTOP") == False) {
-    fprintf(stderr,
+    main_logger_fprintf(stderr,
             "Your windowmanager claims not to support _NET_WM_DESKTOP, "
             "so the attempt to query a window's desktop location was "
             "aborted.\n");
@@ -713,7 +724,7 @@ int xdo_get_active_window(const xdo_t *xdo, Window *window_ret) {
   Window root;
 
   if (_xdo_ewmh_is_supported(xdo, "_NET_ACTIVE_WINDOW") == False) {
-    fprintf(stderr,
+    main_logger_fprintf(stderr,
             "Your windowmanager claims not to support _NET_ACTIVE_WINDOW, "
             "so the attempt to query the active window aborted.\n");
     return XDO_ERROR;
@@ -750,7 +761,7 @@ int xdo_select_window_with_click(const xdo_t *xdo, Window *window_ret) {
   grab_ret = XGrabPointer(xdo->xdpy, screen->root, False, ButtonReleaseMask,
                GrabModeSync, GrabModeAsync, screen->root, cursor, CurrentTime);
   if (grab_ret == AlreadyGrabbed) {
-    fprintf(stderr, "Attempt to grab the mouse failed. Something already has"
+    main_logger_fprintf(stderr, "Attempt to grab the mouse failed. Something already has"
             " the mouse grabbed. This can happen if you are dragging something"
             " or if there is a popup currently shown\n");
     return XDO_ERROR;
@@ -763,7 +774,7 @@ int xdo_select_window_with_click(const xdo_t *xdo, Window *window_ret) {
   XFreeCursor(xdo->xdpy, cursor);
 
   if (e.xbutton.button != 1) {
-    fprintf(stderr, "window selection aborted with button %d\n", e.xbutton.button);
+    main_logger_fprintf(stderr, "window selection aborted with button %d\n", e.xbutton.button);
     return XDO_ERROR;
   }
 
@@ -924,7 +935,7 @@ int xdo_get_mouse_location2(const xdo_t *xdo, int *x_ret, int *y_ret,
         /* If no client found, search down the stack */
         findret = xdo_find_window_client(xdo, window, &client, XDO_FIND_CHILDREN);
       }
-      //fprintf(stderr, "%ld, %ld, %ld, %d\n", window, root, client, findret);
+      //main_logger(stderr, "%ld, %ld, %ld, %d\n", window, root, client, findret);
       if (findret == XDO_SUCCESS) {
         window = client;
       }
@@ -949,7 +960,7 @@ int xdo_click_window(const xdo_t *xdo, Window window, int button) {
   int ret = 0;
   ret = xdo_mouse_down(xdo, window, button);
   if (ret != XDO_SUCCESS) {
-    fprintf(stderr, "xdo_mouse_down failed, aborting click.\n");
+    main_logger_fprintf(stderr, "xdo_mouse_down failed, aborting click.\n");
     return ret;
   }
   usleep(DEFAULT_DELAY);
@@ -963,7 +974,7 @@ int xdo_click_window_multiple(const xdo_t *xdo, Window window, int button,
   while (repeat > 0) {
     ret = xdo_click_window(xdo, window, button);
     if (ret != XDO_SUCCESS) {
-      fprintf(stderr, "click failed with %d repeats remaining\n", repeat);
+      main_logger_fprintf(stderr, "click failed with %d repeats remaining\n", repeat);
       return ret;
     }
     repeat--;
@@ -993,13 +1004,13 @@ int xdo_enter_text_window(const xdo_t *xdo, Window window, const char *string, u
   ssize_t len;
   while ( (len = mbsrtowcs(&key.key, &string, 1, &ps)) ) {
     if (len == -1) {
-      fprintf(stderr, "Invalid multi-byte sequence encountered\n");
+      main_logger_fprintf(stderr, "Invalid multi-byte sequence encountered\n");
       return XDO_ERROR;
     }
     _xdo_charcodemap_from_char(xdo, &key);
     if (key.code == 0 && key.symbol == NoSymbol) {
-      fprintf(stderr, "I don't know which key produces '%lc', skipping.\n",
-              key.key);
+      main_logger_fprintf(stderr, "I don't know which key produces '%lc', skipping.\n",
+                          key.key);
       continue;
     } else {
       //printf("Found key for %c\n", key.key);
@@ -1033,7 +1044,7 @@ int _xdo_send_keysequence_window_do(const xdo_t *xdo, Window window, const char 
   int nkeys = 0;
 
   if (_xdo_send_keysequence_window_to_keycode_list(xdo, keyseq, &keys, &nkeys) == False) {
-    fprintf(stderr, "Failure converting key sequence '%s' to keycodes\n", keyseq);
+    main_logger_fprintf(stderr, "Failure converting key sequence '%s' to keycodes\n", keyseq);
     return 1;
   }
 
@@ -1096,7 +1107,7 @@ int xdo_send_keysequence_window_list_do(const xdo_t *xdo, Window window, charcod
       keymapchanged = 1;
     }
 
-    //fprintf(stderr, "keyseqlist_do: Sending %lc %s (%d, mods %x)\n",
+    //main_logger(stderr, "keyseqlist_do: Sending %lc %s (%d, mods %x)\n",
             //keys[i].key, (pressed ? "down" : "up"), keys[i].code, *modifier);
     _xdo_send_key(xdo, window, &(keys[i]), *modifier, pressed, delay);
 
@@ -1159,7 +1170,7 @@ int xdo_get_focused_window(const xdo_t *xdo, Window *window_ret) {
    * a single client, will return the current focused window as '1'
    * I think this is a bug, so let's alert the user. */
   if (*window_ret == 1) {
-    fprintf(stderr, 
+    main_logger_fprintf(stderr, 
             "XGetInputFocus returned the focused window of %ld. "
             "This is likely a bug in the X server.\n", *window_ret);
   }
@@ -1232,7 +1243,7 @@ int xdo_find_window_client(const xdo_t *xdo, Window window, Window *window_ret,
         done = True; /* recursion should end us */
         for (i = 0; i < nchildren; i++) {
           ret = xdo_find_window_client(xdo, children[i], &window, direction);
-          //fprintf(stderr, "findclient: %ld\n", window);
+          //main_logger(stderr, "findclient: %ld\n", window);
           if (ret == XDO_SUCCESS) {
             *window_ret = window;
             break;
@@ -1244,7 +1255,7 @@ int xdo_find_window_client(const xdo_t *xdo, Window window, Window *window_ret,
         if (children != NULL)
           XFree(children);
       } else {
-        fprintf(stderr, "Invalid find_client direction (%d)\n", direction);
+        main_logger_fprintf(stderr, "Invalid find_client direction (%d)\n", direction);
         *window_ret = 0;
         if (children != NULL)
           XFree(children);
@@ -1385,7 +1396,7 @@ int _xdo_send_keysequence_window_to_keycode_list(const xdo_t *xdo, const char *k
   int keys_size = 10;
 
   if (strcspn(keyseq, " \t\n.-[]{}\\|") != strlen(keyseq)) {
-    fprintf(stderr, "Error: Invalid key sequence '%s'\n", keyseq);
+    main_logger_fprintf(stderr, "Error: Invalid key sequence '%s'\n", keyseq);
     return False;
   }
 
@@ -1411,7 +1422,7 @@ int _xdo_send_keysequence_window_to_keycode_list(const xdo_t *xdo, const char *k
       if (isdigit(tok[0])) {
         key = (unsigned int) atoi(tok);
       } else {
-        fprintf(stderr, "(symbol) No such key name '%s'. Ignoring it.\n", tok);
+        main_logger_fprintf(stderr, "(symbol) No such key name '%s'. Ignoring it.\n", tok);
         continue;
       }
       (*keys)[*nkeys].code = key;
@@ -1420,7 +1431,7 @@ int _xdo_send_keysequence_window_to_keycode_list(const xdo_t *xdo, const char *k
       (*keys)[*nkeys].modmask = 0;
       (*keys)[*nkeys].needs_binding = 0;
       if (key == 0) {
-        //fprintf(stderr, "No such key '%s'. Ignoring it.\n", tok);
+        //main_logger(stderr, "No such key '%s'. Ignoring it.\n", tok);
         (*keys)[*nkeys].needs_binding = 1;
       }
     } else {
@@ -1441,7 +1452,7 @@ int _xdo_send_keysequence_window_to_keycode_list(const xdo_t *xdo, const char *k
 int _is_success(const char *funcname, int code, const xdo_t *xdo) {
   /* Nonzero is failure. */
   if (code != 0 && !xdo->quiet)
-    fprintf(stderr, "%s failed (code=%d)\n", funcname, code);
+    main_logger_fprintf(stderr, "%s failed (code=%d)\n", funcname, code);
   return code;
 }
 
@@ -1471,10 +1482,10 @@ unsigned char *xdo_get_window_property_by_atom(const xdo_t *xdo, Window window, 
                               &actual_format, &_nitems, &bytes_after,
                               &prop);
   if (status == BadWindow) {
-    fprintf(stderr, "window id # 0x%lx does not exists!", window);
+    main_logger_fprintf(stderr, "window id # 0x%lx does not exists!", window);
     return NULL;
   } if (status != Success) {
-    fprintf(stderr, "XGetWindowProperty failed!");
+    main_logger_fprintf(stderr, "XGetWindowProperty failed!");
     return NULL;
   }
 
@@ -1802,7 +1813,7 @@ int xdo_wait_for_mouse_move_to(const xdo_t *xdo, int dest_x, int dest_y) {
 
 int xdo_get_desktop_viewport(const xdo_t *xdo, int *x_ret, int *y_ret) {
   if (_xdo_ewmh_is_supported(xdo, "_NET_DESKTOP_VIEWPORT") == False) {
-    fprintf(stderr,
+    main_logger_fprintf(stderr,
             "Your windowmanager claims not to support _NET_DESKTOP_VIEWPORT, "
             "so I cannot tell you the viewport position.\n");
     return XDO_ERROR;
@@ -1817,17 +1828,17 @@ int xdo_get_desktop_viewport(const xdo_t *xdo, int *x_ret, int *y_ret) {
   data = xdo_get_window_property_by_atom(xdo, root, request, &nitems, &type, &size);
 
   if (type != XA_CARDINAL) {
-    fprintf(stderr, 
+    main_logger_fprintf(stderr, 
             "Got unexpected type returned from _NET_DESKTOP_VIEWPORT."
             " Expected CARDINAL, got %s\n",
-            XGetAtomName(xdo->xdpy, type));
+                        XGetAtomName(xdo->xdpy, type));
     free(data);
     return XDO_ERROR;
   }
 
   if (nitems != 2) {
-    fprintf(stderr, "Expected 2 items for _NET_DESKTOP_VIEWPORT, got %ld\n",
-            nitems);
+    main_logger_fprintf(stderr, "Expected 2 items for _NET_DESKTOP_VIEWPORT, got %ld\n",
+                        nitems);
     free(data);
     return XDO_ERROR;
   }
@@ -1983,8 +1994,8 @@ void _xdo_debug(const xdo_t *xdo, const char *format, ...) {
 
   va_start(args, format);
   if (xdo->debug) {
-    vfprintf(stderr, format, args);
-    fprintf(stderr, "\n");
+    main_logger_vfprintf(stderr, format, args);
+    main_logger_fprintf(stderr, "\n");
   }
 } /* _xdo_debug */
 
@@ -1997,8 +2008,8 @@ void _xdo_eprintf(const xdo_t *xdo, int hushable, const char *format, ...) {
     return;
   }
 
-  vfprintf(stderr, format, args);
-  fprintf(stderr, "\n");
+  main_logger_vfprintf(stderr, format, args);
+  main_logger_fprintf(stderr, "\n");
 } /* _xdo_eprintf */
 
 void xdo_enable_feature(xdo_t *xdo, int feature) {
@@ -2024,8 +2035,8 @@ int xdo_get_viewport_dimensions(xdo_t *xdo, unsigned int *width,
 
     info = XineramaQueryScreens(xdo->xdpy, &screens);
     if (screen < 0 || screen >= screens) {
-      fprintf(stderr, "Invalid screen number %d outside range 0 - %d\n",
-              screen, screens - 1);
+      main_logger_fprintf(stderr, "Invalid screen number %d outside range 0 - %d\n",
+                          screen, screens - 1);
       return XDO_ERROR;
     }
     *width = (unsigned int) info[screen].width;
@@ -2047,7 +2058,7 @@ static int appears_to_be_wayland(Display *xdpy) {
   int count;
   XDeviceInfo *devices = XListInputDevices(xdpy, &count);
   for (int i = 0; i < count; i++) {
-    // fprintf(stderr, "Device %d: %s\n", i, devices[i].name);
+    // main_logger(stderr, "Device %d: %s\n", i, devices[i].name);
     // If the input device name starts with "xwayland-", 
     // there's a good chance we're running on XWayland.
     if (strstr(devices[i].name, "xwayland-") == devices[i].name) {

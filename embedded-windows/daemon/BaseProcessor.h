@@ -18,6 +18,7 @@ namespace SMBlob {
         }
 
         class ProcessorPrivate;
+        class BaseWindowActor;
 
         class BaseProcessor {
         public:
@@ -30,12 +31,13 @@ namespace SMBlob {
             virtual void closeWindow(const SMBEWCloseWindowReq &req) = 0;
 
         protected:
-            BaseProcessor() {}
+            BaseProcessor();
 
-            virtual ~BaseProcessor() {}
+            virtual ~BaseProcessor();
 
         private:
             ProcessorPrivate *processorPrivate;
+            std::unique_ptr<BaseWindowActor> windowActor;
 
             void fillStatus(Scheme::Status *pbStatus,
                                       int status,
