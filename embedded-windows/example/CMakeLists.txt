@@ -61,15 +61,14 @@ add_custom_command(
         COMMENT "Compiling XRC resources"
 )
 
-# Setup CMake to use GTK+, tell the compiler where to look for headers
-# and to the linker where to look for libraries
+findLibUV()
 
 include_directories(
         ${wxWidgets_INCLUDE_DIRS}
         ./
         include
         src
-        ../../thirdparties/libuv/include
+        ${LIBUV_INCLUDE_PATH}
         ../../thirdparties/uvw/src
         ../../thirdparties/plog/include
 )
@@ -126,7 +125,6 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_definitions(${PROJECT_NAME}-console PUBLIC DAEMON_PATH="${CMAKE_BINARY_DIR}/")
 endif()
 
-find_library(LIBUV_LIBRARY uv_a HINTS "../../thirdparties/libuv/build")
 
 message(STATUS "LIBUV_LIBRARY: " ${LIBUV_LIBRARY})
 message(STATUS "DEPEND_THIRDPARTY_LIBS: " ${DEPEND_THIRDPARTY_LIBS})

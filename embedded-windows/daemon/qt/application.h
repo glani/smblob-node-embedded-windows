@@ -21,7 +21,7 @@ namespace SMBlob {
         public slots:
 
         signals:
-
+            void embedWindowRequested(std::shared_ptr<SMBEWEmbedWindowReq> request);
             void exitRequested();
         };
 
@@ -36,7 +36,6 @@ namespace SMBlob {
             // calls come from another thread
             void requestExit() override;
 
-
             void releaseWindow(const SMBEWReleaseWindowReq &req) override;
 
             void closeWindow(const SMBEWCloseWindowReq &req) override;
@@ -48,9 +47,13 @@ namespace SMBlob {
             // main thread execution
             void exitRequested();
 
+            void embedWindowRequested(std::shared_ptr<SMBEWEmbedWindowReq> request);
+
         private:
             // required to delegate all requests to main thread
             ProxyObject proxyObject;
+
+            void logSMBEWEmbedWindowReq(std::shared_ptr<SMBEWEmbedWindowReq>& sharedPtr);
         };
     }
 }

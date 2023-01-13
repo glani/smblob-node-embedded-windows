@@ -2,13 +2,13 @@
 
 #include <memory>
 #include "SMBlobNodeEmbeddedWindowsShared.h"
-// TODO fix it with propper structure
+// TODO fix it with proper structure
 #include "SMBlobNodeEmbeddedWindowsSharedModels.h"
 
 
 namespace SMBlob {
     namespace EmbeddedWindows {
-//
+// TODO fix it with proper structure
 //        class SMBEWReleaseWindowReq;
 //        class SMBEWCloseWindowReq;
 //        class SMBEWEmbedWindowReq;

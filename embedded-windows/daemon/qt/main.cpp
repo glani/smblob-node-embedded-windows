@@ -10,8 +10,6 @@
 
 int main(int argc, char *argv[]) {
     ::SMBlob::EmbeddedWindows::Application application(argc, argv);
-    auto list = application.arguments();
-    int i = 0;
     SMBlob::EmbeddedWindows::ProcessorPrivateSetup params;
     if (argv && argc > 1) {
         params = SMBlob::EmbeddedWindows::ProcessorPrivateSetup::fromArgs(argc, argv);
@@ -28,6 +26,7 @@ int main(int argc, char *argv[]) {
     fout << params.pipeName << std::endl;
     fout << params.logSeverity << std::endl;
     fout << params.logFileName << std::endl;
+    auto list = application.arguments();
             foreach (const QString &str, list) {
             fout << str.toStdString().c_str() << std::endl;
         }

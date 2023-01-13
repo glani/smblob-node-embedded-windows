@@ -21,17 +21,20 @@ list(APPEND
 
 list(APPEND
         EMBEDDED_WINDOWS_CONSUMER_LIB_SRC ${EMBEDDED_WINDOWS_CONSUMER_LIB_HEADER}
-)
+
+        )
+
+findLibUV()
 
 include_directories(
         ./
         include
         src
-        ../../thirdparties/libuv/include
+        ${LIBUV_INCLUDE_PATH}
         ../../thirdparties/uvw/src
         ../../thirdparties/plog/include
 )
-find_library(LIBUV_LIBRARY uv_a HINTS "../../thirdparties/libuv/build")
+
 
 find_package(Protobuf REQUIRED)
 

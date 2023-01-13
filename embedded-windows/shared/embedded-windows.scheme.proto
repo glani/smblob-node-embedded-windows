@@ -16,48 +16,57 @@ message Status {
 }
 // close application
 message CloseApplicationReq {
-
+  optional string tag = 1001;
 }
 
 message CloseApplicationRes {
-    Status status = 1;
+  Status status = 1;
+  optional string tag = 1001;
 }
 // connect application
 message ConnectApplicationRes {
   Status status = 1;
+  optional string tag = 1001;
 }
 // init application
 message InitApplicationRes {
   Status status = 1;
+  optional string tag = 1001;
 }
 
 // close
 message CloseWindowReq {
   Window window = 1;
+  optional string tag = 1001;
 }
 
 message CloseWindowRes {
   Status status = 1;
+  optional string tag = 1001;
 }
 // embed
 message EmbedWindowReq {
-    Window window = 1;
+  Window window = 1;
+  optional string tag = 1001;
 }
 
 message EmbedWindowRes {
-    Status status = 1;
-    Window window = 2;
-    Window parentWindow = 3;
+  Status status = 1;
+  Window window = 2;
+  Window parentWindow = 3;
+  optional string tag = 1001;
 }
 // release
 message ReleaseWindowReq {
-    Window parentWindow = 1;
+  Window parentWindow = 1;
+  optional string tag = 1001;
 }
 
 message ReleaseWindowRes {
-    Status status = 1;
-    Window parentWindow = 2;
-    Window window = 3;
+  Status status = 1;
+  Window parentWindow = 2;
+  Window window = 3;
+  optional string tag = 1001;
 }
 // request
 message Request {

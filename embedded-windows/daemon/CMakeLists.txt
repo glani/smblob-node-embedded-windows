@@ -8,17 +8,17 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+findLibUV()
 
 include_directories(
         ./
         include
         src
-        ../../thirdparties/libuv/include
         ../../thirdparties/uvw/src
         ../../thirdparties/plog/include
+        ${LIBUV_INCLUDE_PATH}
 )
 
-find_library(LIBUV_LIBRARY uv_a HINTS "../../thirdparties/libuv/build")
 
 set(PROJECT_SOURCES
         ProcessorPrivate.cpp
@@ -62,6 +62,8 @@ list(APPEND PROJECT_SOURCES
         qt/application.h
         qt/main.cpp
         qt/mainwindow.cpp
+        qt/embedded-window.cpp
+        qt/embedded-window.h
         qt/mainwindow.h
         qt/mainwindow.ui
         )

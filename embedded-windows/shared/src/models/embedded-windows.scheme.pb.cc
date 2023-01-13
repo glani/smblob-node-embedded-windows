@@ -58,7 +58,10 @@ struct StatusDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 StatusDefaultTypeInternal _Status_default_instance_;
 PROTOBUF_CONSTEXPR CloseApplicationReq::CloseApplicationReq(
-    ::_pbi::ConstantInitialized) {}
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.tag_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}} {}
 struct CloseApplicationReqDefaultTypeInternal {
   PROTOBUF_CONSTEXPR CloseApplicationReqDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -70,8 +73,10 @@ struct CloseApplicationReqDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CloseApplicationReqDefaultTypeInternal _CloseApplicationReq_default_instance_;
 PROTOBUF_CONSTEXPR CloseApplicationRes::CloseApplicationRes(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.status_)*/nullptr
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.tag_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.status_)*/nullptr} {}
 struct CloseApplicationResDefaultTypeInternal {
   PROTOBUF_CONSTEXPR CloseApplicationResDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -83,8 +88,10 @@ struct CloseApplicationResDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CloseApplicationResDefaultTypeInternal _CloseApplicationRes_default_instance_;
 PROTOBUF_CONSTEXPR ConnectApplicationRes::ConnectApplicationRes(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.status_)*/nullptr
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.tag_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.status_)*/nullptr} {}
 struct ConnectApplicationResDefaultTypeInternal {
   PROTOBUF_CONSTEXPR ConnectApplicationResDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -96,8 +103,10 @@ struct ConnectApplicationResDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ConnectApplicationResDefaultTypeInternal _ConnectApplicationRes_default_instance_;
 PROTOBUF_CONSTEXPR InitApplicationRes::InitApplicationRes(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.status_)*/nullptr
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.tag_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.status_)*/nullptr} {}
 struct InitApplicationResDefaultTypeInternal {
   PROTOBUF_CONSTEXPR InitApplicationResDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -109,8 +118,10 @@ struct InitApplicationResDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 InitApplicationResDefaultTypeInternal _InitApplicationRes_default_instance_;
 PROTOBUF_CONSTEXPR CloseWindowReq::CloseWindowReq(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.window_)*/nullptr
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.tag_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.window_)*/nullptr} {}
 struct CloseWindowReqDefaultTypeInternal {
   PROTOBUF_CONSTEXPR CloseWindowReqDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -122,8 +133,10 @@ struct CloseWindowReqDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CloseWindowReqDefaultTypeInternal _CloseWindowReq_default_instance_;
 PROTOBUF_CONSTEXPR CloseWindowRes::CloseWindowRes(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.status_)*/nullptr
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.tag_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.status_)*/nullptr} {}
 struct CloseWindowResDefaultTypeInternal {
   PROTOBUF_CONSTEXPR CloseWindowResDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -135,8 +148,10 @@ struct CloseWindowResDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CloseWindowResDefaultTypeInternal _CloseWindowRes_default_instance_;
 PROTOBUF_CONSTEXPR EmbedWindowReq::EmbedWindowReq(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.window_)*/nullptr
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.tag_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.window_)*/nullptr} {}
 struct EmbedWindowReqDefaultTypeInternal {
   PROTOBUF_CONSTEXPR EmbedWindowReqDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -148,10 +163,12 @@ struct EmbedWindowReqDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 EmbedWindowReqDefaultTypeInternal _EmbedWindowReq_default_instance_;
 PROTOBUF_CONSTEXPR EmbedWindowRes::EmbedWindowRes(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.status_)*/nullptr
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.tag_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.status_)*/nullptr
   , /*decltype(_impl_.window_)*/nullptr
-  , /*decltype(_impl_.parentwindow_)*/nullptr
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+  , /*decltype(_impl_.parentwindow_)*/nullptr} {}
 struct EmbedWindowResDefaultTypeInternal {
   PROTOBUF_CONSTEXPR EmbedWindowResDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -163,8 +180,10 @@ struct EmbedWindowResDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 EmbedWindowResDefaultTypeInternal _EmbedWindowRes_default_instance_;
 PROTOBUF_CONSTEXPR ReleaseWindowReq::ReleaseWindowReq(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.parentwindow_)*/nullptr
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.tag_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.parentwindow_)*/nullptr} {}
 struct ReleaseWindowReqDefaultTypeInternal {
   PROTOBUF_CONSTEXPR ReleaseWindowReqDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -176,10 +195,12 @@ struct ReleaseWindowReqDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ReleaseWindowReqDefaultTypeInternal _ReleaseWindowReq_default_instance_;
 PROTOBUF_CONSTEXPR ReleaseWindowRes::ReleaseWindowRes(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.status_)*/nullptr
+    /*decltype(_impl_._has_bits_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}
+  , /*decltype(_impl_.tag_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.status_)*/nullptr
   , /*decltype(_impl_.parentwindow_)*/nullptr
-  , /*decltype(_impl_.window_)*/nullptr
-  , /*decltype(_impl_._cached_size_)*/{}} {}
+  , /*decltype(_impl_.window_)*/nullptr} {}
 struct ReleaseWindowResDefaultTypeInternal {
   PROTOBUF_CONSTEXPR ReleaseWindowResDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
@@ -253,55 +274,75 @@ const uint32_t TableStruct_embedded_2dwindows_2escheme_2eproto::offsets[] PROTOB
   0,
   1,
   2,
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::CloseApplicationReq, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::CloseApplicationReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::CloseApplicationReq, _impl_.tag_),
+  0,
+  PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::CloseApplicationRes, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::CloseApplicationRes, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::CloseApplicationRes, _impl_.status_),
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::CloseApplicationRes, _impl_.tag_),
+  ~0u,
+  0,
+  PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::ConnectApplicationRes, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::ConnectApplicationRes, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::ConnectApplicationRes, _impl_.status_),
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::ConnectApplicationRes, _impl_.tag_),
+  ~0u,
+  0,
+  PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::InitApplicationRes, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::InitApplicationRes, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::InitApplicationRes, _impl_.status_),
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::InitApplicationRes, _impl_.tag_),
+  ~0u,
+  0,
+  PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::CloseWindowReq, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::CloseWindowReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::CloseWindowReq, _impl_.window_),
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::CloseWindowReq, _impl_.tag_),
+  ~0u,
+  0,
+  PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::CloseWindowRes, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::CloseWindowRes, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::CloseWindowRes, _impl_.status_),
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::CloseWindowRes, _impl_.tag_),
+  ~0u,
+  0,
+  PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::EmbedWindowReq, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::EmbedWindowReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::EmbedWindowReq, _impl_.window_),
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::EmbedWindowReq, _impl_.tag_),
+  ~0u,
+  0,
+  PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::EmbedWindowRes, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::EmbedWindowRes, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -310,14 +351,22 @@ const uint32_t TableStruct_embedded_2dwindows_2escheme_2eproto::offsets[] PROTOB
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::EmbedWindowRes, _impl_.status_),
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::EmbedWindowRes, _impl_.window_),
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::EmbedWindowRes, _impl_.parentwindow_),
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::EmbedWindowRes, _impl_.tag_),
+  ~0u,
+  ~0u,
+  ~0u,
+  0,
+  PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::ReleaseWindowReq, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::ReleaseWindowReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::ReleaseWindowReq, _impl_.parentwindow_),
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::ReleaseWindowReq, _impl_.tag_),
+  ~0u,
+  0,
+  PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::ReleaseWindowRes, _impl_._has_bits_),
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::ReleaseWindowRes, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -326,6 +375,11 @@ const uint32_t TableStruct_embedded_2dwindows_2escheme_2eproto::offsets[] PROTOB
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::ReleaseWindowRes, _impl_.status_),
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::ReleaseWindowRes, _impl_.parentwindow_),
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::ReleaseWindowRes, _impl_.window_),
+  PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::ReleaseWindowRes, _impl_.tag_),
+  ~0u,
+  ~0u,
+  ~0u,
+  0,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::SMBlob::EmbeddedWindows::Scheme::Request, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -354,18 +408,18 @@ const uint32_t TableStruct_embedded_2dwindows_2escheme_2eproto::offsets[] PROTOB
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 10, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::Window)},
   { 14, 24, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::Status)},
-  { 28, -1, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::CloseApplicationReq)},
-  { 34, -1, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::CloseApplicationRes)},
-  { 41, -1, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::ConnectApplicationRes)},
-  { 48, -1, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::InitApplicationRes)},
-  { 55, -1, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::CloseWindowReq)},
-  { 62, -1, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::CloseWindowRes)},
-  { 69, -1, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::EmbedWindowReq)},
-  { 76, -1, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::EmbedWindowRes)},
-  { 85, -1, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::ReleaseWindowReq)},
-  { 92, -1, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::ReleaseWindowRes)},
-  { 101, -1, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::Request)},
-  { 112, -1, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::Response)},
+  { 28, 35, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::CloseApplicationReq)},
+  { 36, 44, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::CloseApplicationRes)},
+  { 46, 54, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::ConnectApplicationRes)},
+  { 56, 64, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::InitApplicationRes)},
+  { 66, 74, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::CloseWindowReq)},
+  { 76, 84, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::CloseWindowRes)},
+  { 86, 94, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::EmbedWindowReq)},
+  { 96, 106, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::EmbedWindowRes)},
+  { 110, 118, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::ReleaseWindowReq)},
+  { 120, 130, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::ReleaseWindowRes)},
+  { 134, -1, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::Request)},
+  { 145, -1, -1, sizeof(::SMBlob::EmbeddedWindows::Scheme::Response)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -393,55 +447,62 @@ const char descriptor_table_protodef_embedded_2dwindows_2escheme_2eproto[] PROTO
   "\001\210\001\001B\r\n\013_windowUuidB\014\n\n_processId\"r\n\006Sta"
   "tus\022\016\n\006status\030\001 \001(\005\022\024\n\007message\030\002 \001(\tH\000\210\001"
   "\001\022\021\n\004code\030\003 \001(\tH\001\210\001\001\022\021\n\004time\030\004 \001(\004H\002\210\001\001B"
-  "\n\n\010_messageB\007\n\005_codeB\007\n\005_time\"\025\n\023CloseAp"
-  "plicationReq\"L\n\023CloseApplicationRes\0225\n\006s"
-  "tatus\030\001 \001(\0132%.SMBlob.EmbeddedWindows.Sch"
-  "eme.Status\"N\n\025ConnectApplicationRes\0225\n\006s"
-  "tatus\030\001 \001(\0132%.SMBlob.EmbeddedWindows.Sch"
-  "eme.Status\"K\n\022InitApplicationRes\0225\n\006stat"
-  "us\030\001 \001(\0132%.SMBlob.EmbeddedWindows.Scheme"
-  ".Status\"G\n\016CloseWindowReq\0225\n\006window\030\001 \001("
-  "\0132%.SMBlob.EmbeddedWindows.Scheme.Window"
-  "\"G\n\016CloseWindowRes\0225\n\006status\030\001 \001(\0132%.SMB"
-  "lob.EmbeddedWindows.Scheme.Status\"G\n\016Emb"
-  "edWindowReq\0225\n\006window\030\001 \001(\0132%.SMBlob.Emb"
-  "eddedWindows.Scheme.Window\"\273\001\n\016EmbedWind"
-  "owRes\0225\n\006status\030\001 \001(\0132%.SMBlob.EmbeddedW"
-  "indows.Scheme.Status\0225\n\006window\030\002 \001(\0132%.S"
-  "MBlob.EmbeddedWindows.Scheme.Window\022;\n\014p"
-  "arentWindow\030\003 \001(\0132%.SMBlob.EmbeddedWindo"
-  "ws.Scheme.Window\"O\n\020ReleaseWindowReq\022;\n\014"
-  "parentWindow\030\001 \001(\0132%.SMBlob.EmbeddedWind"
-  "ows.Scheme.Window\"\275\001\n\020ReleaseWindowRes\0225"
-  "\n\006status\030\001 \001(\0132%.SMBlob.EmbeddedWindows."
-  "Scheme.Status\022;\n\014parentWindow\030\002 \001(\0132%.SM"
-  "Blob.EmbeddedWindows.Scheme.Window\0225\n\006wi"
-  "ndow\030\003 \001(\0132%.SMBlob.EmbeddedWindows.Sche"
-  "me.Window\"\272\002\n\007Request\022N\n\020closeApplicatio"
-  "n\030\001 \001(\01322.SMBlob.EmbeddedWindows.Scheme."
-  "CloseApplicationReqH\000\022D\n\013embedWindow\030\002 \001"
-  "(\0132-.SMBlob.EmbeddedWindows.Scheme.Embed"
-  "WindowReqH\000\022H\n\rreleaseWindow\030\003 \001(\0132/.SMB"
-  "lob.EmbeddedWindows.Scheme.ReleaseWindow"
-  "ReqH\000\022D\n\013closeWindow\030\004 \001(\0132-.SMBlob.Embe"
-  "ddedWindows.Scheme.CloseWindowReqH\000B\t\n\007M"
-  "essage\"\335\003\n\010Response\022N\n\020closeApplication\030"
-  "\001 \001(\01322.SMBlob.EmbeddedWindows.Scheme.Cl"
-  "oseApplicationResH\000\022D\n\013embedWindow\030\002 \001(\013"
-  "2-.SMBlob.EmbeddedWindows.Scheme.EmbedWi"
-  "ndowResH\000\022H\n\rreleaseWindow\030\003 \001(\0132/.SMBlo"
-  "b.EmbeddedWindows.Scheme.ReleaseWindowRe"
-  "sH\000\022D\n\013closeWindow\030\004 \001(\0132-.SMBlob.Embedd"
-  "edWindows.Scheme.CloseWindowResH\000\022R\n\022con"
-  "nectApplication\030\005 \001(\01324.SMBlob.EmbeddedW"
-  "indows.Scheme.ConnectApplicationResH\000\022L\n"
-  "\017initApplication\030\006 \001(\01321.SMBlob.Embedded"
-  "Windows.Scheme.InitApplicationResH\000B\t\n\007M"
-  "essageb\006proto3"
+  "\n\n\010_messageB\007\n\005_codeB\007\n\005_time\"0\n\023CloseAp"
+  "plicationReq\022\021\n\003tag\030\351\007 \001(\tH\000\210\001\001B\006\n\004_tag\""
+  "g\n\023CloseApplicationRes\0225\n\006status\030\001 \001(\0132%"
+  ".SMBlob.EmbeddedWindows.Scheme.Status\022\021\n"
+  "\003tag\030\351\007 \001(\tH\000\210\001\001B\006\n\004_tag\"i\n\025ConnectAppli"
+  "cationRes\0225\n\006status\030\001 \001(\0132%.SMBlob.Embed"
+  "dedWindows.Scheme.Status\022\021\n\003tag\030\351\007 \001(\tH\000"
+  "\210\001\001B\006\n\004_tag\"f\n\022InitApplicationRes\0225\n\006sta"
+  "tus\030\001 \001(\0132%.SMBlob.EmbeddedWindows.Schem"
+  "e.Status\022\021\n\003tag\030\351\007 \001(\tH\000\210\001\001B\006\n\004_tag\"b\n\016C"
+  "loseWindowReq\0225\n\006window\030\001 \001(\0132%.SMBlob.E"
+  "mbeddedWindows.Scheme.Window\022\021\n\003tag\030\351\007 \001"
+  "(\tH\000\210\001\001B\006\n\004_tag\"b\n\016CloseWindowRes\0225\n\006sta"
+  "tus\030\001 \001(\0132%.SMBlob.EmbeddedWindows.Schem"
+  "e.Status\022\021\n\003tag\030\351\007 \001(\tH\000\210\001\001B\006\n\004_tag\"b\n\016E"
+  "mbedWindowReq\0225\n\006window\030\001 \001(\0132%.SMBlob.E"
+  "mbeddedWindows.Scheme.Window\022\021\n\003tag\030\351\007 \001"
+  "(\tH\000\210\001\001B\006\n\004_tag\"\326\001\n\016EmbedWindowRes\0225\n\006st"
+  "atus\030\001 \001(\0132%.SMBlob.EmbeddedWindows.Sche"
+  "me.Status\0225\n\006window\030\002 \001(\0132%.SMBlob.Embed"
+  "dedWindows.Scheme.Window\022;\n\014parentWindow"
+  "\030\003 \001(\0132%.SMBlob.EmbeddedWindows.Scheme.W"
+  "indow\022\021\n\003tag\030\351\007 \001(\tH\000\210\001\001B\006\n\004_tag\"j\n\020Rele"
+  "aseWindowReq\022;\n\014parentWindow\030\001 \001(\0132%.SMB"
+  "lob.EmbeddedWindows.Scheme.Window\022\021\n\003tag"
+  "\030\351\007 \001(\tH\000\210\001\001B\006\n\004_tag\"\330\001\n\020ReleaseWindowRe"
+  "s\0225\n\006status\030\001 \001(\0132%.SMBlob.EmbeddedWindo"
+  "ws.Scheme.Status\022;\n\014parentWindow\030\002 \001(\0132%"
+  ".SMBlob.EmbeddedWindows.Scheme.Window\0225\n"
+  "\006window\030\003 \001(\0132%.SMBlob.EmbeddedWindows.S"
+  "cheme.Window\022\021\n\003tag\030\351\007 \001(\tH\000\210\001\001B\006\n\004_tag\""
+  "\272\002\n\007Request\022N\n\020closeApplication\030\001 \001(\01322."
+  "SMBlob.EmbeddedWindows.Scheme.CloseAppli"
+  "cationReqH\000\022D\n\013embedWindow\030\002 \001(\0132-.SMBlo"
+  "b.EmbeddedWindows.Scheme.EmbedWindowReqH"
+  "\000\022H\n\rreleaseWindow\030\003 \001(\0132/.SMBlob.Embedd"
+  "edWindows.Scheme.ReleaseWindowReqH\000\022D\n\013c"
+  "loseWindow\030\004 \001(\0132-.SMBlob.EmbeddedWindow"
+  "s.Scheme.CloseWindowReqH\000B\t\n\007Message\"\335\003\n"
+  "\010Response\022N\n\020closeApplication\030\001 \001(\01322.SM"
+  "Blob.EmbeddedWindows.Scheme.CloseApplica"
+  "tionResH\000\022D\n\013embedWindow\030\002 \001(\0132-.SMBlob."
+  "EmbeddedWindows.Scheme.EmbedWindowResH\000\022"
+  "H\n\rreleaseWindow\030\003 \001(\0132/.SMBlob.Embedded"
+  "Windows.Scheme.ReleaseWindowResH\000\022D\n\013clo"
+  "seWindow\030\004 \001(\0132-.SMBlob.EmbeddedWindows."
+  "Scheme.CloseWindowResH\000\022R\n\022connectApplic"
+  "ation\030\005 \001(\01324.SMBlob.EmbeddedWindows.Sch"
+  "eme.ConnectApplicationResH\000\022L\n\017initAppli"
+  "cation\030\006 \001(\01321.SMBlob.EmbeddedWindows.Sc"
+  "heme.InitApplicationResH\000B\t\n\007Messageb\006pr"
+  "oto3"
   ;
 static ::_pbi::once_flag descriptor_table_embedded_2dwindows_2escheme_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_embedded_2dwindows_2escheme_2eproto = {
-    false, false, 2054, descriptor_table_protodef_embedded_2dwindows_2escheme_2eproto,
+    false, false, 2324, descriptor_table_protodef_embedded_2dwindows_2escheme_2eproto,
     "embedded-windows.scheme.proto",
     &descriptor_table_embedded_2dwindows_2escheme_2eproto_once, nullptr, 0, 14,
     schemas, file_default_instances, TableStruct_embedded_2dwindows_2escheme_2eproto::offsets,
@@ -1111,85 +1172,55 @@ void Status::InternalSwap(Status* other) {
 
 class CloseApplicationReq::_Internal {
  public:
+  using HasBits = decltype(std::declval<CloseApplicationReq>()._impl_._has_bits_);
+  static void set_has_tag(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
 };
 
 CloseApplicationReq::CloseApplicationReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
   // @@protoc_insertion_point(arena_constructor:SMBlob.EmbeddedWindows.Scheme.CloseApplicationReq)
 }
 CloseApplicationReq::CloseApplicationReq(const CloseApplicationReq& from)
-  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
   CloseApplicationReq* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.tag_){}};
+
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.tag_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_tag()) {
+    _this->_impl_.tag_.Set(from._internal_tag(), 
+      _this->GetArenaForAllocation());
+  }
   // @@protoc_insertion_point(copy_constructor:SMBlob.EmbeddedWindows.Scheme.CloseApplicationReq)
 }
 
-
-
-
-
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData CloseApplicationReq::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
-    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*CloseApplicationReq::GetClassData() const { return &_class_data_; }
-
-
-
-
-
-
-
-::PROTOBUF_NAMESPACE_ID::Metadata CloseApplicationReq::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_embedded_2dwindows_2escheme_2eproto_getter, &descriptor_table_embedded_2dwindows_2escheme_2eproto_once,
-      file_level_metadata_embedded_2dwindows_2escheme_2eproto[2]);
-}
-
-// ===================================================================
-
-class CloseApplicationRes::_Internal {
- public:
-  static const ::SMBlob::EmbeddedWindows::Scheme::Status& status(const CloseApplicationRes* msg);
-};
-
-const ::SMBlob::EmbeddedWindows::Scheme::Status&
-CloseApplicationRes::_Internal::status(const CloseApplicationRes* msg) {
-  return *msg->_impl_.status_;
-}
-CloseApplicationRes::CloseApplicationRes(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:SMBlob.EmbeddedWindows.Scheme.CloseApplicationRes)
-}
-CloseApplicationRes::CloseApplicationRes(const CloseApplicationRes& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  CloseApplicationRes* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.status_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}};
-
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_status()) {
-    _this->_impl_.status_ = new ::SMBlob::EmbeddedWindows::Scheme::Status(*from._impl_.status_);
-  }
-  // @@protoc_insertion_point(copy_constructor:SMBlob.EmbeddedWindows.Scheme.CloseApplicationRes)
-}
-
-inline void CloseApplicationRes::SharedCtor(
+inline void CloseApplicationReq::SharedCtor(
     ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.status_){nullptr}
+      decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.tag_){}
   };
+  _impl_.tag_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
-CloseApplicationRes::~CloseApplicationRes() {
-  // @@protoc_insertion_point(destructor:SMBlob.EmbeddedWindows.Scheme.CloseApplicationRes)
+CloseApplicationReq::~CloseApplicationReq() {
+  // @@protoc_insertion_point(destructor:SMBlob.EmbeddedWindows.Scheme.CloseApplicationReq)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -1197,39 +1228,43 @@ CloseApplicationRes::~CloseApplicationRes() {
   SharedDtor();
 }
 
-inline void CloseApplicationRes::SharedDtor() {
+inline void CloseApplicationReq::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete _impl_.status_;
+  _impl_.tag_.Destroy();
 }
 
-void CloseApplicationRes::SetCachedSize(int size) const {
+void CloseApplicationReq::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
 
-void CloseApplicationRes::Clear() {
-// @@protoc_insertion_point(message_clear_start:SMBlob.EmbeddedWindows.Scheme.CloseApplicationRes)
+void CloseApplicationReq::Clear() {
+// @@protoc_insertion_point(message_clear_start:SMBlob.EmbeddedWindows.Scheme.CloseApplicationReq)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  if (GetArenaForAllocation() == nullptr && _impl_.status_ != nullptr) {
-    delete _impl_.status_;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    _impl_.tag_.ClearNonDefaultToEmpty();
   }
-  _impl_.status_ = nullptr;
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* CloseApplicationRes::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* CloseApplicationReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // .SMBlob.EmbeddedWindows.Scheme.Status status = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          ptr = ctx->ParseMessage(_internal_mutable_status(), ptr);
+      // optional string tag = 1001;
+      case 1001:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
+          auto str = _internal_mutable_tag();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "SMBlob.EmbeddedWindows.Scheme.CloseApplicationReq.tag"));
         } else
           goto handle_unusual;
         continue;
@@ -1249,6 +1284,247 @@ const char* CloseApplicationRes::_InternalParse(const char* ptr, ::_pbi::ParseCo
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _impl_._has_bits_.Or(has_bits);
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* CloseApplicationReq::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:SMBlob.EmbeddedWindows.Scheme.CloseApplicationReq)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // optional string tag = 1001;
+  if (_internal_has_tag()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_tag().data(), static_cast<int>(this->_internal_tag().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "SMBlob.EmbeddedWindows.Scheme.CloseApplicationReq.tag");
+    target = stream->WriteStringMaybeAliased(
+        1001, this->_internal_tag(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:SMBlob.EmbeddedWindows.Scheme.CloseApplicationReq)
+  return target;
+}
+
+size_t CloseApplicationReq::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:SMBlob.EmbeddedWindows.Scheme.CloseApplicationReq)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // optional string tag = 1001;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_tag());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData CloseApplicationReq::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    CloseApplicationReq::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*CloseApplicationReq::GetClassData() const { return &_class_data_; }
+
+
+void CloseApplicationReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<CloseApplicationReq*>(&to_msg);
+  auto& from = static_cast<const CloseApplicationReq&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:SMBlob.EmbeddedWindows.Scheme.CloseApplicationReq)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_has_tag()) {
+    _this->_internal_set_tag(from._internal_tag());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void CloseApplicationReq::CopyFrom(const CloseApplicationReq& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:SMBlob.EmbeddedWindows.Scheme.CloseApplicationReq)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CloseApplicationReq::IsInitialized() const {
+  return true;
+}
+
+void CloseApplicationReq::InternalSwap(CloseApplicationReq* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.tag_, lhs_arena,
+      &other->_impl_.tag_, rhs_arena
+  );
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata CloseApplicationReq::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_embedded_2dwindows_2escheme_2eproto_getter, &descriptor_table_embedded_2dwindows_2escheme_2eproto_once,
+      file_level_metadata_embedded_2dwindows_2escheme_2eproto[2]);
+}
+
+// ===================================================================
+
+class CloseApplicationRes::_Internal {
+ public:
+  using HasBits = decltype(std::declval<CloseApplicationRes>()._impl_._has_bits_);
+  static const ::SMBlob::EmbeddedWindows::Scheme::Status& status(const CloseApplicationRes* msg);
+  static void set_has_tag(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+};
+
+const ::SMBlob::EmbeddedWindows::Scheme::Status&
+CloseApplicationRes::_Internal::status(const CloseApplicationRes* msg) {
+  return *msg->_impl_.status_;
+}
+CloseApplicationRes::CloseApplicationRes(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:SMBlob.EmbeddedWindows.Scheme.CloseApplicationRes)
+}
+CloseApplicationRes::CloseApplicationRes(const CloseApplicationRes& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  CloseApplicationRes* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.tag_){}
+    , decltype(_impl_.status_){nullptr}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.tag_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_tag()) {
+    _this->_impl_.tag_.Set(from._internal_tag(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_status()) {
+    _this->_impl_.status_ = new ::SMBlob::EmbeddedWindows::Scheme::Status(*from._impl_.status_);
+  }
+  // @@protoc_insertion_point(copy_constructor:SMBlob.EmbeddedWindows.Scheme.CloseApplicationRes)
+}
+
+inline void CloseApplicationRes::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.tag_){}
+    , decltype(_impl_.status_){nullptr}
+  };
+  _impl_.tag_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+CloseApplicationRes::~CloseApplicationRes() {
+  // @@protoc_insertion_point(destructor:SMBlob.EmbeddedWindows.Scheme.CloseApplicationRes)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void CloseApplicationRes::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.tag_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.status_;
+}
+
+void CloseApplicationRes::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void CloseApplicationRes::Clear() {
+// @@protoc_insertion_point(message_clear_start:SMBlob.EmbeddedWindows.Scheme.CloseApplicationRes)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    _impl_.tag_.ClearNonDefaultToEmpty();
+  }
+  if (GetArenaForAllocation() == nullptr && _impl_.status_ != nullptr) {
+    delete _impl_.status_;
+  }
+  _impl_.status_ = nullptr;
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* CloseApplicationRes::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .SMBlob.EmbeddedWindows.Scheme.Status status = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr = ctx->ParseMessage(_internal_mutable_status(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string tag = 1001;
+      case 1001:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
+          auto str = _internal_mutable_tag();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "SMBlob.EmbeddedWindows.Scheme.CloseApplicationRes.tag"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -1269,6 +1545,16 @@ uint8_t* CloseApplicationRes::_InternalSerialize(
         _Internal::status(this).GetCachedSize(), target, stream);
   }
 
+  // optional string tag = 1001;
+  if (_internal_has_tag()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_tag().data(), static_cast<int>(this->_internal_tag().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "SMBlob.EmbeddedWindows.Scheme.CloseApplicationRes.tag");
+    target = stream->WriteStringMaybeAliased(
+        1001, this->_internal_tag(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1284,6 +1570,14 @@ size_t CloseApplicationRes::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // optional string tag = 1001;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_tag());
+  }
 
   // .SMBlob.EmbeddedWindows.Scheme.Status status = 1;
   if (this->_internal_has_status()) {
@@ -1310,6 +1604,9 @@ void CloseApplicationRes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, co
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_has_tag()) {
+    _this->_internal_set_tag(from._internal_tag());
+  }
   if (from._internal_has_status()) {
     _this->_internal_mutable_status()->::SMBlob::EmbeddedWindows::Scheme::Status::MergeFrom(
         from._internal_status());
@@ -1330,7 +1627,14 @@ bool CloseApplicationRes::IsInitialized() const {
 
 void CloseApplicationRes::InternalSwap(CloseApplicationRes* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.tag_, lhs_arena,
+      &other->_impl_.tag_, rhs_arena
+  );
   swap(_impl_.status_, other->_impl_.status_);
 }
 
@@ -1344,7 +1648,11 @@ void CloseApplicationRes::InternalSwap(CloseApplicationRes* other) {
 
 class ConnectApplicationRes::_Internal {
  public:
+  using HasBits = decltype(std::declval<ConnectApplicationRes>()._impl_._has_bits_);
   static const ::SMBlob::EmbeddedWindows::Scheme::Status& status(const ConnectApplicationRes* msg);
+  static void set_has_tag(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
 };
 
 const ::SMBlob::EmbeddedWindows::Scheme::Status&
@@ -1361,10 +1669,20 @@ ConnectApplicationRes::ConnectApplicationRes(const ConnectApplicationRes& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   ConnectApplicationRes* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.status_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}};
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.tag_){}
+    , decltype(_impl_.status_){nullptr}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.tag_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_tag()) {
+    _this->_impl_.tag_.Set(from._internal_tag(), 
+      _this->GetArenaForAllocation());
+  }
   if (from._internal_has_status()) {
     _this->_impl_.status_ = new ::SMBlob::EmbeddedWindows::Scheme::Status(*from._impl_.status_);
   }
@@ -1376,9 +1694,15 @@ inline void ConnectApplicationRes::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.status_){nullptr}
+      decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.tag_){}
+    , decltype(_impl_.status_){nullptr}
   };
+  _impl_.tag_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 ConnectApplicationRes::~ConnectApplicationRes() {
@@ -1392,6 +1716,7 @@ ConnectApplicationRes::~ConnectApplicationRes() {
 
 inline void ConnectApplicationRes::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.tag_.Destroy();
   if (this != internal_default_instance()) delete _impl_.status_;
 }
 
@@ -1405,15 +1730,21 @@ void ConnectApplicationRes::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    _impl_.tag_.ClearNonDefaultToEmpty();
+  }
   if (GetArenaForAllocation() == nullptr && _impl_.status_ != nullptr) {
     delete _impl_.status_;
   }
   _impl_.status_ = nullptr;
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* ConnectApplicationRes::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
@@ -1423,6 +1754,16 @@ const char* ConnectApplicationRes::_InternalParse(const char* ptr, ::_pbi::Parse
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
           ptr = ctx->ParseMessage(_internal_mutable_status(), ptr);
           CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string tag = 1001;
+      case 1001:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
+          auto str = _internal_mutable_tag();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "SMBlob.EmbeddedWindows.Scheme.ConnectApplicationRes.tag"));
         } else
           goto handle_unusual;
         continue;
@@ -1442,6 +1783,7 @@ const char* ConnectApplicationRes::_InternalParse(const char* ptr, ::_pbi::Parse
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -1462,6 +1804,16 @@ uint8_t* ConnectApplicationRes::_InternalSerialize(
         _Internal::status(this).GetCachedSize(), target, stream);
   }
 
+  // optional string tag = 1001;
+  if (_internal_has_tag()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_tag().data(), static_cast<int>(this->_internal_tag().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "SMBlob.EmbeddedWindows.Scheme.ConnectApplicationRes.tag");
+    target = stream->WriteStringMaybeAliased(
+        1001, this->_internal_tag(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1477,6 +1829,14 @@ size_t ConnectApplicationRes::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // optional string tag = 1001;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_tag());
+  }
 
   // .SMBlob.EmbeddedWindows.Scheme.Status status = 1;
   if (this->_internal_has_status()) {
@@ -1503,6 +1863,9 @@ void ConnectApplicationRes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, 
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_has_tag()) {
+    _this->_internal_set_tag(from._internal_tag());
+  }
   if (from._internal_has_status()) {
     _this->_internal_mutable_status()->::SMBlob::EmbeddedWindows::Scheme::Status::MergeFrom(
         from._internal_status());
@@ -1523,7 +1886,14 @@ bool ConnectApplicationRes::IsInitialized() const {
 
 void ConnectApplicationRes::InternalSwap(ConnectApplicationRes* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.tag_, lhs_arena,
+      &other->_impl_.tag_, rhs_arena
+  );
   swap(_impl_.status_, other->_impl_.status_);
 }
 
@@ -1537,7 +1907,11 @@ void ConnectApplicationRes::InternalSwap(ConnectApplicationRes* other) {
 
 class InitApplicationRes::_Internal {
  public:
+  using HasBits = decltype(std::declval<InitApplicationRes>()._impl_._has_bits_);
   static const ::SMBlob::EmbeddedWindows::Scheme::Status& status(const InitApplicationRes* msg);
+  static void set_has_tag(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
 };
 
 const ::SMBlob::EmbeddedWindows::Scheme::Status&
@@ -1554,10 +1928,20 @@ InitApplicationRes::InitApplicationRes(const InitApplicationRes& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   InitApplicationRes* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.status_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}};
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.tag_){}
+    , decltype(_impl_.status_){nullptr}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.tag_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_tag()) {
+    _this->_impl_.tag_.Set(from._internal_tag(), 
+      _this->GetArenaForAllocation());
+  }
   if (from._internal_has_status()) {
     _this->_impl_.status_ = new ::SMBlob::EmbeddedWindows::Scheme::Status(*from._impl_.status_);
   }
@@ -1569,9 +1953,15 @@ inline void InitApplicationRes::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.status_){nullptr}
+      decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.tag_){}
+    , decltype(_impl_.status_){nullptr}
   };
+  _impl_.tag_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 InitApplicationRes::~InitApplicationRes() {
@@ -1585,6 +1975,7 @@ InitApplicationRes::~InitApplicationRes() {
 
 inline void InitApplicationRes::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.tag_.Destroy();
   if (this != internal_default_instance()) delete _impl_.status_;
 }
 
@@ -1598,15 +1989,21 @@ void InitApplicationRes::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    _impl_.tag_.ClearNonDefaultToEmpty();
+  }
   if (GetArenaForAllocation() == nullptr && _impl_.status_ != nullptr) {
     delete _impl_.status_;
   }
   _impl_.status_ = nullptr;
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* InitApplicationRes::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
@@ -1616,6 +2013,16 @@ const char* InitApplicationRes::_InternalParse(const char* ptr, ::_pbi::ParseCon
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
           ptr = ctx->ParseMessage(_internal_mutable_status(), ptr);
           CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string tag = 1001;
+      case 1001:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
+          auto str = _internal_mutable_tag();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "SMBlob.EmbeddedWindows.Scheme.InitApplicationRes.tag"));
         } else
           goto handle_unusual;
         continue;
@@ -1635,6 +2042,7 @@ const char* InitApplicationRes::_InternalParse(const char* ptr, ::_pbi::ParseCon
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -1655,6 +2063,16 @@ uint8_t* InitApplicationRes::_InternalSerialize(
         _Internal::status(this).GetCachedSize(), target, stream);
   }
 
+  // optional string tag = 1001;
+  if (_internal_has_tag()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_tag().data(), static_cast<int>(this->_internal_tag().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "SMBlob.EmbeddedWindows.Scheme.InitApplicationRes.tag");
+    target = stream->WriteStringMaybeAliased(
+        1001, this->_internal_tag(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1670,6 +2088,14 @@ size_t InitApplicationRes::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // optional string tag = 1001;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_tag());
+  }
 
   // .SMBlob.EmbeddedWindows.Scheme.Status status = 1;
   if (this->_internal_has_status()) {
@@ -1696,6 +2122,9 @@ void InitApplicationRes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, con
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_has_tag()) {
+    _this->_internal_set_tag(from._internal_tag());
+  }
   if (from._internal_has_status()) {
     _this->_internal_mutable_status()->::SMBlob::EmbeddedWindows::Scheme::Status::MergeFrom(
         from._internal_status());
@@ -1716,7 +2145,14 @@ bool InitApplicationRes::IsInitialized() const {
 
 void InitApplicationRes::InternalSwap(InitApplicationRes* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.tag_, lhs_arena,
+      &other->_impl_.tag_, rhs_arena
+  );
   swap(_impl_.status_, other->_impl_.status_);
 }
 
@@ -1730,7 +2166,11 @@ void InitApplicationRes::InternalSwap(InitApplicationRes* other) {
 
 class CloseWindowReq::_Internal {
  public:
+  using HasBits = decltype(std::declval<CloseWindowReq>()._impl_._has_bits_);
   static const ::SMBlob::EmbeddedWindows::Scheme::Window& window(const CloseWindowReq* msg);
+  static void set_has_tag(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
 };
 
 const ::SMBlob::EmbeddedWindows::Scheme::Window&
@@ -1747,10 +2187,20 @@ CloseWindowReq::CloseWindowReq(const CloseWindowReq& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   CloseWindowReq* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.window_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}};
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.tag_){}
+    , decltype(_impl_.window_){nullptr}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.tag_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_tag()) {
+    _this->_impl_.tag_.Set(from._internal_tag(), 
+      _this->GetArenaForAllocation());
+  }
   if (from._internal_has_window()) {
     _this->_impl_.window_ = new ::SMBlob::EmbeddedWindows::Scheme::Window(*from._impl_.window_);
   }
@@ -1762,9 +2212,15 @@ inline void CloseWindowReq::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.window_){nullptr}
+      decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.tag_){}
+    , decltype(_impl_.window_){nullptr}
   };
+  _impl_.tag_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 CloseWindowReq::~CloseWindowReq() {
@@ -1778,6 +2234,7 @@ CloseWindowReq::~CloseWindowReq() {
 
 inline void CloseWindowReq::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.tag_.Destroy();
   if (this != internal_default_instance()) delete _impl_.window_;
 }
 
@@ -1791,15 +2248,21 @@ void CloseWindowReq::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    _impl_.tag_.ClearNonDefaultToEmpty();
+  }
   if (GetArenaForAllocation() == nullptr && _impl_.window_ != nullptr) {
     delete _impl_.window_;
   }
   _impl_.window_ = nullptr;
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* CloseWindowReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
@@ -1809,6 +2272,16 @@ const char* CloseWindowReq::_InternalParse(const char* ptr, ::_pbi::ParseContext
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
           ptr = ctx->ParseMessage(_internal_mutable_window(), ptr);
           CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string tag = 1001;
+      case 1001:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
+          auto str = _internal_mutable_tag();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "SMBlob.EmbeddedWindows.Scheme.CloseWindowReq.tag"));
         } else
           goto handle_unusual;
         continue;
@@ -1828,6 +2301,7 @@ const char* CloseWindowReq::_InternalParse(const char* ptr, ::_pbi::ParseContext
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -1848,6 +2322,16 @@ uint8_t* CloseWindowReq::_InternalSerialize(
         _Internal::window(this).GetCachedSize(), target, stream);
   }
 
+  // optional string tag = 1001;
+  if (_internal_has_tag()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_tag().data(), static_cast<int>(this->_internal_tag().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "SMBlob.EmbeddedWindows.Scheme.CloseWindowReq.tag");
+    target = stream->WriteStringMaybeAliased(
+        1001, this->_internal_tag(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1863,6 +2347,14 @@ size_t CloseWindowReq::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // optional string tag = 1001;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_tag());
+  }
 
   // .SMBlob.EmbeddedWindows.Scheme.Window window = 1;
   if (this->_internal_has_window()) {
@@ -1889,6 +2381,9 @@ void CloseWindowReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const :
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_has_tag()) {
+    _this->_internal_set_tag(from._internal_tag());
+  }
   if (from._internal_has_window()) {
     _this->_internal_mutable_window()->::SMBlob::EmbeddedWindows::Scheme::Window::MergeFrom(
         from._internal_window());
@@ -1909,7 +2404,14 @@ bool CloseWindowReq::IsInitialized() const {
 
 void CloseWindowReq::InternalSwap(CloseWindowReq* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.tag_, lhs_arena,
+      &other->_impl_.tag_, rhs_arena
+  );
   swap(_impl_.window_, other->_impl_.window_);
 }
 
@@ -1923,7 +2425,11 @@ void CloseWindowReq::InternalSwap(CloseWindowReq* other) {
 
 class CloseWindowRes::_Internal {
  public:
+  using HasBits = decltype(std::declval<CloseWindowRes>()._impl_._has_bits_);
   static const ::SMBlob::EmbeddedWindows::Scheme::Status& status(const CloseWindowRes* msg);
+  static void set_has_tag(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
 };
 
 const ::SMBlob::EmbeddedWindows::Scheme::Status&
@@ -1940,10 +2446,20 @@ CloseWindowRes::CloseWindowRes(const CloseWindowRes& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   CloseWindowRes* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.status_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}};
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.tag_){}
+    , decltype(_impl_.status_){nullptr}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.tag_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_tag()) {
+    _this->_impl_.tag_.Set(from._internal_tag(), 
+      _this->GetArenaForAllocation());
+  }
   if (from._internal_has_status()) {
     _this->_impl_.status_ = new ::SMBlob::EmbeddedWindows::Scheme::Status(*from._impl_.status_);
   }
@@ -1955,9 +2471,15 @@ inline void CloseWindowRes::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.status_){nullptr}
+      decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.tag_){}
+    , decltype(_impl_.status_){nullptr}
   };
+  _impl_.tag_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 CloseWindowRes::~CloseWindowRes() {
@@ -1971,6 +2493,7 @@ CloseWindowRes::~CloseWindowRes() {
 
 inline void CloseWindowRes::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.tag_.Destroy();
   if (this != internal_default_instance()) delete _impl_.status_;
 }
 
@@ -1984,15 +2507,21 @@ void CloseWindowRes::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    _impl_.tag_.ClearNonDefaultToEmpty();
+  }
   if (GetArenaForAllocation() == nullptr && _impl_.status_ != nullptr) {
     delete _impl_.status_;
   }
   _impl_.status_ = nullptr;
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* CloseWindowRes::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
@@ -2002,6 +2531,16 @@ const char* CloseWindowRes::_InternalParse(const char* ptr, ::_pbi::ParseContext
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
           ptr = ctx->ParseMessage(_internal_mutable_status(), ptr);
           CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string tag = 1001;
+      case 1001:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
+          auto str = _internal_mutable_tag();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "SMBlob.EmbeddedWindows.Scheme.CloseWindowRes.tag"));
         } else
           goto handle_unusual;
         continue;
@@ -2021,6 +2560,7 @@ const char* CloseWindowRes::_InternalParse(const char* ptr, ::_pbi::ParseContext
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -2041,6 +2581,16 @@ uint8_t* CloseWindowRes::_InternalSerialize(
         _Internal::status(this).GetCachedSize(), target, stream);
   }
 
+  // optional string tag = 1001;
+  if (_internal_has_tag()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_tag().data(), static_cast<int>(this->_internal_tag().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "SMBlob.EmbeddedWindows.Scheme.CloseWindowRes.tag");
+    target = stream->WriteStringMaybeAliased(
+        1001, this->_internal_tag(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2056,6 +2606,14 @@ size_t CloseWindowRes::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // optional string tag = 1001;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_tag());
+  }
 
   // .SMBlob.EmbeddedWindows.Scheme.Status status = 1;
   if (this->_internal_has_status()) {
@@ -2082,6 +2640,9 @@ void CloseWindowRes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const :
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_has_tag()) {
+    _this->_internal_set_tag(from._internal_tag());
+  }
   if (from._internal_has_status()) {
     _this->_internal_mutable_status()->::SMBlob::EmbeddedWindows::Scheme::Status::MergeFrom(
         from._internal_status());
@@ -2102,7 +2663,14 @@ bool CloseWindowRes::IsInitialized() const {
 
 void CloseWindowRes::InternalSwap(CloseWindowRes* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.tag_, lhs_arena,
+      &other->_impl_.tag_, rhs_arena
+  );
   swap(_impl_.status_, other->_impl_.status_);
 }
 
@@ -2116,7 +2684,11 @@ void CloseWindowRes::InternalSwap(CloseWindowRes* other) {
 
 class EmbedWindowReq::_Internal {
  public:
+  using HasBits = decltype(std::declval<EmbedWindowReq>()._impl_._has_bits_);
   static const ::SMBlob::EmbeddedWindows::Scheme::Window& window(const EmbedWindowReq* msg);
+  static void set_has_tag(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
 };
 
 const ::SMBlob::EmbeddedWindows::Scheme::Window&
@@ -2133,10 +2705,20 @@ EmbedWindowReq::EmbedWindowReq(const EmbedWindowReq& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   EmbedWindowReq* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.window_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}};
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.tag_){}
+    , decltype(_impl_.window_){nullptr}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.tag_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_tag()) {
+    _this->_impl_.tag_.Set(from._internal_tag(), 
+      _this->GetArenaForAllocation());
+  }
   if (from._internal_has_window()) {
     _this->_impl_.window_ = new ::SMBlob::EmbeddedWindows::Scheme::Window(*from._impl_.window_);
   }
@@ -2148,9 +2730,15 @@ inline void EmbedWindowReq::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.window_){nullptr}
+      decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.tag_){}
+    , decltype(_impl_.window_){nullptr}
   };
+  _impl_.tag_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 EmbedWindowReq::~EmbedWindowReq() {
@@ -2164,6 +2752,7 @@ EmbedWindowReq::~EmbedWindowReq() {
 
 inline void EmbedWindowReq::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.tag_.Destroy();
   if (this != internal_default_instance()) delete _impl_.window_;
 }
 
@@ -2177,15 +2766,21 @@ void EmbedWindowReq::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    _impl_.tag_.ClearNonDefaultToEmpty();
+  }
   if (GetArenaForAllocation() == nullptr && _impl_.window_ != nullptr) {
     delete _impl_.window_;
   }
   _impl_.window_ = nullptr;
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* EmbedWindowReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
@@ -2195,6 +2790,16 @@ const char* EmbedWindowReq::_InternalParse(const char* ptr, ::_pbi::ParseContext
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
           ptr = ctx->ParseMessage(_internal_mutable_window(), ptr);
           CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string tag = 1001;
+      case 1001:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
+          auto str = _internal_mutable_tag();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "SMBlob.EmbeddedWindows.Scheme.EmbedWindowReq.tag"));
         } else
           goto handle_unusual;
         continue;
@@ -2214,6 +2819,7 @@ const char* EmbedWindowReq::_InternalParse(const char* ptr, ::_pbi::ParseContext
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -2234,6 +2840,16 @@ uint8_t* EmbedWindowReq::_InternalSerialize(
         _Internal::window(this).GetCachedSize(), target, stream);
   }
 
+  // optional string tag = 1001;
+  if (_internal_has_tag()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_tag().data(), static_cast<int>(this->_internal_tag().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "SMBlob.EmbeddedWindows.Scheme.EmbedWindowReq.tag");
+    target = stream->WriteStringMaybeAliased(
+        1001, this->_internal_tag(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2249,6 +2865,14 @@ size_t EmbedWindowReq::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // optional string tag = 1001;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_tag());
+  }
 
   // .SMBlob.EmbeddedWindows.Scheme.Window window = 1;
   if (this->_internal_has_window()) {
@@ -2275,6 +2899,9 @@ void EmbedWindowReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const :
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_has_tag()) {
+    _this->_internal_set_tag(from._internal_tag());
+  }
   if (from._internal_has_window()) {
     _this->_internal_mutable_window()->::SMBlob::EmbeddedWindows::Scheme::Window::MergeFrom(
         from._internal_window());
@@ -2295,7 +2922,14 @@ bool EmbedWindowReq::IsInitialized() const {
 
 void EmbedWindowReq::InternalSwap(EmbedWindowReq* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.tag_, lhs_arena,
+      &other->_impl_.tag_, rhs_arena
+  );
   swap(_impl_.window_, other->_impl_.window_);
 }
 
@@ -2309,9 +2943,13 @@ void EmbedWindowReq::InternalSwap(EmbedWindowReq* other) {
 
 class EmbedWindowRes::_Internal {
  public:
+  using HasBits = decltype(std::declval<EmbedWindowRes>()._impl_._has_bits_);
   static const ::SMBlob::EmbeddedWindows::Scheme::Status& status(const EmbedWindowRes* msg);
   static const ::SMBlob::EmbeddedWindows::Scheme::Window& window(const EmbedWindowRes* msg);
   static const ::SMBlob::EmbeddedWindows::Scheme::Window& parentwindow(const EmbedWindowRes* msg);
+  static void set_has_tag(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
 };
 
 const ::SMBlob::EmbeddedWindows::Scheme::Status&
@@ -2336,12 +2974,22 @@ EmbedWindowRes::EmbedWindowRes(const EmbedWindowRes& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   EmbedWindowRes* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.status_){nullptr}
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.tag_){}
+    , decltype(_impl_.status_){nullptr}
     , decltype(_impl_.window_){nullptr}
-    , decltype(_impl_.parentwindow_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}};
+    , decltype(_impl_.parentwindow_){nullptr}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.tag_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_tag()) {
+    _this->_impl_.tag_.Set(from._internal_tag(), 
+      _this->GetArenaForAllocation());
+  }
   if (from._internal_has_status()) {
     _this->_impl_.status_ = new ::SMBlob::EmbeddedWindows::Scheme::Status(*from._impl_.status_);
   }
@@ -2359,11 +3007,17 @@ inline void EmbedWindowRes::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.status_){nullptr}
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.tag_){}
+    , decltype(_impl_.status_){nullptr}
     , decltype(_impl_.window_){nullptr}
     , decltype(_impl_.parentwindow_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}
   };
+  _impl_.tag_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 EmbedWindowRes::~EmbedWindowRes() {
@@ -2377,6 +3031,7 @@ EmbedWindowRes::~EmbedWindowRes() {
 
 inline void EmbedWindowRes::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.tag_.Destroy();
   if (this != internal_default_instance()) delete _impl_.status_;
   if (this != internal_default_instance()) delete _impl_.window_;
   if (this != internal_default_instance()) delete _impl_.parentwindow_;
@@ -2392,6 +3047,10 @@ void EmbedWindowRes::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    _impl_.tag_.ClearNonDefaultToEmpty();
+  }
   if (GetArenaForAllocation() == nullptr && _impl_.status_ != nullptr) {
     delete _impl_.status_;
   }
@@ -2404,11 +3063,13 @@ void EmbedWindowRes::Clear() {
     delete _impl_.parentwindow_;
   }
   _impl_.parentwindow_ = nullptr;
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* EmbedWindowRes::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
@@ -2437,6 +3098,16 @@ const char* EmbedWindowRes::_InternalParse(const char* ptr, ::_pbi::ParseContext
         } else
           goto handle_unusual;
         continue;
+      // optional string tag = 1001;
+      case 1001:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
+          auto str = _internal_mutable_tag();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "SMBlob.EmbeddedWindows.Scheme.EmbedWindowRes.tag"));
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -2453,6 +3124,7 @@ const char* EmbedWindowRes::_InternalParse(const char* ptr, ::_pbi::ParseContext
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -2487,6 +3159,16 @@ uint8_t* EmbedWindowRes::_InternalSerialize(
         _Internal::parentwindow(this).GetCachedSize(), target, stream);
   }
 
+  // optional string tag = 1001;
+  if (_internal_has_tag()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_tag().data(), static_cast<int>(this->_internal_tag().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "SMBlob.EmbeddedWindows.Scheme.EmbedWindowRes.tag");
+    target = stream->WriteStringMaybeAliased(
+        1001, this->_internal_tag(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2502,6 +3184,14 @@ size_t EmbedWindowRes::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // optional string tag = 1001;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_tag());
+  }
 
   // .SMBlob.EmbeddedWindows.Scheme.Status status = 1;
   if (this->_internal_has_status()) {
@@ -2542,6 +3232,9 @@ void EmbedWindowRes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const :
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_has_tag()) {
+    _this->_internal_set_tag(from._internal_tag());
+  }
   if (from._internal_has_status()) {
     _this->_internal_mutable_status()->::SMBlob::EmbeddedWindows::Scheme::Status::MergeFrom(
         from._internal_status());
@@ -2570,7 +3263,14 @@ bool EmbedWindowRes::IsInitialized() const {
 
 void EmbedWindowRes::InternalSwap(EmbedWindowRes* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.tag_, lhs_arena,
+      &other->_impl_.tag_, rhs_arena
+  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(EmbedWindowRes, _impl_.parentwindow_)
       + sizeof(EmbedWindowRes::_impl_.parentwindow_)
@@ -2589,7 +3289,11 @@ void EmbedWindowRes::InternalSwap(EmbedWindowRes* other) {
 
 class ReleaseWindowReq::_Internal {
  public:
+  using HasBits = decltype(std::declval<ReleaseWindowReq>()._impl_._has_bits_);
   static const ::SMBlob::EmbeddedWindows::Scheme::Window& parentwindow(const ReleaseWindowReq* msg);
+  static void set_has_tag(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
 };
 
 const ::SMBlob::EmbeddedWindows::Scheme::Window&
@@ -2606,10 +3310,20 @@ ReleaseWindowReq::ReleaseWindowReq(const ReleaseWindowReq& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   ReleaseWindowReq* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.parentwindow_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}};
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.tag_){}
+    , decltype(_impl_.parentwindow_){nullptr}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.tag_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_tag()) {
+    _this->_impl_.tag_.Set(from._internal_tag(), 
+      _this->GetArenaForAllocation());
+  }
   if (from._internal_has_parentwindow()) {
     _this->_impl_.parentwindow_ = new ::SMBlob::EmbeddedWindows::Scheme::Window(*from._impl_.parentwindow_);
   }
@@ -2621,9 +3335,15 @@ inline void ReleaseWindowReq::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.parentwindow_){nullptr}
+      decltype(_impl_._has_bits_){}
     , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.tag_){}
+    , decltype(_impl_.parentwindow_){nullptr}
   };
+  _impl_.tag_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 ReleaseWindowReq::~ReleaseWindowReq() {
@@ -2637,6 +3357,7 @@ ReleaseWindowReq::~ReleaseWindowReq() {
 
 inline void ReleaseWindowReq::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.tag_.Destroy();
   if (this != internal_default_instance()) delete _impl_.parentwindow_;
 }
 
@@ -2650,15 +3371,21 @@ void ReleaseWindowReq::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    _impl_.tag_.ClearNonDefaultToEmpty();
+  }
   if (GetArenaForAllocation() == nullptr && _impl_.parentwindow_ != nullptr) {
     delete _impl_.parentwindow_;
   }
   _impl_.parentwindow_ = nullptr;
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* ReleaseWindowReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
@@ -2668,6 +3395,16 @@ const char* ReleaseWindowReq::_InternalParse(const char* ptr, ::_pbi::ParseConte
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
           ptr = ctx->ParseMessage(_internal_mutable_parentwindow(), ptr);
           CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // optional string tag = 1001;
+      case 1001:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
+          auto str = _internal_mutable_tag();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "SMBlob.EmbeddedWindows.Scheme.ReleaseWindowReq.tag"));
         } else
           goto handle_unusual;
         continue;
@@ -2687,6 +3424,7 @@ const char* ReleaseWindowReq::_InternalParse(const char* ptr, ::_pbi::ParseConte
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -2707,6 +3445,16 @@ uint8_t* ReleaseWindowReq::_InternalSerialize(
         _Internal::parentwindow(this).GetCachedSize(), target, stream);
   }
 
+  // optional string tag = 1001;
+  if (_internal_has_tag()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_tag().data(), static_cast<int>(this->_internal_tag().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "SMBlob.EmbeddedWindows.Scheme.ReleaseWindowReq.tag");
+    target = stream->WriteStringMaybeAliased(
+        1001, this->_internal_tag(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2722,6 +3470,14 @@ size_t ReleaseWindowReq::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // optional string tag = 1001;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_tag());
+  }
 
   // .SMBlob.EmbeddedWindows.Scheme.Window parentWindow = 1;
   if (this->_internal_has_parentwindow()) {
@@ -2748,6 +3504,9 @@ void ReleaseWindowReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_has_tag()) {
+    _this->_internal_set_tag(from._internal_tag());
+  }
   if (from._internal_has_parentwindow()) {
     _this->_internal_mutable_parentwindow()->::SMBlob::EmbeddedWindows::Scheme::Window::MergeFrom(
         from._internal_parentwindow());
@@ -2768,7 +3527,14 @@ bool ReleaseWindowReq::IsInitialized() const {
 
 void ReleaseWindowReq::InternalSwap(ReleaseWindowReq* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.tag_, lhs_arena,
+      &other->_impl_.tag_, rhs_arena
+  );
   swap(_impl_.parentwindow_, other->_impl_.parentwindow_);
 }
 
@@ -2782,9 +3548,13 @@ void ReleaseWindowReq::InternalSwap(ReleaseWindowReq* other) {
 
 class ReleaseWindowRes::_Internal {
  public:
+  using HasBits = decltype(std::declval<ReleaseWindowRes>()._impl_._has_bits_);
   static const ::SMBlob::EmbeddedWindows::Scheme::Status& status(const ReleaseWindowRes* msg);
   static const ::SMBlob::EmbeddedWindows::Scheme::Window& parentwindow(const ReleaseWindowRes* msg);
   static const ::SMBlob::EmbeddedWindows::Scheme::Window& window(const ReleaseWindowRes* msg);
+  static void set_has_tag(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
 };
 
 const ::SMBlob::EmbeddedWindows::Scheme::Status&
@@ -2809,12 +3579,22 @@ ReleaseWindowRes::ReleaseWindowRes(const ReleaseWindowRes& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   ReleaseWindowRes* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.status_){nullptr}
+      decltype(_impl_._has_bits_){from._impl_._has_bits_}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.tag_){}
+    , decltype(_impl_.status_){nullptr}
     , decltype(_impl_.parentwindow_){nullptr}
-    , decltype(_impl_.window_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}};
+    , decltype(_impl_.window_){nullptr}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.tag_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (from._internal_has_tag()) {
+    _this->_impl_.tag_.Set(from._internal_tag(), 
+      _this->GetArenaForAllocation());
+  }
   if (from._internal_has_status()) {
     _this->_impl_.status_ = new ::SMBlob::EmbeddedWindows::Scheme::Status(*from._impl_.status_);
   }
@@ -2832,11 +3612,17 @@ inline void ReleaseWindowRes::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.status_){nullptr}
+      decltype(_impl_._has_bits_){}
+    , /*decltype(_impl_._cached_size_)*/{}
+    , decltype(_impl_.tag_){}
+    , decltype(_impl_.status_){nullptr}
     , decltype(_impl_.parentwindow_){nullptr}
     , decltype(_impl_.window_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}
   };
+  _impl_.tag_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
 ReleaseWindowRes::~ReleaseWindowRes() {
@@ -2850,6 +3636,7 @@ ReleaseWindowRes::~ReleaseWindowRes() {
 
 inline void ReleaseWindowRes::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.tag_.Destroy();
   if (this != internal_default_instance()) delete _impl_.status_;
   if (this != internal_default_instance()) delete _impl_.parentwindow_;
   if (this != internal_default_instance()) delete _impl_.window_;
@@ -2865,6 +3652,10 @@ void ReleaseWindowRes::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    _impl_.tag_.ClearNonDefaultToEmpty();
+  }
   if (GetArenaForAllocation() == nullptr && _impl_.status_ != nullptr) {
     delete _impl_.status_;
   }
@@ -2877,11 +3668,13 @@ void ReleaseWindowRes::Clear() {
     delete _impl_.window_;
   }
   _impl_.window_ = nullptr;
+  _impl_._has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* ReleaseWindowRes::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
@@ -2910,6 +3703,16 @@ const char* ReleaseWindowRes::_InternalParse(const char* ptr, ::_pbi::ParseConte
         } else
           goto handle_unusual;
         continue;
+      // optional string tag = 1001;
+      case 1001:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
+          auto str = _internal_mutable_tag();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "SMBlob.EmbeddedWindows.Scheme.ReleaseWindowRes.tag"));
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -2926,6 +3729,7 @@ const char* ReleaseWindowRes::_InternalParse(const char* ptr, ::_pbi::ParseConte
     CHK_(ptr != nullptr);
   }  // while
 message_done:
+  _impl_._has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -2960,6 +3764,16 @@ uint8_t* ReleaseWindowRes::_InternalSerialize(
         _Internal::window(this).GetCachedSize(), target, stream);
   }
 
+  // optional string tag = 1001;
+  if (_internal_has_tag()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_tag().data(), static_cast<int>(this->_internal_tag().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "SMBlob.EmbeddedWindows.Scheme.ReleaseWindowRes.tag");
+    target = stream->WriteStringMaybeAliased(
+        1001, this->_internal_tag(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2975,6 +3789,14 @@ size_t ReleaseWindowRes::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // optional string tag = 1001;
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_tag());
+  }
 
   // .SMBlob.EmbeddedWindows.Scheme.Status status = 1;
   if (this->_internal_has_status()) {
@@ -3015,6 +3837,9 @@ void ReleaseWindowRes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_has_tag()) {
+    _this->_internal_set_tag(from._internal_tag());
+  }
   if (from._internal_has_status()) {
     _this->_internal_mutable_status()->::SMBlob::EmbeddedWindows::Scheme::Status::MergeFrom(
         from._internal_status());
@@ -3043,7 +3868,14 @@ bool ReleaseWindowRes::IsInitialized() const {
 
 void ReleaseWindowRes::InternalSwap(ReleaseWindowRes* other) {
   using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.tag_, lhs_arena,
+      &other->_impl_.tag_, rhs_arena
+  );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(ReleaseWindowRes, _impl_.window_)
       + sizeof(ReleaseWindowRes::_impl_.window_)

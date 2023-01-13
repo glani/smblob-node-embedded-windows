@@ -23,7 +23,6 @@
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/arena.h>
 #include <google/protobuf/arenastring.h>
-#include <google/protobuf/generated_message_bases.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/metadata_lite.h>
 #include <google/protobuf/generated_message_reflection.h>
@@ -515,9 +514,10 @@ class Status final :
 // -------------------------------------------------------------------
 
 class CloseApplicationReq final :
-    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:SMBlob.EmbeddedWindows.Scheme.CloseApplicationReq) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SMBlob.EmbeddedWindows.Scheme.CloseApplicationReq) */ {
  public:
   inline CloseApplicationReq() : CloseApplicationReq(nullptr) {}
+  ~CloseApplicationReq() override;
   explicit PROTOBUF_CONSTEXPR CloseApplicationReq(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
   CloseApplicationReq(const CloseApplicationReq& from);
@@ -590,15 +590,29 @@ class CloseApplicationReq final :
   CloseApplicationReq* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
     return CreateMaybeMessage<CloseApplicationReq>(arena);
   }
-  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyFrom;
-  inline void CopyFrom(const CloseApplicationReq& from) {
-    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const CloseApplicationReq& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const CloseApplicationReq& from) {
+    CloseApplicationReq::MergeImpl(*this, from);
   }
-  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeFrom;
-  void MergeFrom(const CloseApplicationReq& from) {
-    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl(*this, from);
-  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
   public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CloseApplicationReq* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
@@ -619,6 +633,27 @@ class CloseApplicationReq final :
 
   // accessors -------------------------------------------------------
 
+  enum : int {
+    kTagFieldNumber = 1001,
+  };
+  // optional string tag = 1001;
+  bool has_tag() const;
+  private:
+  bool _internal_has_tag() const;
+  public:
+  void clear_tag();
+  const std::string& tag() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_tag(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_tag();
+  PROTOBUF_NODISCARD std::string* release_tag();
+  void set_allocated_tag(std::string* tag);
+  private:
+  const std::string& _internal_tag() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_tag(const std::string& value);
+  std::string* _internal_mutable_tag();
+  public:
+
   // @@protoc_insertion_point(class_scope:SMBlob.EmbeddedWindows.Scheme.CloseApplicationReq)
  private:
   class _Internal;
@@ -627,7 +662,11 @@ class CloseApplicationReq final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr tag_;
   };
+  union { Impl_ _impl_; };
   friend struct ::TableStruct_embedded_2dwindows_2escheme_2eproto;
 };
 // -------------------------------------------------------------------
@@ -753,8 +792,27 @@ class CloseApplicationRes final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kTagFieldNumber = 1001,
     kStatusFieldNumber = 1,
   };
+  // optional string tag = 1001;
+  bool has_tag() const;
+  private:
+  bool _internal_has_tag() const;
+  public:
+  void clear_tag();
+  const std::string& tag() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_tag(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_tag();
+  PROTOBUF_NODISCARD std::string* release_tag();
+  void set_allocated_tag(std::string* tag);
+  private:
+  const std::string& _internal_tag() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_tag(const std::string& value);
+  std::string* _internal_mutable_tag();
+  public:
+
   // .SMBlob.EmbeddedWindows.Scheme.Status status = 1;
   bool has_status() const;
   private:
@@ -781,8 +839,10 @@ class CloseApplicationRes final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::SMBlob::EmbeddedWindows::Scheme::Status* status_;
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr tag_;
+    ::SMBlob::EmbeddedWindows::Scheme::Status* status_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_embedded_2dwindows_2escheme_2eproto;
@@ -910,8 +970,27 @@ class ConnectApplicationRes final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kTagFieldNumber = 1001,
     kStatusFieldNumber = 1,
   };
+  // optional string tag = 1001;
+  bool has_tag() const;
+  private:
+  bool _internal_has_tag() const;
+  public:
+  void clear_tag();
+  const std::string& tag() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_tag(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_tag();
+  PROTOBUF_NODISCARD std::string* release_tag();
+  void set_allocated_tag(std::string* tag);
+  private:
+  const std::string& _internal_tag() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_tag(const std::string& value);
+  std::string* _internal_mutable_tag();
+  public:
+
   // .SMBlob.EmbeddedWindows.Scheme.Status status = 1;
   bool has_status() const;
   private:
@@ -938,8 +1017,10 @@ class ConnectApplicationRes final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::SMBlob::EmbeddedWindows::Scheme::Status* status_;
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr tag_;
+    ::SMBlob::EmbeddedWindows::Scheme::Status* status_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_embedded_2dwindows_2escheme_2eproto;
@@ -1067,8 +1148,27 @@ class InitApplicationRes final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kTagFieldNumber = 1001,
     kStatusFieldNumber = 1,
   };
+  // optional string tag = 1001;
+  bool has_tag() const;
+  private:
+  bool _internal_has_tag() const;
+  public:
+  void clear_tag();
+  const std::string& tag() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_tag(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_tag();
+  PROTOBUF_NODISCARD std::string* release_tag();
+  void set_allocated_tag(std::string* tag);
+  private:
+  const std::string& _internal_tag() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_tag(const std::string& value);
+  std::string* _internal_mutable_tag();
+  public:
+
   // .SMBlob.EmbeddedWindows.Scheme.Status status = 1;
   bool has_status() const;
   private:
@@ -1095,8 +1195,10 @@ class InitApplicationRes final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::SMBlob::EmbeddedWindows::Scheme::Status* status_;
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr tag_;
+    ::SMBlob::EmbeddedWindows::Scheme::Status* status_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_embedded_2dwindows_2escheme_2eproto;
@@ -1224,8 +1326,27 @@ class CloseWindowReq final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kTagFieldNumber = 1001,
     kWindowFieldNumber = 1,
   };
+  // optional string tag = 1001;
+  bool has_tag() const;
+  private:
+  bool _internal_has_tag() const;
+  public:
+  void clear_tag();
+  const std::string& tag() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_tag(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_tag();
+  PROTOBUF_NODISCARD std::string* release_tag();
+  void set_allocated_tag(std::string* tag);
+  private:
+  const std::string& _internal_tag() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_tag(const std::string& value);
+  std::string* _internal_mutable_tag();
+  public:
+
   // .SMBlob.EmbeddedWindows.Scheme.Window window = 1;
   bool has_window() const;
   private:
@@ -1252,8 +1373,10 @@ class CloseWindowReq final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::SMBlob::EmbeddedWindows::Scheme::Window* window_;
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr tag_;
+    ::SMBlob::EmbeddedWindows::Scheme::Window* window_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_embedded_2dwindows_2escheme_2eproto;
@@ -1381,8 +1504,27 @@ class CloseWindowRes final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kTagFieldNumber = 1001,
     kStatusFieldNumber = 1,
   };
+  // optional string tag = 1001;
+  bool has_tag() const;
+  private:
+  bool _internal_has_tag() const;
+  public:
+  void clear_tag();
+  const std::string& tag() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_tag(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_tag();
+  PROTOBUF_NODISCARD std::string* release_tag();
+  void set_allocated_tag(std::string* tag);
+  private:
+  const std::string& _internal_tag() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_tag(const std::string& value);
+  std::string* _internal_mutable_tag();
+  public:
+
   // .SMBlob.EmbeddedWindows.Scheme.Status status = 1;
   bool has_status() const;
   private:
@@ -1409,8 +1551,10 @@ class CloseWindowRes final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::SMBlob::EmbeddedWindows::Scheme::Status* status_;
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr tag_;
+    ::SMBlob::EmbeddedWindows::Scheme::Status* status_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_embedded_2dwindows_2escheme_2eproto;
@@ -1538,8 +1682,27 @@ class EmbedWindowReq final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kTagFieldNumber = 1001,
     kWindowFieldNumber = 1,
   };
+  // optional string tag = 1001;
+  bool has_tag() const;
+  private:
+  bool _internal_has_tag() const;
+  public:
+  void clear_tag();
+  const std::string& tag() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_tag(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_tag();
+  PROTOBUF_NODISCARD std::string* release_tag();
+  void set_allocated_tag(std::string* tag);
+  private:
+  const std::string& _internal_tag() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_tag(const std::string& value);
+  std::string* _internal_mutable_tag();
+  public:
+
   // .SMBlob.EmbeddedWindows.Scheme.Window window = 1;
   bool has_window() const;
   private:
@@ -1566,8 +1729,10 @@ class EmbedWindowReq final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::SMBlob::EmbeddedWindows::Scheme::Window* window_;
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr tag_;
+    ::SMBlob::EmbeddedWindows::Scheme::Window* window_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_embedded_2dwindows_2escheme_2eproto;
@@ -1695,10 +1860,29 @@ class EmbedWindowRes final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kTagFieldNumber = 1001,
     kStatusFieldNumber = 1,
     kWindowFieldNumber = 2,
     kParentWindowFieldNumber = 3,
   };
+  // optional string tag = 1001;
+  bool has_tag() const;
+  private:
+  bool _internal_has_tag() const;
+  public:
+  void clear_tag();
+  const std::string& tag() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_tag(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_tag();
+  PROTOBUF_NODISCARD std::string* release_tag();
+  void set_allocated_tag(std::string* tag);
+  private:
+  const std::string& _internal_tag() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_tag(const std::string& value);
+  std::string* _internal_mutable_tag();
+  public:
+
   // .SMBlob.EmbeddedWindows.Scheme.Status status = 1;
   bool has_status() const;
   private:
@@ -1761,10 +1945,12 @@ class EmbedWindowRes final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr tag_;
     ::SMBlob::EmbeddedWindows::Scheme::Status* status_;
     ::SMBlob::EmbeddedWindows::Scheme::Window* window_;
     ::SMBlob::EmbeddedWindows::Scheme::Window* parentwindow_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_embedded_2dwindows_2escheme_2eproto;
@@ -1892,8 +2078,27 @@ class ReleaseWindowReq final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kTagFieldNumber = 1001,
     kParentWindowFieldNumber = 1,
   };
+  // optional string tag = 1001;
+  bool has_tag() const;
+  private:
+  bool _internal_has_tag() const;
+  public:
+  void clear_tag();
+  const std::string& tag() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_tag(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_tag();
+  PROTOBUF_NODISCARD std::string* release_tag();
+  void set_allocated_tag(std::string* tag);
+  private:
+  const std::string& _internal_tag() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_tag(const std::string& value);
+  std::string* _internal_mutable_tag();
+  public:
+
   // .SMBlob.EmbeddedWindows.Scheme.Window parentWindow = 1;
   bool has_parentwindow() const;
   private:
@@ -1920,8 +2125,10 @@ class ReleaseWindowReq final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::SMBlob::EmbeddedWindows::Scheme::Window* parentwindow_;
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr tag_;
+    ::SMBlob::EmbeddedWindows::Scheme::Window* parentwindow_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_embedded_2dwindows_2escheme_2eproto;
@@ -2049,10 +2256,29 @@ class ReleaseWindowRes final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kTagFieldNumber = 1001,
     kStatusFieldNumber = 1,
     kParentWindowFieldNumber = 2,
     kWindowFieldNumber = 3,
   };
+  // optional string tag = 1001;
+  bool has_tag() const;
+  private:
+  bool _internal_has_tag() const;
+  public:
+  void clear_tag();
+  const std::string& tag() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_tag(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_tag();
+  PROTOBUF_NODISCARD std::string* release_tag();
+  void set_allocated_tag(std::string* tag);
+  private:
+  const std::string& _internal_tag() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_tag(const std::string& value);
+  std::string* _internal_mutable_tag();
+  public:
+
   // .SMBlob.EmbeddedWindows.Scheme.Status status = 1;
   bool has_status() const;
   private:
@@ -2115,10 +2341,12 @@ class ReleaseWindowRes final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr tag_;
     ::SMBlob::EmbeddedWindows::Scheme::Status* status_;
     ::SMBlob::EmbeddedWindows::Scheme::Window* parentwindow_;
     ::SMBlob::EmbeddedWindows::Scheme::Window* window_;
-    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
   friend struct ::TableStruct_embedded_2dwindows_2escheme_2eproto;
@@ -2986,6 +3214,74 @@ inline void Status::set_time(uint64_t value) {
 
 // CloseApplicationReq
 
+// optional string tag = 1001;
+inline bool CloseApplicationReq::_internal_has_tag() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool CloseApplicationReq::has_tag() const {
+  return _internal_has_tag();
+}
+inline void CloseApplicationReq::clear_tag() {
+  _impl_.tag_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& CloseApplicationReq::tag() const {
+  // @@protoc_insertion_point(field_get:SMBlob.EmbeddedWindows.Scheme.CloseApplicationReq.tag)
+  return _internal_tag();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void CloseApplicationReq::set_tag(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.tag_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:SMBlob.EmbeddedWindows.Scheme.CloseApplicationReq.tag)
+}
+inline std::string* CloseApplicationReq::mutable_tag() {
+  std::string* _s = _internal_mutable_tag();
+  // @@protoc_insertion_point(field_mutable:SMBlob.EmbeddedWindows.Scheme.CloseApplicationReq.tag)
+  return _s;
+}
+inline const std::string& CloseApplicationReq::_internal_tag() const {
+  return _impl_.tag_.Get();
+}
+inline void CloseApplicationReq::_internal_set_tag(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.tag_.Set(value, GetArenaForAllocation());
+}
+inline std::string* CloseApplicationReq::_internal_mutable_tag() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.tag_.Mutable(GetArenaForAllocation());
+}
+inline std::string* CloseApplicationReq::release_tag() {
+  // @@protoc_insertion_point(field_release:SMBlob.EmbeddedWindows.Scheme.CloseApplicationReq.tag)
+  if (!_internal_has_tag()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.tag_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.tag_.IsDefault()) {
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void CloseApplicationReq::set_allocated_tag(std::string* tag) {
+  if (tag != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.tag_.SetAllocated(tag, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.tag_.IsDefault()) {
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:SMBlob.EmbeddedWindows.Scheme.CloseApplicationReq.tag)
+}
+
 // -------------------------------------------------------------------
 
 // CloseApplicationRes
@@ -3078,6 +3374,74 @@ inline void CloseApplicationRes::set_allocated_status(::SMBlob::EmbeddedWindows:
   }
   _impl_.status_ = status;
   // @@protoc_insertion_point(field_set_allocated:SMBlob.EmbeddedWindows.Scheme.CloseApplicationRes.status)
+}
+
+// optional string tag = 1001;
+inline bool CloseApplicationRes::_internal_has_tag() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool CloseApplicationRes::has_tag() const {
+  return _internal_has_tag();
+}
+inline void CloseApplicationRes::clear_tag() {
+  _impl_.tag_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& CloseApplicationRes::tag() const {
+  // @@protoc_insertion_point(field_get:SMBlob.EmbeddedWindows.Scheme.CloseApplicationRes.tag)
+  return _internal_tag();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void CloseApplicationRes::set_tag(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.tag_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:SMBlob.EmbeddedWindows.Scheme.CloseApplicationRes.tag)
+}
+inline std::string* CloseApplicationRes::mutable_tag() {
+  std::string* _s = _internal_mutable_tag();
+  // @@protoc_insertion_point(field_mutable:SMBlob.EmbeddedWindows.Scheme.CloseApplicationRes.tag)
+  return _s;
+}
+inline const std::string& CloseApplicationRes::_internal_tag() const {
+  return _impl_.tag_.Get();
+}
+inline void CloseApplicationRes::_internal_set_tag(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.tag_.Set(value, GetArenaForAllocation());
+}
+inline std::string* CloseApplicationRes::_internal_mutable_tag() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.tag_.Mutable(GetArenaForAllocation());
+}
+inline std::string* CloseApplicationRes::release_tag() {
+  // @@protoc_insertion_point(field_release:SMBlob.EmbeddedWindows.Scheme.CloseApplicationRes.tag)
+  if (!_internal_has_tag()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.tag_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.tag_.IsDefault()) {
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void CloseApplicationRes::set_allocated_tag(std::string* tag) {
+  if (tag != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.tag_.SetAllocated(tag, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.tag_.IsDefault()) {
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:SMBlob.EmbeddedWindows.Scheme.CloseApplicationRes.tag)
 }
 
 // -------------------------------------------------------------------
@@ -3174,6 +3538,74 @@ inline void ConnectApplicationRes::set_allocated_status(::SMBlob::EmbeddedWindow
   // @@protoc_insertion_point(field_set_allocated:SMBlob.EmbeddedWindows.Scheme.ConnectApplicationRes.status)
 }
 
+// optional string tag = 1001;
+inline bool ConnectApplicationRes::_internal_has_tag() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool ConnectApplicationRes::has_tag() const {
+  return _internal_has_tag();
+}
+inline void ConnectApplicationRes::clear_tag() {
+  _impl_.tag_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& ConnectApplicationRes::tag() const {
+  // @@protoc_insertion_point(field_get:SMBlob.EmbeddedWindows.Scheme.ConnectApplicationRes.tag)
+  return _internal_tag();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ConnectApplicationRes::set_tag(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.tag_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:SMBlob.EmbeddedWindows.Scheme.ConnectApplicationRes.tag)
+}
+inline std::string* ConnectApplicationRes::mutable_tag() {
+  std::string* _s = _internal_mutable_tag();
+  // @@protoc_insertion_point(field_mutable:SMBlob.EmbeddedWindows.Scheme.ConnectApplicationRes.tag)
+  return _s;
+}
+inline const std::string& ConnectApplicationRes::_internal_tag() const {
+  return _impl_.tag_.Get();
+}
+inline void ConnectApplicationRes::_internal_set_tag(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.tag_.Set(value, GetArenaForAllocation());
+}
+inline std::string* ConnectApplicationRes::_internal_mutable_tag() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.tag_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ConnectApplicationRes::release_tag() {
+  // @@protoc_insertion_point(field_release:SMBlob.EmbeddedWindows.Scheme.ConnectApplicationRes.tag)
+  if (!_internal_has_tag()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.tag_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.tag_.IsDefault()) {
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void ConnectApplicationRes::set_allocated_tag(std::string* tag) {
+  if (tag != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.tag_.SetAllocated(tag, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.tag_.IsDefault()) {
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:SMBlob.EmbeddedWindows.Scheme.ConnectApplicationRes.tag)
+}
+
 // -------------------------------------------------------------------
 
 // InitApplicationRes
@@ -3266,6 +3698,74 @@ inline void InitApplicationRes::set_allocated_status(::SMBlob::EmbeddedWindows::
   }
   _impl_.status_ = status;
   // @@protoc_insertion_point(field_set_allocated:SMBlob.EmbeddedWindows.Scheme.InitApplicationRes.status)
+}
+
+// optional string tag = 1001;
+inline bool InitApplicationRes::_internal_has_tag() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool InitApplicationRes::has_tag() const {
+  return _internal_has_tag();
+}
+inline void InitApplicationRes::clear_tag() {
+  _impl_.tag_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& InitApplicationRes::tag() const {
+  // @@protoc_insertion_point(field_get:SMBlob.EmbeddedWindows.Scheme.InitApplicationRes.tag)
+  return _internal_tag();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void InitApplicationRes::set_tag(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.tag_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:SMBlob.EmbeddedWindows.Scheme.InitApplicationRes.tag)
+}
+inline std::string* InitApplicationRes::mutable_tag() {
+  std::string* _s = _internal_mutable_tag();
+  // @@protoc_insertion_point(field_mutable:SMBlob.EmbeddedWindows.Scheme.InitApplicationRes.tag)
+  return _s;
+}
+inline const std::string& InitApplicationRes::_internal_tag() const {
+  return _impl_.tag_.Get();
+}
+inline void InitApplicationRes::_internal_set_tag(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.tag_.Set(value, GetArenaForAllocation());
+}
+inline std::string* InitApplicationRes::_internal_mutable_tag() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.tag_.Mutable(GetArenaForAllocation());
+}
+inline std::string* InitApplicationRes::release_tag() {
+  // @@protoc_insertion_point(field_release:SMBlob.EmbeddedWindows.Scheme.InitApplicationRes.tag)
+  if (!_internal_has_tag()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.tag_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.tag_.IsDefault()) {
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void InitApplicationRes::set_allocated_tag(std::string* tag) {
+  if (tag != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.tag_.SetAllocated(tag, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.tag_.IsDefault()) {
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:SMBlob.EmbeddedWindows.Scheme.InitApplicationRes.tag)
 }
 
 // -------------------------------------------------------------------
@@ -3362,6 +3862,74 @@ inline void CloseWindowReq::set_allocated_window(::SMBlob::EmbeddedWindows::Sche
   // @@protoc_insertion_point(field_set_allocated:SMBlob.EmbeddedWindows.Scheme.CloseWindowReq.window)
 }
 
+// optional string tag = 1001;
+inline bool CloseWindowReq::_internal_has_tag() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool CloseWindowReq::has_tag() const {
+  return _internal_has_tag();
+}
+inline void CloseWindowReq::clear_tag() {
+  _impl_.tag_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& CloseWindowReq::tag() const {
+  // @@protoc_insertion_point(field_get:SMBlob.EmbeddedWindows.Scheme.CloseWindowReq.tag)
+  return _internal_tag();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void CloseWindowReq::set_tag(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.tag_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:SMBlob.EmbeddedWindows.Scheme.CloseWindowReq.tag)
+}
+inline std::string* CloseWindowReq::mutable_tag() {
+  std::string* _s = _internal_mutable_tag();
+  // @@protoc_insertion_point(field_mutable:SMBlob.EmbeddedWindows.Scheme.CloseWindowReq.tag)
+  return _s;
+}
+inline const std::string& CloseWindowReq::_internal_tag() const {
+  return _impl_.tag_.Get();
+}
+inline void CloseWindowReq::_internal_set_tag(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.tag_.Set(value, GetArenaForAllocation());
+}
+inline std::string* CloseWindowReq::_internal_mutable_tag() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.tag_.Mutable(GetArenaForAllocation());
+}
+inline std::string* CloseWindowReq::release_tag() {
+  // @@protoc_insertion_point(field_release:SMBlob.EmbeddedWindows.Scheme.CloseWindowReq.tag)
+  if (!_internal_has_tag()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.tag_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.tag_.IsDefault()) {
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void CloseWindowReq::set_allocated_tag(std::string* tag) {
+  if (tag != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.tag_.SetAllocated(tag, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.tag_.IsDefault()) {
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:SMBlob.EmbeddedWindows.Scheme.CloseWindowReq.tag)
+}
+
 // -------------------------------------------------------------------
 
 // CloseWindowRes
@@ -3456,6 +4024,74 @@ inline void CloseWindowRes::set_allocated_status(::SMBlob::EmbeddedWindows::Sche
   // @@protoc_insertion_point(field_set_allocated:SMBlob.EmbeddedWindows.Scheme.CloseWindowRes.status)
 }
 
+// optional string tag = 1001;
+inline bool CloseWindowRes::_internal_has_tag() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool CloseWindowRes::has_tag() const {
+  return _internal_has_tag();
+}
+inline void CloseWindowRes::clear_tag() {
+  _impl_.tag_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& CloseWindowRes::tag() const {
+  // @@protoc_insertion_point(field_get:SMBlob.EmbeddedWindows.Scheme.CloseWindowRes.tag)
+  return _internal_tag();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void CloseWindowRes::set_tag(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.tag_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:SMBlob.EmbeddedWindows.Scheme.CloseWindowRes.tag)
+}
+inline std::string* CloseWindowRes::mutable_tag() {
+  std::string* _s = _internal_mutable_tag();
+  // @@protoc_insertion_point(field_mutable:SMBlob.EmbeddedWindows.Scheme.CloseWindowRes.tag)
+  return _s;
+}
+inline const std::string& CloseWindowRes::_internal_tag() const {
+  return _impl_.tag_.Get();
+}
+inline void CloseWindowRes::_internal_set_tag(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.tag_.Set(value, GetArenaForAllocation());
+}
+inline std::string* CloseWindowRes::_internal_mutable_tag() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.tag_.Mutable(GetArenaForAllocation());
+}
+inline std::string* CloseWindowRes::release_tag() {
+  // @@protoc_insertion_point(field_release:SMBlob.EmbeddedWindows.Scheme.CloseWindowRes.tag)
+  if (!_internal_has_tag()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.tag_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.tag_.IsDefault()) {
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void CloseWindowRes::set_allocated_tag(std::string* tag) {
+  if (tag != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.tag_.SetAllocated(tag, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.tag_.IsDefault()) {
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:SMBlob.EmbeddedWindows.Scheme.CloseWindowRes.tag)
+}
+
 // -------------------------------------------------------------------
 
 // EmbedWindowReq
@@ -3548,6 +4184,74 @@ inline void EmbedWindowReq::set_allocated_window(::SMBlob::EmbeddedWindows::Sche
   }
   _impl_.window_ = window;
   // @@protoc_insertion_point(field_set_allocated:SMBlob.EmbeddedWindows.Scheme.EmbedWindowReq.window)
+}
+
+// optional string tag = 1001;
+inline bool EmbedWindowReq::_internal_has_tag() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool EmbedWindowReq::has_tag() const {
+  return _internal_has_tag();
+}
+inline void EmbedWindowReq::clear_tag() {
+  _impl_.tag_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& EmbedWindowReq::tag() const {
+  // @@protoc_insertion_point(field_get:SMBlob.EmbeddedWindows.Scheme.EmbedWindowReq.tag)
+  return _internal_tag();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void EmbedWindowReq::set_tag(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.tag_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:SMBlob.EmbeddedWindows.Scheme.EmbedWindowReq.tag)
+}
+inline std::string* EmbedWindowReq::mutable_tag() {
+  std::string* _s = _internal_mutable_tag();
+  // @@protoc_insertion_point(field_mutable:SMBlob.EmbeddedWindows.Scheme.EmbedWindowReq.tag)
+  return _s;
+}
+inline const std::string& EmbedWindowReq::_internal_tag() const {
+  return _impl_.tag_.Get();
+}
+inline void EmbedWindowReq::_internal_set_tag(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.tag_.Set(value, GetArenaForAllocation());
+}
+inline std::string* EmbedWindowReq::_internal_mutable_tag() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.tag_.Mutable(GetArenaForAllocation());
+}
+inline std::string* EmbedWindowReq::release_tag() {
+  // @@protoc_insertion_point(field_release:SMBlob.EmbeddedWindows.Scheme.EmbedWindowReq.tag)
+  if (!_internal_has_tag()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.tag_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.tag_.IsDefault()) {
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void EmbedWindowReq::set_allocated_tag(std::string* tag) {
+  if (tag != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.tag_.SetAllocated(tag, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.tag_.IsDefault()) {
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:SMBlob.EmbeddedWindows.Scheme.EmbedWindowReq.tag)
 }
 
 // -------------------------------------------------------------------
@@ -3824,6 +4528,74 @@ inline void EmbedWindowRes::set_allocated_parentwindow(::SMBlob::EmbeddedWindows
   // @@protoc_insertion_point(field_set_allocated:SMBlob.EmbeddedWindows.Scheme.EmbedWindowRes.parentWindow)
 }
 
+// optional string tag = 1001;
+inline bool EmbedWindowRes::_internal_has_tag() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool EmbedWindowRes::has_tag() const {
+  return _internal_has_tag();
+}
+inline void EmbedWindowRes::clear_tag() {
+  _impl_.tag_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& EmbedWindowRes::tag() const {
+  // @@protoc_insertion_point(field_get:SMBlob.EmbeddedWindows.Scheme.EmbedWindowRes.tag)
+  return _internal_tag();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void EmbedWindowRes::set_tag(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.tag_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:SMBlob.EmbeddedWindows.Scheme.EmbedWindowRes.tag)
+}
+inline std::string* EmbedWindowRes::mutable_tag() {
+  std::string* _s = _internal_mutable_tag();
+  // @@protoc_insertion_point(field_mutable:SMBlob.EmbeddedWindows.Scheme.EmbedWindowRes.tag)
+  return _s;
+}
+inline const std::string& EmbedWindowRes::_internal_tag() const {
+  return _impl_.tag_.Get();
+}
+inline void EmbedWindowRes::_internal_set_tag(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.tag_.Set(value, GetArenaForAllocation());
+}
+inline std::string* EmbedWindowRes::_internal_mutable_tag() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.tag_.Mutable(GetArenaForAllocation());
+}
+inline std::string* EmbedWindowRes::release_tag() {
+  // @@protoc_insertion_point(field_release:SMBlob.EmbeddedWindows.Scheme.EmbedWindowRes.tag)
+  if (!_internal_has_tag()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.tag_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.tag_.IsDefault()) {
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void EmbedWindowRes::set_allocated_tag(std::string* tag) {
+  if (tag != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.tag_.SetAllocated(tag, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.tag_.IsDefault()) {
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:SMBlob.EmbeddedWindows.Scheme.EmbedWindowRes.tag)
+}
+
 // -------------------------------------------------------------------
 
 // ReleaseWindowReq
@@ -3916,6 +4688,74 @@ inline void ReleaseWindowReq::set_allocated_parentwindow(::SMBlob::EmbeddedWindo
   }
   _impl_.parentwindow_ = parentwindow;
   // @@protoc_insertion_point(field_set_allocated:SMBlob.EmbeddedWindows.Scheme.ReleaseWindowReq.parentWindow)
+}
+
+// optional string tag = 1001;
+inline bool ReleaseWindowReq::_internal_has_tag() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool ReleaseWindowReq::has_tag() const {
+  return _internal_has_tag();
+}
+inline void ReleaseWindowReq::clear_tag() {
+  _impl_.tag_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& ReleaseWindowReq::tag() const {
+  // @@protoc_insertion_point(field_get:SMBlob.EmbeddedWindows.Scheme.ReleaseWindowReq.tag)
+  return _internal_tag();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ReleaseWindowReq::set_tag(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.tag_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:SMBlob.EmbeddedWindows.Scheme.ReleaseWindowReq.tag)
+}
+inline std::string* ReleaseWindowReq::mutable_tag() {
+  std::string* _s = _internal_mutable_tag();
+  // @@protoc_insertion_point(field_mutable:SMBlob.EmbeddedWindows.Scheme.ReleaseWindowReq.tag)
+  return _s;
+}
+inline const std::string& ReleaseWindowReq::_internal_tag() const {
+  return _impl_.tag_.Get();
+}
+inline void ReleaseWindowReq::_internal_set_tag(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.tag_.Set(value, GetArenaForAllocation());
+}
+inline std::string* ReleaseWindowReq::_internal_mutable_tag() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.tag_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ReleaseWindowReq::release_tag() {
+  // @@protoc_insertion_point(field_release:SMBlob.EmbeddedWindows.Scheme.ReleaseWindowReq.tag)
+  if (!_internal_has_tag()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.tag_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.tag_.IsDefault()) {
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void ReleaseWindowReq::set_allocated_tag(std::string* tag) {
+  if (tag != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.tag_.SetAllocated(tag, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.tag_.IsDefault()) {
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:SMBlob.EmbeddedWindows.Scheme.ReleaseWindowReq.tag)
 }
 
 // -------------------------------------------------------------------
@@ -4190,6 +5030,74 @@ inline void ReleaseWindowRes::set_allocated_window(::SMBlob::EmbeddedWindows::Sc
   }
   _impl_.window_ = window;
   // @@protoc_insertion_point(field_set_allocated:SMBlob.EmbeddedWindows.Scheme.ReleaseWindowRes.window)
+}
+
+// optional string tag = 1001;
+inline bool ReleaseWindowRes::_internal_has_tag() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool ReleaseWindowRes::has_tag() const {
+  return _internal_has_tag();
+}
+inline void ReleaseWindowRes::clear_tag() {
+  _impl_.tag_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& ReleaseWindowRes::tag() const {
+  // @@protoc_insertion_point(field_get:SMBlob.EmbeddedWindows.Scheme.ReleaseWindowRes.tag)
+  return _internal_tag();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ReleaseWindowRes::set_tag(ArgT0&& arg0, ArgT... args) {
+ _impl_._has_bits_[0] |= 0x00000001u;
+ _impl_.tag_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:SMBlob.EmbeddedWindows.Scheme.ReleaseWindowRes.tag)
+}
+inline std::string* ReleaseWindowRes::mutable_tag() {
+  std::string* _s = _internal_mutable_tag();
+  // @@protoc_insertion_point(field_mutable:SMBlob.EmbeddedWindows.Scheme.ReleaseWindowRes.tag)
+  return _s;
+}
+inline const std::string& ReleaseWindowRes::_internal_tag() const {
+  return _impl_.tag_.Get();
+}
+inline void ReleaseWindowRes::_internal_set_tag(const std::string& value) {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.tag_.Set(value, GetArenaForAllocation());
+}
+inline std::string* ReleaseWindowRes::_internal_mutable_tag() {
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.tag_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ReleaseWindowRes::release_tag() {
+  // @@protoc_insertion_point(field_release:SMBlob.EmbeddedWindows.Scheme.ReleaseWindowRes.tag)
+  if (!_internal_has_tag()) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* p = _impl_.tag_.Release();
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.tag_.IsDefault()) {
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return p;
+}
+inline void ReleaseWindowRes::set_allocated_tag(std::string* tag) {
+  if (tag != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.tag_.SetAllocated(tag, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.tag_.IsDefault()) {
+    _impl_.tag_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:SMBlob.EmbeddedWindows.Scheme.ReleaseWindowRes.tag)
 }
 
 // -------------------------------------------------------------------
