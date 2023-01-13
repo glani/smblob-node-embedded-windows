@@ -23,10 +23,10 @@ int main(int argc, char **argv) {
     );
 #endif
 
-    plog::init<SecondLog>(plog::Severity::debug);
+    plog::init<SecondaryLog>(plog::Severity::debug);
 
     auto consoleAppender = std::make_shared<plog::ConsoleAppender<plog::TxtFormatter>>();
-    plog::get<SecondLog>()->addAppender(consoleAppender.get());
+    plog::get<SecondaryLog>()->addAppender(consoleAppender.get());
 
     ProcessRunner runner;
     auto runnerArgvPtr = std::unique_ptr<char*[]>(
@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
     );
     runner.RunCommand("/usr/bin/xdotool", runnerArgvPtr.get(), 3);
 
-    PLOGD_(SecondLog) << "window Id:" << runner.getOutput();
+    PLOGD_(SecondaryLog) << "window Id:" << runner.getOutput();
 
     SMBlob::EmbeddedWindows::SMBlobAppInitConsumer params;
     params.daemonExec = daemonExec;

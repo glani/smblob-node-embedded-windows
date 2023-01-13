@@ -4,6 +4,12 @@
 #include <memory>
 #include <iostream>
 
+
+enum // Define log instanceIds. Default is 0 and is omitted from this enum.
+{
+    SecondaryLog = 1
+};
+
 class ProcessRunner {
 public:
     ProcessRunner();

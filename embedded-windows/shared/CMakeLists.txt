@@ -11,6 +11,7 @@ set(EMBEDDED_WINDOWS_SRC
         )
 set(EMBEDDED_WINDOWS_HEADER
         include/SMBlobNodeEmbeddedWindowsShared.h
+        include/ProcessRunner.h
         include/SMBlobNodeEmbeddedWindowsSharedModels.h
         include/internal/SMBlobNodeEmbeddedWindowsSharedPbModels.h
         include/internal/SMBlobNodeEmbeddedWindowsSharedInternal.h
@@ -20,6 +21,7 @@ set(EMBEDDED_WINDOWS_HEADER
 list(APPEND
         EMBEDDED_WINDOWS_SRC src/stub.cpp
         src/models/embedded-windows.scheme.pb.h
+        src/ProcessRunner.cpp
         src/models/embedded-windows.scheme.pb.cc
         )
 
@@ -27,10 +29,14 @@ list(APPEND
         EMBEDDED_WINDOWS_SRC ${EMBEDDED_WINDOWS_HEADER}
 )
 
+findLibUV()
+
 include_directories(
         ./
         include
         src
+        ${LIBUV_INCLUDE_PATH}
+        ../../thirdparties/uvw/src
         ../../thirdparties/plog/include
 )
 
@@ -44,6 +50,8 @@ target_link_libraries(
         ${EMBEDDED_WINDOWS_SHARED_LIB}
         ${DEPEND_THIRDPARTY_LIBS}
         ${Protobuf_LIBRARIES}
+        ${LIBUV_LIBRARY}
+
 )
 
 set_target_properties(${EMBEDDED_WINDOWS_SHARED_LIB}

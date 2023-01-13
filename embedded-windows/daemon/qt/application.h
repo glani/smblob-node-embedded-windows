@@ -3,6 +3,7 @@
 #include "BaseProcessor.h"
 #include <QApplication>
 
+using WidgetPtr = QSharedPointer<QWidget>;
 
 namespace SMBlob {
     namespace EmbeddedWindows {
@@ -53,7 +54,9 @@ namespace SMBlob {
             // required to delegate all requests to main thread
             ProxyObject proxyObject;
 
-            void logSMBEWEmbedWindowReq(std::shared_ptr<SMBEWEmbedWindowReq>& sharedPtr);
+            static void logSMBEWEmbedWindowReq(std::shared_ptr<SMBEWEmbedWindowReq>& sharedPtr);
+
+            std::vector<WidgetPtr> embeddedWindows;
         };
     }
 }

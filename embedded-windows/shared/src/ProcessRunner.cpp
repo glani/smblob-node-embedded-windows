@@ -1,7 +1,6 @@
 #include "ProcessRunner.h"
 #include "uvw.hpp"
 #include "plog/Log.h"
-#include "SMBlob_Node_Embedded_Windows_Console_Example.h"
 
 ProcessRunner::ProcessRunner() : status(-1) {
 }
@@ -28,14 +27,14 @@ void ProcessRunner::RunCommand(const std::string &command, char **argv, int argc
 
     std::stringstream ssStdOut;
     pipeStdout->on<uvw::DataEvent>([&](const auto &evt, auto &req) {
-        PLOGE_(SecondLog) << "pipeStdout Read RunCommand: " << command;
+        PLOGE_(SecondaryLog) << "pipeStdout Read RunCommand: " << command;
         if (evt.data) {
             ssStdOut << evt.data.get();
         }
     });
     std::stringstream ssStdErr;
     pipeStderr->on<uvw::DataEvent>([&](const auto &evt, auto &req) {
-        PLOGE_(SecondLog) << "pipeStderr Read RunCommand: " << command;
+        PLOGE_(SecondaryLog) << "pipeStderr Read RunCommand: " << command;
         if (evt.data) {
             ssStdErr << evt.data.get();
         }
@@ -44,7 +43,7 @@ void ProcessRunner::RunCommand(const std::string &command, char **argv, int argc
     processHandle->on<uvw::ErrorEvent>([&](const auto &evt, auto &) {
         auto err = evt.code();
         if (err < 0) {
-            PLOGE_(SecondLog) << "Error RunCommand: " << uv_err_name(err) << " str: " << uv_strerror(err);
+            PLOGE_(SecondaryLog) << "Error RunCommand: " << uv_err_name(err) << " str: " << uv_strerror(err);
         }
     });
     processHandle->on<uvw::ExitEvent>([&](const uvw::ExitEvent &evt, auto &req) {

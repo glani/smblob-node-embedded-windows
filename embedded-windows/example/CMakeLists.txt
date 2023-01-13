@@ -86,8 +86,6 @@ add_executable(${PROJECT_NAME}
 add_executable(${PROJECT_NAME}-console
         SMBlob_Node_Embedded_Windows_Console_Example.cpp
         SMBlob_Node_Embedded_Windows_Console_Example.h
-        ProcessRunner.cpp
-        ProcessRunner.h
         ${EXAMPLE_APP_SRC}
         )
 

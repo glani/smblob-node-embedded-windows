@@ -58,8 +58,6 @@ else ()
 endif ()
 
 
-#find_library(LIBUV_LIBRARY uv_a HINTS "../../thirdparties/libuv/build")
-
 target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt${QT_VERSION_MAJOR}::Widgets
         ${${PROJECT_NAME}_PLATFORM_LIBS}

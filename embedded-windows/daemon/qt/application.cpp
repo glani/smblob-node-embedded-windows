@@ -3,6 +3,7 @@
 #include "internal/SMBlobNodeEmbeddedWindowsSharedInternal.h"
 #include "internal/SMBlobNodeEmbeddedWindowsSharedPbModels.h"
 #include "plog/Log.h"
+#include "embedded-window.h"
 #include <QThread>
 
 
@@ -46,9 +47,10 @@ namespace SMBlob {
 
         void Application::embedWindowRequested(std::shared_ptr<SMBEWEmbedWindowReq> request) {
             LOG_DEBUG << "Application::embedWindowRequested";
-            logSMBEWEmbedWindowReq(request);
+            Application::logSMBEWEmbedWindowReq(request);
             if (request) {
-
+                WidgetPtr mainWindow(new EmbeddedWindow(*request, (SMBlob::EmbeddedWindows::BaseProcessor*)this));
+                this->embeddedWindows.emplace_back(std::move(mainWindow));
             }
         }
 

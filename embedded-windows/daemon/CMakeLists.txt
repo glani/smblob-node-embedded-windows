@@ -1,5 +1,5 @@
-set(EXAMPLE_APP smblob-node-embedded-windows-daemon)
-project(${EXAMPLE_APP} VERSION 0.1 LANGUAGES CXX)
+set(DAEMON_APP smblob-node-embedded-windows-daemon)
+project(${DAEMON_APP} VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -52,6 +52,12 @@ elseif (APPLE)
             ${cocoa_lib}
             )
 elseif (LINUX)
+    set(${PROJECT_NAME}_PLATFORM_LIBS
+            xdotool-single
+            )
+    include_directories(
+            ../../thirdparties/xdotool-wrapper/src
+    )
 endif ()
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
@@ -66,6 +72,7 @@ list(APPEND PROJECT_SOURCES
         qt/embedded-window.h
         qt/mainwindow.h
         qt/mainwindow.ui
+        qt/shared.h
         )
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -81,6 +88,8 @@ endif ()
 
 
 addPipeNameDefinition(${PROJECT_NAME})
+
+message(STATUS "Qt${QT_VERSION_MAJOR} Widgets:" Qt${QT_VERSION_MAJOR}::Widgets)
 
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
