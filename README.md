@@ -30,10 +30,16 @@ xdotool key --delay 100 F11 --window 37748752
 
 python3 -c 'print(int("0x05e0003d", 16))'
 
-
+## Useful links
 https://github.com/gusnan/devilspie2
 https://gist.github.com/cat-in-136/96ee8e96e81e0cc763d085ed697fe193
 https://unix.stackexchange.com/questions/103356/remove-title-bar-of-another-program
 https://stackoverflow.com/questions/30032416/xcb-not-receiving-motion-notify-events-on-all-windows
 
 https://stackoverflow.com/questions/57896007/detect-window-focus-changes-with-xcb
+
+https://coral.googlesource.com/weston-imx/+/refs/tags/3.0.0-3/xwayland/window-manager.c
+
+### Close windows XCB
+
+    https://marc.info/?l=freedesktop-xcb&m=129381953404497

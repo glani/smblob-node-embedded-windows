@@ -30,6 +30,16 @@ namespace SMBlob {
             friend class EmbeddedWindow;
         };
 
+        // TODO move to a dedicated class
+        class NativeWindowWidget : public QWidget {
+        Q_OBJECT
+        public:
+            explicit NativeWindowWidget(SMBEWEmbedWindow nativeWindow, QWidget *parent);
+            virtual ~NativeWindowWidget();
+        private:
+            SMBEWEmbedWindow nativeWindow;
+        };
+
         class NativeWindowHelper : public QObject {
         Q_OBJECT
         public:

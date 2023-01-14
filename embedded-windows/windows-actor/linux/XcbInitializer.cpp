@@ -53,7 +53,9 @@ namespace SMBlob {
         }
 
 
-        XcbInitializer::XcbInitializer() {}
+        XcbInitializer::XcbInitializer() {
+            init();
+        }
 
         XcbInitializer::~XcbInitializer() {
             if (isConnected()) {
@@ -61,13 +63,12 @@ namespace SMBlob {
             }
         }
 
-        XcbInitializer &XcbInitializer::getInstance() {
-            static XcbInitializer instance;
-            return instance;
-        }
-
         void XcbInitializer::init() {
-            Display *dpy = XOpenDisplay(NULL);
+            xdo_t *value = xdo_new(NULL);
+            xdo_pointer a{value, XdoFreeDeleter()};
+            xdoPtr = std::move(a);
+            Display *dpy = xdoPtr->xdpy;
+
             if (dpy) {
                 XSetEventQueueOwner(dpy, XCBOwnsEventQueue);
                 XSetErrorHandler(nullErrorHandler);

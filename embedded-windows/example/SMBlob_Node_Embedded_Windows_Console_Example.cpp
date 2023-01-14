@@ -37,8 +37,8 @@ int main(int argc, char **argv) {
 
     std::cout << std::endl;
 //    PressAnyKey( "Embed window press button: " );
-//    std::string search("New Tab");
-    std::string search("Mozilla Firefox");
+    std::string search("New Tab");
+//    std::string search("Mozilla Firefox");
     while (true) {
         // std::cin.ignore();
         auto c = std::cin.get();

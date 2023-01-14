@@ -53,8 +53,6 @@ namespace SMBlob {
 
             xcb_connection_t *xcbConnection() const { return xcbConnectionValue; }
 
-            static XcbInitializer &getInstance();
-
             XcbInitializer(XcbInitializer const &) = delete;
 
             void operator=(XcbInitializer const &) = delete;

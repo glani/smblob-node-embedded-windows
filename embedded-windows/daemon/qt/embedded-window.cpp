@@ -4,6 +4,7 @@
 #include <QEvent>
 #include <QGuiApplication>
 #include <QWindow>
+#include <QWidget>
 #include <QTimer>
 #include <QScreen>
 
@@ -28,6 +29,31 @@ namespace SMBlob {
 
             this->embeddedNativeWindowId = request.window().nativewindowid();
             this->foreignWindow = QWindow::fromWinId(embeddedNativeWindowId);
+
+#ifdef LINUX
+            this->container = new NativeWindowWidget(getNativeWindow(), this);
+
+            this->windowHelperPtr->assign(this);
+            this->windowHelperPtr->assign(container);
+
+            container->setObjectName("NativeContainer");
+            const QString &nativeWindowIdStr = QString::number(embeddedNativeWindowId, 16);
+//            foreignWindow->setObjectName("ForeignWindow_" + nativeWindowIdStr);
+
+            LOGD << "ForeignWindow Id:" << embeddedNativeWindowId <<" [ 0x" << nativeWindowIdStr.toStdString() << " ]";
+            const QString &windowIdStr = QString::number(this->winId(), 16);
+            LOGD << "EmbeddedWindow Id:" << this->winId() <<" [ 0x" << windowIdStr.toStdString() << " ]";
+            LOGD << "container Id:" << this->container->winId();
+
+
+            if (container) {
+                setCentralWidget(container);
+                this->processor->windowActor->subscribe(getNativeWindow());
+//                this->processor->windowActor->sendNewParent(getNativeWindow(), this->container->winId());
+            }
+//            this->processor->windowActor->subscribe();
+//
+#else
             if (foreignWindow) {
                 this->nativeWindowHelperPtr = QSharedPointer<NativeWindowHelper>::create(this->foreignWindow);
                 QObject::connect(this->nativeWindowHelperPtr.get(), SIGNAL(onVisible(bool)), this, SLOT(nativeVisible(bool)));
@@ -47,7 +73,7 @@ namespace SMBlob {
                     setCentralWidget(container);
                 }
             }
-
+#endif
             const QRect availableGeometry = QGuiApplication::primaryScreen()->availableGeometry();
             QPoint pos =
                     availableGeometry.topLeft() + QPoint(availableGeometry.width(), availableGeometry.height()) / 3;
@@ -160,6 +186,14 @@ namespace SMBlob {
                 emit onVisible(false);
             }
             return false;
+        }
+
+        NativeWindowWidget::NativeWindowWidget(SMBEWEmbedWindow nativeWindow, QWidget *parent): QWidget(parent), nativeWindow(nativeWindow) {
+
+        }
+
+        NativeWindowWidget::~NativeWindowWidget() {
+
         }
     }
 }

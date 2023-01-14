@@ -36,8 +36,8 @@ namespace SMBlob {
                 std::mutex subscribeMutex;
                 std::queue<struct SubscribeHolder> requestQueue;
 
-            void tryToSubscribe();
-
+                void tryToSubscribe();
+                void subscribeWindow(const SMBEWEmbedWindow &window);
         };
 
         // LinuxWindowActorPrivate
