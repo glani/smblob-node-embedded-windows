@@ -1,5 +1,6 @@
 #include "ProcessorPrivate.h"
 #include "BaseProcessor.h"
+#include "BaseWindowActor.h"
 #include "SMBlobNodeEmbeddedWindowsShared.h"
 #include "internal/SMBlobNodeEmbeddedWindowsSharedInternal.h"
 #include "internal/SMBlobNodeEmbeddedWindowsSharedLog.h"
@@ -115,6 +116,7 @@ namespace SMBlob {
             this->signalSigCloseHandle->oneShot(SMBEW_SIGNAL_TERMINATE);
 
             LOG_DEBUG << "Before UV start";
+            this->processor->windowActor->startListener();
             loop->run();
             loop = nullptr;
             // notify exit monitor
@@ -153,6 +155,8 @@ namespace SMBlob {
                     this->ipcClient->write(std::move(it->data), it->size);
                 }
             }
+
+            this->processor->windowActor->listen();
         }
 
         void ProcessorPrivate::onIdleCallback(const uvw::IdleEvent &evt, uvw::IdleHandle &idle) {

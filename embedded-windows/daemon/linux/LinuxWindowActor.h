@@ -2,6 +2,10 @@
 #include <memory>
 #include "BaseWindowActor.h"
 
+#include <condition_variable>
+#include <queue>
+#include <mutex>
+
 
 namespace SMBlob {
     namespace EmbeddedWindows {
@@ -12,6 +16,8 @@ namespace SMBlob {
         class LinuxWindowActor: public BaseWindowActor {
         public:
             LinuxWindowActor();
+            virtual ~LinuxWindowActor();
+
             bool sendKeySequenceToWindow(const SMBEWEmbedWindow& window,
                                          const std::string &keySequence,
                                          uint32_t milliSecondsDelay = 1000) const override;
@@ -20,9 +26,18 @@ namespace SMBlob {
 
             bool sendNewParent(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &parent) const;
 
-            virtual ~LinuxWindowActor();
+            void listen() override;
+            void startListener() override;
+
+            void subscribe(const SMBEWEmbedWindow& window) override;
+
             private:
                 std::unique_ptr<XcbInitializer> xcbInitializer;
+                std::mutex subscribeMutex;
+                std::queue<struct SubscribeHolder> requestQueue;
+
+            void tryToSubscribe();
+
         };
 
         // LinuxWindowActorPrivate

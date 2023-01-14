@@ -23,5 +23,17 @@ namespace SMBlob {
         bool BaseWindowActor::sendNewParent(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &parent) const {
             return true;
         }
+
+        void BaseWindowActor::listen() {
+
+        }
+
+        void BaseWindowActor::subscribe(const SMBEWEmbedWindow &window) {
+
+        }
+
+        void BaseWindowActor::startListener() {
+
+        }
     }
 }

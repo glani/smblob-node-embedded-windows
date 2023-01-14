@@ -6,6 +6,11 @@ typedef unsigned long SMBEWEmbedWindow;
 typedef int SMBEWEmbedWindow;
 #endif
 
+
+struct SubscribeHolder {
+    SMBEWEmbedWindow window;
+};
+
 #include <string>
 
 namespace SMBlob {
@@ -24,6 +29,13 @@ namespace SMBlob {
             virtual bool sendFocusToWindow(const SMBEWEmbedWindow &window, bool focus = true) const;
 
             virtual bool sendNewParent(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &parent) const;
+
+
+            virtual void listen();
+
+            virtual void startListener();
+
+            virtual void subscribe(const SMBEWEmbedWindow& window);
 
         };
     }

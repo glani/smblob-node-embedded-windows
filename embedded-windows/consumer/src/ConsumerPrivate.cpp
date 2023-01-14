@@ -6,9 +6,6 @@
 #include <plog/Log.h>
 #include <plog/Init.h>
 
-//#ifdef LINUX
-//#include "linux/LinuxWindowActor.h"
-//#endif
 
 auto no_deleter = [](uint8_t *ptr) {
 };
