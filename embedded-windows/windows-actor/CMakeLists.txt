@@ -7,10 +7,8 @@ set(EMBEDDED_WINDOWS_WINDOWS_ACTOR_LIB smblob-node-embedded-windows-actor)
 
 project(${EMBEDDED_WINDOWS_WINDOWS_ACTOR_LIB})
 set(EMBEDDED_WINDOWS_WINDOWS_ACTOR_LIB_SRC
-        src/BaseWindowActor.cpp
         )
 set(EMBEDDED_WINDOWS_WINDOWS_ACTOR_LIB_HEADER
-        include/BaseWindowActor.h
         )
 
 list(APPEND
@@ -40,10 +38,10 @@ if (LINUX)
     )
 
     list(APPEND EMBEDDED_WINDOWS_WINDOWS_ACTOR_LIB_SRC
-            linux/LinuxWindowActor.cpp
-            linux/LinuxWindowActor.h
+            linux/XcbInitializer.cpp
+            include/linux/XcbInitializer.h
+            include/linux/XcbAtom.h
             linux/XcbAtom.cpp
-            linux/XcbAtom.h
             )
     FIND_PACKAGE(PkgConfig REQUIRED)
     find_package(X11 REQUIRED)

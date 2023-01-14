@@ -16,6 +16,9 @@ include_directories(
         src
         ../../thirdparties/uvw/src
         ../../thirdparties/plog/include
+        ../windows-actor/include
+        ../models-shared/include
+        ../shared/include
         ${LIBUV_INCLUDE_PATH}
 )
 
@@ -57,9 +60,7 @@ elseif (LINUX)
     set(${PROJECT_NAME}_PLATFORM_LIBS
             xdotool-single
             )
-    include_directories(
-            ../../thirdparties/xdotool-wrapper/src
-    )
+
 
     list(APPEND PROJECT_SOURCES
             linux/LinuxWindowActor.cpp
@@ -103,7 +104,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         Qt${QT_VERSION_MAJOR}::Widgets
         ${${PROJECT_NAME}_PLATFORM_LIBS}
         ${LIBUV_LIBRARY}
+        smblob-node-embedded-windows-actor
         smblob-node-embedded-windows-shared
+        smblob-node-embedded-windows-models-shared
         )
 
 install(TARGETS ${PROJECT_NAME}

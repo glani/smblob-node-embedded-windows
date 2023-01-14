@@ -13,8 +13,9 @@ include_directories(
         ./consumer/include
 )
 
-add_subdirectory(windows-actor)
 add_subdirectory(shared)
+add_subdirectory(windows-actor)
+add_subdirectory(models-shared)
 add_subdirectory(daemon)
 add_subdirectory(consumer)
 add_subdirectory(example)

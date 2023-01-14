@@ -7,6 +7,7 @@
 
 enum // Define log instanceIds. Default is 0 and is omitted from this enum.
 {
+    PrimaryLog = 0,
     SecondaryLog = 1
 };
 

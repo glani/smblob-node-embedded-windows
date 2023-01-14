@@ -141,6 +141,7 @@ target_link_libraries(${PROJECT_NAME}-console
         ${LIBUV_LIBRARY}
         ${${PROJECT_NAME}_PLATFORM_LIBS}
         ${DEPEND_THIRDPARTY_LIBS}
+        smblob-node-embedded-windows-models-shared
         smblob-node-embedded-windows-shared
         smblob-node-embedded-windows-consumer
         )

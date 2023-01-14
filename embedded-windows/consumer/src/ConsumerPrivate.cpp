@@ -6,9 +6,9 @@
 #include <plog/Log.h>
 #include <plog/Init.h>
 
-#ifdef LINUX
-#include "linux/LinuxWindowActor.h"
-#endif
+//#ifdef LINUX
+//#include "linux/LinuxWindowActor.h"
+//#endif
 
 auto no_deleter = [](uint8_t *ptr) {
 };
@@ -25,10 +25,11 @@ namespace SMBlob {
 #else
             this->pipeName = std::string(PIPE_NAME) + std::to_string(std::rand());
 #endif
-#ifdef LINUX
-            auto *pLinuxWindowActor = new LinuxWindowActor();
-            this->windowActor = std::move(std::unique_ptr<BaseWindowActor>(pLinuxWindowActor));
-#endif
+//#ifdef LINUX
+//            auto *pLinuxWindowActor = new LinuxWindowActor();
+//            this->windowActor = std::move(std::unique_ptr<BaseWindowActor>(pLinuxWindowActor));
+//#endif
+//            this->windowActor->startListener();
 
         }
 
@@ -264,7 +265,7 @@ namespace SMBlob {
                 }
             }
 
-            this->windowActor.get()->listen();
+//            this->windowActor.get()->listen();
         }
 
         void ConsumerPrivate::onIdleCallback(const uvw::IdleEvent &evt, uvw::IdleHandle &idle) {

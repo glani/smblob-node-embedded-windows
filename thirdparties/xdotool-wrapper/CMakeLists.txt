@@ -24,12 +24,10 @@ if (!X11_Xfixes_LIB)
     message(FATAL_ERROR "X11 fixes extension is required, but not found!")
 endif ()
 
-dump_cmake_variables()
 include_directories(
         ${X11_INCLUDE_DIR}
         ${WNCK_INCLUDE_DIRS}
 )
-
 
 set(${PROJECT_NAME}_PLATFORM_LIBS
         ${X11_LIBRARIES}

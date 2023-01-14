@@ -1,4 +1,5 @@
 #include "LinuxWindowActor.h"
+#include "linux/XcbInitializer.h"
 #include "plog/Log.h"
 
 int self_fprintf(FILE *__restrict __stream,
@@ -18,9 +19,7 @@ namespace SMBlob {
 
         LinuxWindowActor::LinuxWindowActor() : BaseWindowActor() {
             LinuxWindowActorPrivate::getInstance();
-            xdo_t *value = xdo_new(NULL);
-            xdo_pointer a{value, delete_with<xdo_free>()};
-            xdoPtr = std::move(a);
+            xcbInitializer = std::make_unique<XcbInitializer>();
         }
 
         LinuxWindowActor::~LinuxWindowActor() {
@@ -31,7 +30,7 @@ namespace SMBlob {
                                                        const std::string &keySequence,
                                                        uint32_t milliSecondsDelay) const {
             uint64_t microSeconds = milliSecondsDelay * 1000;
-            int ret = xdo_send_keysequence_window(xdoPtr.get(), window,
+            int ret = xdo_send_keysequence_window(xcbInitializer->xdo(), window,
                                                   keySequence.c_str(),
                                                   microSeconds);
             return ret == XDO_SUCCESS;
@@ -50,7 +49,7 @@ namespace SMBlob {
 
         bool LinuxWindowActor::sendNewParent(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &parent) const {
             int ret = XDO_SUCCESS;
-            ret = xdo_reparent_window(xdoPtr.get(), window, parent);
+            ret = xdo_reparent_window(xcbInitializer->xdo(), window, parent);
 //            if (focus) {
 //                ret = xdo_focus_window(xdoPtr.get(), window);
 //            } else {

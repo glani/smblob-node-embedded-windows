@@ -42,25 +42,23 @@ find_package(Protobuf REQUIRED)
 
 set(DEPEND_THIRDPARTY_LIBS)
 
-if (LINUX)
-    include_directories(
-            ../../thirdparties/xdotool-wrapper/src
-    )
-endif ()
+include_directories(
+        ../shared/include
+        ../models-shared/include
+)
 
 add_library(${EMBEDDED_WINDOWS_CONSUMER_LIB} STATIC ${EMBEDDED_WINDOWS_CONSUMER_LIB_SRC})
 
 addPipeNameDefinition(${EMBEDDED_WINDOWS_CONSUMER_LIB})
 
-link_directories(
-        "../../thirdparties/libuv/build"
-)
 target_link_libraries(
         ${EMBEDDED_WINDOWS_CONSUMER_LIB}
+        PRIVATE
         ${LIBUV_LIBRARY}
         ${DEPEND_THIRDPARTY_LIBS}
         smblob-node-embedded-windows-actor
         smblob-node-embedded-windows-shared
+        smblob-node-embedded-windows-models-shared
 )
 
 set_target_properties(${EMBEDDED_WINDOWS_CONSUMER_LIB}

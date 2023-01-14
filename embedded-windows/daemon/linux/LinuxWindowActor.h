@@ -1,21 +1,13 @@
 #pragma once
 #include <memory>
 #include "BaseWindowActor.h"
-#include "xdo.h"
-#include "xdo_util.h"
-#include "xdo_version.h"
 
-template <auto F>
-struct delete_with {
-    void operator()(auto* p) {
-        F(p);
-    }
-};
 
 namespace SMBlob {
     namespace EmbeddedWindows {
 
-        using xdo_pointer = std::unique_ptr<xdo_t, delete_with<xdo_free>>;
+        class XcbInitializer;
+
 
         class LinuxWindowActor: public BaseWindowActor {
         public:
@@ -30,7 +22,7 @@ namespace SMBlob {
 
             virtual ~LinuxWindowActor();
             private:
-                xdo_pointer xdoPtr;
+                std::unique_ptr<XcbInitializer> xcbInitializer;
         };
 
         // LinuxWindowActorPrivate

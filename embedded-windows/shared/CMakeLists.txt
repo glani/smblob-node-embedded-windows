@@ -7,26 +7,21 @@ set(EMBEDDED_WINDOWS_SHARED_LIB smblob-node-embedded-windows-shared)
 
 project(${EMBEDDED_WINDOWS_SHARED_LIB})
 
-set(EMBEDDED_WINDOWS_SRC
+set(EMBEDDED_WINDOWS_SHARED_LIB_SRC
         )
-set(EMBEDDED_WINDOWS_HEADER
-        include/SMBlobNodeEmbeddedWindowsShared.h
+set(EMBEDDED_WINDOWS_SHARED_LIB_HEADER
+        include/base64.h
         include/ProcessRunner.h
-        include/SMBlobNodeEmbeddedWindowsSharedModels.h
-        include/internal/SMBlobNodeEmbeddedWindowsSharedPbModels.h
-        include/internal/SMBlobNodeEmbeddedWindowsSharedInternal.h
-        include/internal/SMBlobNodeEmbeddedWindowsSharedLog.h
         )
 
 list(APPEND
-        EMBEDDED_WINDOWS_SRC src/stub.cpp
-        src/models/embedded-windows.scheme.pb.h
+        EMBEDDED_WINDOWS_SHARED_LIB_SRC
+        src/base64.cpp
         src/ProcessRunner.cpp
-        src/models/embedded-windows.scheme.pb.cc
         )
 
 list(APPEND
-        EMBEDDED_WINDOWS_SRC ${EMBEDDED_WINDOWS_HEADER}
+        EMBEDDED_WINDOWS_SHARED_LIB_SRC ${EMBEDDED_WINDOWS_SHARED_LIB_HEADER}
 )
 
 findLibUV()
@@ -35,24 +30,19 @@ include_directories(
         ./
         include
         src
-        ${LIBUV_INCLUDE_PATH}
         ../../thirdparties/uvw/src
         ../../thirdparties/plog/include
+        ${LIBUV_INCLUDE_PATH}
 )
 
-set(DEPEND_THIRDPARTY_LIBS)
+add_library(${EMBEDDED_WINDOWS_SHARED_LIB} STATIC ${EMBEDDED_WINDOWS_SHARED_LIB_SRC})
 
-find_package(Protobuf REQUIRED)
-include_directories(${Protobuf_INCLUDE_DIRS})
-
-add_library(${EMBEDDED_WINDOWS_SHARED_LIB} STATIC ${EMBEDDED_WINDOWS_SRC})
 target_link_libraries(
         ${EMBEDDED_WINDOWS_SHARED_LIB}
         ${DEPEND_THIRDPARTY_LIBS}
-        ${Protobuf_LIBRARIES}
         ${LIBUV_LIBRARY}
-
 )
+
 
 set_target_properties(${EMBEDDED_WINDOWS_SHARED_LIB}
         PROPERTIES
