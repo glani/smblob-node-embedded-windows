@@ -37,15 +37,24 @@ int main(int argc, char **argv) {
 
     std::cout << std::endl;
 //    PressAnyKey( "Embed window press button: " );
+//    std::string search("New Tab");
+    std::string search("Mozilla Firefox");
     while (true) {
         // std::cin.ignore();
         auto c = std::cin.get();
-        std::cout << c << std::endl;
+//        std::cout << c << std::endl;
         if (c == (int) 'f') {
             break;
+        } else if (c == (int) 'p') {
+            std::string in;
+            std::cin.ignore();
+            if (std::getline(std::cin, in)) {
+                search = in;
+            }
+            PLOGD_(SecondaryLog) << "new search pattern: " << search;
         } else if (c == (int) 'n') {
             auto runnerArgvPtr = std::unique_ptr<char *[]>(
-                    new char *[3]{"search", "--name", "New Tab"}
+                    new char *[3]{"search", "--name", (char*)search.c_str()}
             );
             std::string command("/usr/bin/xdotool");
             ProcessRunner runner;

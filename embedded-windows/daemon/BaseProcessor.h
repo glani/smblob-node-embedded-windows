@@ -30,16 +30,16 @@ namespace SMBlob {
 
             virtual void closeWindow(const SMBEWCloseWindowReq &req) = 0;
 
-        protected:
-            BaseProcessor();
-
             virtual ~BaseProcessor();
+        protected:
+
+            BaseProcessor();
 
         private:
             ProcessorPrivate *processorPrivate;
             std::unique_ptr<BaseWindowActor> windowActor;
 
-            void fillStatus(Scheme::Status *pbStatus,
+            void fillStatus(SMBEWStatus *pbStatus,
                                       int status,
                                       const std::string *code = nullptr,
                                       const std::string *message = nullptr);
@@ -50,6 +50,7 @@ namespace SMBlob {
             void request(SMBlob::EmbeddedWindows::IODataHolder holder);
 
             friend class ProcessorPrivate;
+            friend class EmbeddedWindow;
 
         };
     }

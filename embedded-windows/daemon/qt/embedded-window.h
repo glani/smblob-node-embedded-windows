@@ -3,6 +3,7 @@
 #include <QMainWindow>
 #include "internal/SMBlobNodeEmbeddedWindowsSharedPbModels.h"
 #include "BaseProcessor.h"
+#include "BaseWindowActor.h"
 
 namespace SMBlob {
     namespace EmbeddedWindows {
@@ -52,8 +53,12 @@ namespace SMBlob {
 
             virtual ~EmbeddedWindow();
 
+            bool event(QEvent *event) override;
+
         public slots:
             void nativeVisible(bool show);
+
+            void tryFirstRunKeys();
         public:
 
         private:
@@ -69,6 +74,12 @@ namespace SMBlob {
             void tryToActivateForeignWindow();
 
             bool nativeWindowReady;
+            uint64_t embeddedNativeWindowId;
+            BaseProcessor *processor;
+
+            SMBEWEmbedWindow getNativeWindow() const;
+            SMBEWEmbedWindow getWindow() const;
+
         };
 
     }

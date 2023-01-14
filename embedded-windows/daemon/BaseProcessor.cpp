@@ -28,7 +28,7 @@ namespace SMBlob {
 
         }
 
-        void BaseProcessor::fillStatus(Scheme::Status *pbStatus, int status, const std::string *code,
+        void BaseProcessor::fillStatus(SMBEWStatus *pbStatus, int status, const std::string *code,
                                        const std::string *message) {
 //            holder->lastTime = uv_hrtime()
         }

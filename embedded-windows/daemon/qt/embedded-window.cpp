@@ -1,8 +1,10 @@
 #include "embedded-window.h"
+#include "BaseWindowActor.h"
 #include "plog/Log.h"
 #include <QEvent>
 #include <QGuiApplication>
 #include <QWindow>
+#include <QTimer>
 #include <QScreen>
 
 
@@ -12,7 +14,9 @@ namespace SMBlob {
         EmbeddedWindow::EmbeddedWindow(const SMBEWEmbedWindowReq &request,
                                        SMBlob::EmbeddedWindows::BaseProcessor *processor) : foreignWindow(0),
                                                                                             container(0),
-                                                                                            nativeWindowReady(false){
+                                                                                            embeddedNativeWindowId(0),
+                                                                                            nativeWindowReady(false),
+                                                                                            processor(processor) {
 
             this->windowHelperPtr = QSharedPointer<EmbeddedWindowHelper>::create(this);
             this->requestPtr = QSharedPointer<SMBEWEmbedWindowReq>::create(request);
@@ -22,15 +26,19 @@ namespace SMBlob {
 
             setObjectName("EmbeddedWindow");
 
-            uint64_t nativeWindowId = request.window().nativewindowid();
-            this->foreignWindow = QWindow::fromWinId(nativeWindowId);
+            this->embeddedNativeWindowId = request.window().nativewindowid();
+            this->foreignWindow = QWindow::fromWinId(embeddedNativeWindowId);
             if (foreignWindow) {
                 this->nativeWindowHelperPtr = QSharedPointer<NativeWindowHelper>::create(this->foreignWindow);
                 QObject::connect(this->nativeWindowHelperPtr.get(), SIGNAL(onVisible(bool)), this, SLOT(nativeVisible(bool)));
 
-                const QString &nativeWindowIdStr = QString::number(nativeWindowId, 16);
+                const QString &nativeWindowIdStr = QString::number(embeddedNativeWindowId, 16);
                 foreignWindow->setObjectName("ForeignWindow_" + nativeWindowIdStr);
-                LOGD << "ForeignWindow Id: 0x" << nativeWindowIdStr.toStdString();
+                LOGD << "ForeignWindow Id:" << embeddedNativeWindowId <<" [ 0x" << nativeWindowIdStr.toStdString() << " ]";
+                const QString &windowIdStr = QString::number(this->winId(), 16);
+                LOGD << "EmbeddedWindow Id:" << this->winId() <<" [ 0x" << windowIdStr.toStdString() << " ]";
+
+                this->processor->windowActor->sendNewParent(getNativeWindow(), getWindow());
 
                 this->container = createWindowContainer(foreignWindow, nullptr, Qt::Widget);
                 this->windowHelperPtr->assign(container);
@@ -64,6 +72,40 @@ namespace SMBlob {
             LOGD << "EmbeddedWindow NativeWindow " << (show ? "SHOW" : "HIDE");
             // assume that native window is ready in case of TRUE
             this->nativeWindowReady = show;
+            if (this->nativeWindowReady) {
+                tryToActivateForeignWindow();
+                this->container->activateWindow();
+                QTimer::singleShot(100, this, SLOT(tryFirstRunKeys()));
+//                this->processor->windowActor->sendKeySequenceToWindow(window, s, 500);
+//                this->foreignWindow->winId()
+            }
+        }
+
+        SMBEWEmbedWindow EmbeddedWindow::getNativeWindow() const {
+            return this->embeddedNativeWindowId;
+        }
+
+        SMBEWEmbedWindow EmbeddedWindow::getWindow() const {
+            return this->winId();
+        }
+
+        void EmbeddedWindow::tryFirstRunKeys() {
+            LOGD << "EmbeddedWindow tryFirstRunKeys ";
+            std::string s("F11");
+            SMBEWEmbedWindow window = this->getWindow();
+            SMBEWEmbedWindow nativeWindow = this->getNativeWindow();
+            // IMPORTANT linux specific
+//            this->processor->windowActor->sendFocusToWindow(nativeWindow, true);
+            this->processor->windowActor->sendKeySequenceToWindow(nativeWindow, s, 500);
+        }
+
+        bool EmbeddedWindow::event(QEvent *event) {
+            if (event->type() == QEvent::WindowActivate) {
+                tryToActivateForeignWindow();
+                this->container->activateWindow();
+            }
+//            qDebug() << "EmbeddedWindow::event " << event->type();
+            return QMainWindow::event(event);
         }
 
 
@@ -83,6 +125,12 @@ namespace SMBlob {
                 // TODO check other systems
                 return true;
             }
+//            if (ev->type() == QEvent::WindowDeactivate) {
+//                // IMPORTANT for Linux
+//                // TODO check other systems
+//                return true;
+//            }
+//            qDebug() << "EmbeddedWindowHelper::eventFilter" << ev->type();
 //            if (ev->type() == QEvent::ChildRemoved) {
 //                LOGD << "EmbeddedWindowHelper ChildRemoved: " << ev->type();
 ////                qDebug
@@ -90,7 +138,7 @@ namespace SMBlob {
 //            if (ev->type() == QEvent::ChildAdded) {
 ////                qDebug
 //            }
-            LOGD << "EmbeddedWindowHelper: " << ev->type();
+//            LOGD << "EmbeddedWindowHelper: " << ev->type();
             return false;
         }
 
