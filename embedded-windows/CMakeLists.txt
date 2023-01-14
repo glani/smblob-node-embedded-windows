@@ -13,6 +13,7 @@ include_directories(
         ./consumer/include
 )
 
+add_subdirectory(windows-actor)
 add_subdirectory(shared)
 add_subdirectory(daemon)
 add_subdirectory(consumer)

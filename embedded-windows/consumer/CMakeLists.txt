@@ -33,13 +33,20 @@ include_directories(
         ${LIBUV_INCLUDE_PATH}
         ../../thirdparties/uvw/src
         ../../thirdparties/plog/include
+        ../windows-actor/include
+        ../windows-actor
 )
 
 
 find_package(Protobuf REQUIRED)
 
-
 set(DEPEND_THIRDPARTY_LIBS)
+
+if (LINUX)
+    include_directories(
+            ../../thirdparties/xdotool-wrapper/src
+    )
+endif ()
 
 add_library(${EMBEDDED_WINDOWS_CONSUMER_LIB} STATIC ${EMBEDDED_WINDOWS_CONSUMER_LIB_SRC})
 
@@ -52,6 +59,7 @@ target_link_libraries(
         ${EMBEDDED_WINDOWS_CONSUMER_LIB}
         ${LIBUV_LIBRARY}
         ${DEPEND_THIRDPARTY_LIBS}
+        smblob-node-embedded-windows-actor
         smblob-node-embedded-windows-shared
 )
 

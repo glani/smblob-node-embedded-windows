@@ -14,6 +14,7 @@ namespace SMBlob {
     namespace EmbeddedWindows {
         struct SMBlobAppInitConsumer;
         struct IODataHolder;
+        class BaseWindowActor;
 
         class ConsumerPrivate {
         public:
@@ -57,6 +58,7 @@ namespace SMBlob {
             void onProcessStdErrDataCallback(const uvw::DataEvent & evt, uvw::PipeHandle & client);
 
         private:
+            std::unique_ptr<BaseWindowActor> windowActor;
             bool firstCheck;
             bool startSign;
             std::mutex startMutex;

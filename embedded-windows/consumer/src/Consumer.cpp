@@ -22,6 +22,8 @@ namespace SMBlob {
             if (app.applicationInstance) {
                 ConsumerPrivate *appPrivate = reinterpret_cast<ConsumerPrivate *>(app.applicationInstance);
                 appPrivate->close();
+                delete appPrivate;
+                app.applicationInstance = nullptr;
             }
         }
 

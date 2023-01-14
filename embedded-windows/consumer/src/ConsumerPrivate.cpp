@@ -6,9 +6,9 @@
 #include <plog/Log.h>
 #include <plog/Init.h>
 
-auto deleter = [](uint8_t *ptr) {
-    delete[] reinterpret_cast<char *>(ptr);
-};
+#ifdef LINUX
+#include "linux/LinuxWindowActor.h"
+#endif
 
 auto no_deleter = [](uint8_t *ptr) {
 };
@@ -25,6 +25,11 @@ namespace SMBlob {
 #else
             this->pipeName = std::string(PIPE_NAME) + std::to_string(std::rand());
 #endif
+#ifdef LINUX
+            auto *pLinuxWindowActor = new LinuxWindowActor();
+            this->windowActor = std::move(std::unique_ptr<BaseWindowActor>(pLinuxWindowActor));
+#endif
+
         }
 
         ConsumerPrivate::~ConsumerPrivate() {
@@ -258,6 +263,8 @@ namespace SMBlob {
                     this->ipcClient->write(std::move(it->data), it->size);
                 }
             }
+
+            this->windowActor.get()->listen();
         }
 
         void ConsumerPrivate::onIdleCallback(const uvw::IdleEvent &evt, uvw::IdleHandle &idle) {
