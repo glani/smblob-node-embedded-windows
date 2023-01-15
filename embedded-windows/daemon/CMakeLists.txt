@@ -30,6 +30,7 @@ set(PROJECT_SOURCES
         BaseProcessor.cpp
         BaseWindowActor.cpp
         BaseWindowActor.h
+        types.h
         )
 
 if (WIN32)

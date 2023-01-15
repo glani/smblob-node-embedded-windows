@@ -35,9 +35,9 @@ namespace SMBlob {
 
             BaseProcessor();
 
+            std::unique_ptr<BaseWindowActor> windowActor;
         private:
             ProcessorPrivate *processorPrivate;
-            std::unique_ptr<BaseWindowActor> windowActor;
 
             void fillStatus(SMBEWStatus *pbStatus,
                                       int status,

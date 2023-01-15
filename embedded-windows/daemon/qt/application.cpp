@@ -6,6 +6,10 @@
 #include "embedded-window.h"
 #include <QThread>
 
+#define FIND_BY_NATIVE_WINDOW(window) \
+    std::find_if(std::begin(this->embeddedWindows), std::end(this->embeddedWindows), [&window](const EmbeddedWindowPtr& item) { \
+        return window == item->getNativeWindow(); \
+    })
 
 namespace SMBlob {
     namespace EmbeddedWindows {
@@ -13,15 +17,20 @@ namespace SMBlob {
                                                            SMBlob::EmbeddedWindows::BaseProcessor() {
             QObject::connect(&proxyObject, SIGNAL(exitRequested()), this, SLOT(exitRequested()));
             QObject::connect(&proxyObject, SIGNAL(embedWindowRequested(std::shared_ptr<SMBEWEmbedWindowReq>)), this, SLOT(embedWindowRequested(std::shared_ptr<SMBEWEmbedWindowReq>)));
+            QObject::connect(&proxyObject, SIGNAL(embeddedWindowDestroyed(const SMBEWEmbedWindow&)), this, SLOT(embeddedWindowDestroyed(const SMBEWEmbedWindow&)));
+            QObject::connect(&proxyObject, SIGNAL(embeddedWindowFocused(const SMBEWEmbedWindow &, bool)), this, SLOT(embeddedWindowFocused(const SMBEWEmbedWindow &, bool)));
+            QObject::connect(&proxyObject, SIGNAL(embeddedWindowSubscribed(const SMBEWEmbedWindow &, bool)), this, SLOT(embeddedWindowSubscribed(const SMBEWEmbedWindow &, bool)));
+            QObject::connect(&proxyObject, SIGNAL(embeddedWindowReparented(const SMBEWEmbedWindow &, int)), this, SLOT(embeddedWindowReparented(const SMBEWEmbedWindow &, int)));
+
+            BaseProcessor::windowActor->setOnEmbeddedWindowDestroyed(SMBEW_CC_CALLBACK_1(Application::embeddedWindowDestroy, this));
+            BaseProcessor::windowActor->setOnEmbeddedWindowFocused(SMBEW_CC_CALLBACK_2(Application::embeddedWindowFocus, this));
+            BaseProcessor::windowActor->setOnEmbeddedWindowSubscribedCallback(SMBEW_CC_CALLBACK_2(Application::embeddedWindowSubscribe, this));
+            BaseProcessor::windowActor->setOnEmbeddedWindowReparentedCallback(SMBEW_CC_CALLBACK_2(Application::embeddedWindowReparent, this));
         }
 
 
         Application::~Application() {
 
-        }
-
-        void Application::requestExit() {
-            emit proxyObject.exitRequested();
         }
 
 
@@ -31,11 +40,6 @@ namespace SMBlob {
 
         void Application::closeWindow(const SMBEWCloseWindowReq &req) {
 
-        }
-
-        void Application::embedWindow(const SMBEWEmbedWindowReq &req) {
-            std::shared_ptr<SMBEWEmbedWindowReq> request = std::make_shared<SMBEWEmbedWindowReq>(req);
-            emit proxyObject.embedWindowRequested(std::move(request));
         }
 
         // main thread logic
@@ -49,7 +53,8 @@ namespace SMBlob {
             LOG_DEBUG << "Application::embedWindowRequested";
             Application::logSMBEWEmbedWindowReq(request);
             if (request) {
-                WidgetPtr mainWindow(new EmbeddedWindow(*request, (SMBlob::EmbeddedWindows::BaseProcessor*)this));
+                EmbeddedWindow *pWindow = new EmbeddedWindow(*request, (SMBlob::EmbeddedWindows::BaseProcessor *) this);
+                EmbeddedWindowPtr mainWindow(pWindow);
                 this->embeddedWindows.emplace_back(std::move(mainWindow));
             }
         }
@@ -65,6 +70,35 @@ namespace SMBlob {
             } else {
                 LOG_DEBUG << "SMBEWEmbedWindowReq is null ";
             }
+        }
+
+        void Application::embeddedWindowDestroyed(const SMBEWEmbedWindow &window) {
+            LOG_DEBUG << "Application::embeddedWindowDestroyed";
+        }
+
+        void Application::embeddedWindowFocused(const SMBEWEmbedWindow &window, bool focus) {
+            LOG_DEBUG << "Application::embeddedWindowFocused";
+        }
+
+        void Application::embeddedWindowSubscribed(const SMBEWEmbedWindow &window, bool success) {
+            auto result = FIND_BY_NATIVE_WINDOW(window);
+            if (result != this->embeddedWindows.end()) {
+                LOG_DEBUG << "Application::embeddedWindowSubscribed: " << window;
+                result->get()->windowSubscribed(success);
+            } else {
+                LOG_WARNING << "Application::embeddedWindowSubscribed not found: " << window;
+            }
+        }
+
+        void Application::embeddedWindowReparented(const SMBEWEmbedWindow &window, int mask) {
+            auto result = FIND_BY_NATIVE_WINDOW(window);
+            if (result != this->embeddedWindows.end()) {
+                LOG_DEBUG << "Application::embeddedWindowReparented: " << window;
+                result->get()->windowReparented(mask);
+            } else {
+                LOG_WARNING << "Application::embeddedWindowReparented not found: " << window;
+            }
+
         }
 
         // ProxyObject

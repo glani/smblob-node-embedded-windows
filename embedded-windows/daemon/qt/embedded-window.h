@@ -69,7 +69,14 @@ namespace SMBlob {
             void nativeVisible(bool show);
 
             void tryFirstRunKeys();
+
+            void windowSubscribed(bool success);
+            void windowReparented(int mask);
         public:
+            const SMBEWEmbedWindow& getNativeWindow() const;
+            const SMBEWEmbedWindow& getWindow() const;
+
+
 
         private:
             QSharedPointer<EmbeddedWindowHelper> windowHelperPtr;
@@ -84,12 +91,13 @@ namespace SMBlob {
             void tryToActivateForeignWindow();
 
             bool nativeWindowReady;
-            uint64_t embeddedNativeWindowId;
+            SMBEWEmbedWindow embeddedNativeWindowId;
+            SMBEWEmbedWindow windowId;
             BaseProcessor *processor;
+            int reparentReadyMask;
 
-            SMBEWEmbedWindow getNativeWindow() const;
-            SMBEWEmbedWindow getWindow() const;
 
+            void resizeNative() const;
         };
 
     }

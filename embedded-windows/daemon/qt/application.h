@@ -1,18 +1,14 @@
 #pragma once
-
 #include "BaseProcessor.h"
+#include "types.h"
 #include <QApplication>
 
-using WidgetPtr = QSharedPointer<QWidget>;
+
 
 namespace SMBlob {
     namespace EmbeddedWindows {
-//
-//        class SMBEWReleaseWindowReq;
-//
-//        class SMBEWCloseWindowReq;
-//
-//        class SMBEWEmbedWindowReq;
+        class EmbeddedWindow;
+        using EmbeddedWindowPtr = QSharedPointer<EmbeddedWindow>;
 
         class ProxyObject : public QObject {
         Q_OBJECT
@@ -22,8 +18,12 @@ namespace SMBlob {
         public slots:
 
         signals:
-            void embedWindowRequested(std::shared_ptr<SMBEWEmbedWindowReq> request);
+            void embedWindowRequested(std::shared_ptr<SMBEWEmbedWindowReq>);
             void exitRequested();
+            void embeddedWindowDestroyed(const SMBEWEmbedWindow&);
+            void embeddedWindowFocused(const SMBEWEmbedWindow &, bool);
+            void embeddedWindowSubscribed(const SMBEWEmbedWindow &, bool);
+            void embeddedWindowReparented(const SMBEWEmbedWindow &, int);
         };
 
 
@@ -35,13 +35,35 @@ namespace SMBlob {
             virtual ~Application();
 
             // calls come from another thread
-            void requestExit() override;
+            void requestExit() override {
+                emit proxyObject.exitRequested();
+            }
 
             void releaseWindow(const SMBEWReleaseWindowReq &req) override;
 
             void closeWindow(const SMBEWCloseWindowReq &req) override;
 
-            void embedWindow(const SMBEWEmbedWindowReq &req) override;
+            void embedWindow(const SMBEWEmbedWindowReq &req) override {
+                std::shared_ptr<SMBEWEmbedWindowReq> request = std::make_shared<SMBEWEmbedWindowReq>(req);
+                emit proxyObject.embedWindowRequested(std::move(request));
+            }
+
+            void embeddedWindowDestroy(const SMBEWEmbedWindow& window) {
+                emit proxyObject.embeddedWindowDestroyed(window);
+            }
+
+            void embeddedWindowFocus(const SMBEWEmbedWindow &window, bool focus) {
+                emit proxyObject.embeddedWindowFocused(window, focus);
+            }
+
+            void embeddedWindowSubscribe(const SMBEWEmbedWindow &window, bool success) {
+                emit proxyObject.embeddedWindowSubscribed(window, success);
+            }
+
+            void embeddedWindowReparent(const SMBEWEmbedWindow &window, int mask) {
+                emit proxyObject.embeddedWindowReparented(window, mask);
+            }
+
 
         public slots:
 
@@ -50,13 +72,22 @@ namespace SMBlob {
 
             void embedWindowRequested(std::shared_ptr<SMBEWEmbedWindowReq> request);
 
+            void embeddedWindowDestroyed(const SMBEWEmbedWindow& window);
+
+            void embeddedWindowFocused(const SMBEWEmbedWindow &window, bool focus);
+
+            void embeddedWindowSubscribed(const SMBEWEmbedWindow &window, bool success);
+
+            void embeddedWindowReparented(const SMBEWEmbedWindow &window, int mask);
+
         private:
             // required to delegate all requests to main thread
             ProxyObject proxyObject;
 
             static void logSMBEWEmbedWindowReq(std::shared_ptr<SMBEWEmbedWindowReq>& sharedPtr);
 
-            std::vector<WidgetPtr> embeddedWindows;
+            // all operations should be done on the main applcication thread
+            std::vector<EmbeddedWindowPtr> embeddedWindows;
         };
     }
 }

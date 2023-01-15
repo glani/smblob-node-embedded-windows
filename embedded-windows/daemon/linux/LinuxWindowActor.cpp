@@ -17,7 +17,8 @@ int self_vfprintf(FILE *__restrict __s, const char *__restrict __format,
 
 #define XCB_CASE(VALUE, EVENT_NAME) \
     case VALUE: {                   \
-       LOGD << "" #VALUE;           \
+        /* make it silent. It is used for DEBUG and development purposes */    \
+        LOGD << "" #VALUE;           \
         break;                                \
     }
 
@@ -60,6 +61,11 @@ namespace SMBlob {
             return ret == XDO_SUCCESS;
         }
 
+        bool LinuxWindowActor::setSize(const SMBEWEmbedWindow &window, int width, int height) const {
+            int ret = XDO_SUCCESS;
+            ret = xdo_set_window_size(xcbInitializer->xdo(), window, width, height, 0);
+            return ret == XDO_SUCCESS;
+        }
 
         void LinuxWindowActor::listen() {
             this->tryToSubscribe();
@@ -75,29 +81,55 @@ namespace SMBlob {
                     XCB_CASE(XCB_BUTTON_RELEASE, xcb_button_release_event_t)
                     XCB_CASE(XCB_MOTION_NOTIFY, xcb_motion_notify_event_t)
                     XCB_CASE(XCB_LEAVE_NOTIFY, xcb_leave_notify_event_t)
-                    XCB_CASE(XCB_FOCUS_IN, xcb_focus_in_event_t)
-//                    case XCB_FOCUS_IN: {
-//                        break;
-//                    }
-                    XCB_CASE(XCB_FOCUS_OUT, xcb_focus_out_event_t)
+//                    XCB_CASE(XCB_FOCUS_IN, xcb_focus_in_event_t)
+                    case XCB_FOCUS_IN: {
+                        this->focusInEvent((xcb_focus_in_event_t *) event);
+                        break;
+                    }
+//                    XCB_CASE(XCB_FOCUS_OUT, xcb_focus_out_event_t)
+                    case XCB_FOCUS_OUT: {
+                        this->focusOutEvent((xcb_focus_out_event_t *) event);
+                        break;
+                    }
                     XCB_CASE(XCB_KEYMAP_NOTIFY, xcb_keymap_notify_event_t)
                     XCB_CASE(XCB_EXPOSE, xcb_expose_event_t)
                     XCB_CASE(XCB_GRAPHICS_EXPOSURE, xcb_graphics_exposure_event_t)
                     XCB_CASE(XCB_NO_EXPOSURE, xcb_no_exposure_event_t)
                     XCB_CASE(XCB_VISIBILITY_NOTIFY, xcb_visibility_notify_event_t)
                     XCB_CASE(XCB_CREATE_NOTIFY, xcb_create_notify_event_t)
-                    XCB_CASE(XCB_DESTROY_NOTIFY, xcb_destroy_notify_event_t)
-                    XCB_CASE(XCB_UNMAP_NOTIFY, xcb_unmap_notify_event_t)
-                    XCB_CASE(XCB_MAP_NOTIFY, xcb_map_notify_event_t)
+//                    XCB_CASE(XCB_DESTROY_NOTIFY, xcb_destroy_notify_event_t)
+                    case XCB_DESTROY_NOTIFY: {
+                        this->destroyEvent((xcb_destroy_notify_event_t *) event);
+                        break;
+                    }
+//                    XCB_CASE(XCB_UNMAP_NOTIFY, xcb_unmap_notify_event_t)
+                    case XCB_UNMAP_NOTIFY: {
+                        this->unmapNotifyEvent((xcb_unmap_notify_event_t *) event);
+                        break;
+                    }
+//                    XCB_CASE(XCB_MAP_NOTIFY, xcb_map_notify_event_t)
+                    case XCB_MAP_NOTIFY: {
+                        this->mapNotifyEvent((xcb_map_notify_event_t *) event);
+                        break;
+                    }
                     XCB_CASE(XCB_MAP_REQUEST, xcb_map_request_event_t)
-                    XCB_CASE(XCB_REPARENT_NOTIFY, xcb_reparent_notify_event_t)
+//                    XCB_CASE(XCB_REPARENT_NOTIFY, xcb_reparent_notify_event_t)
+                    case XCB_REPARENT_NOTIFY:
+                    {
+                        this->reparentNotifyEvent((xcb_reparent_notify_event_t*)event);
+                        break;
+                    }
                     XCB_CASE(XCB_CONFIGURE_NOTIFY, xcb_configure_notify_event_t)
                     XCB_CASE(XCB_CONFIGURE_REQUEST, xcb_configure_request_event_t)
                     XCB_CASE(XCB_GRAVITY_NOTIFY, xcb_gravity_notify_event_t)
                     XCB_CASE(XCB_RESIZE_REQUEST, xcb_resize_request_event_t)
                     XCB_CASE(XCB_CIRCULATE_NOTIFY, xcb_circulate_notify_event_t)
                     XCB_CASE(XCB_CIRCULATE_REQUEST, xcb_circulate_request_event_t)
-                    XCB_CASE(XCB_PROPERTY_NOTIFY, xcb_property_notify_event_t)
+//                    XCB_CASE(XCB_PROPERTY_NOTIFY, xcb_property_notify_event_t)
+                    case XCB_PROPERTY_NOTIFY: {
+                        this->notifyEvent((xcb_property_notify_event_t *) event);
+                        break;
+                    }
                     XCB_CASE(XCB_SELECTION_CLEAR, xcb_selection_clear_event_t)
                     XCB_CASE(XCB_SELECTION_REQUEST, xcb_selection_request_event_t)
                     XCB_CASE(XCB_SELECTION_NOTIFY, xcb_selection_notify_event_t)
@@ -181,38 +213,112 @@ namespace SMBlob {
         }
 
         void LinuxWindowActor::subscribe(const SMBEWEmbedWindow &window) {
-            LOGD << "Window Subscribtion scheduled: " << window;
+            LOGD << "Window Subscription scheduled: " << window;
             BaseWindowActor::subscribe(window);
             std::unique_lock<std::mutex> lock(this->subscribeMutex);
             struct SubscribeHolder v{window};
             this->requestQueue.emplace(std::move(v));
             lock.unlock();
+
         }
 
         void LinuxWindowActor::subscribeWindow(const SMBEWEmbedWindow &window) {
-
-//            auto currentAttribs = XCB_REPLY_UNCHECKED(xcb_get_window_attributes, this->xcbInitializer->xcbConnection(),
-//                                                   window);
-//            const auto existingEventMask = !currentAttribs ? 0 : currentAttribs->your_event_mask;
             uint32_t values[] = {
                     XCB_EVENT_MASK_NO_EVENT
-                    | XCB_EVENT_MASK_PROPERTY_CHANGE
                     | XCB_EVENT_MASK_FOCUS_CHANGE
-                    | XCB_EVENT_MASK_EXPOSURE
-
+                    | XCB_EVENT_MASK_PROPERTY_CHANGE
+                    | XCB_EVENT_MASK_STRUCTURE_NOTIFY
             };
 
             const uint32_t mask = XCB_CW_EVENT_MASK;
             xcb_change_window_attributes(this->xcbInitializer->xcbConnection(), window, mask, values);
 
-            auto wmProtocols = this->xcbInitializer->internAtom("WM_PROTOCOLS");
-            auto wmDelete = this->xcbInitializer->internAtom("WM_DELETE_WINDOW");
-            xcb_change_property(this->xcbInitializer->xcbConnection(), XCB_PROP_MODE_REPLACE, window, wmProtocols, 4, 32, 1,
-                                &wmDelete);
-
             this->xcbInitializer->flush();
             LOGD << "Window has subscribed: " << window;
+            if (onEmbeddedWindowSubscribedCallback) {
+                // true always ?
+                onEmbeddedWindowSubscribedCallback(window, true);
+            }
         }
+
+        void LinuxWindowActor::focusInEvent(xcb_focus_in_event_t *pEvent) {
+            LOGD << "focusInEvent";
+            if (onEmbeddedWindowFocusedCallback) {
+                SMBEWEmbedWindow window = pEvent->event;
+                onEmbeddedWindowFocusedCallback(window, true);
+            }
+        }
+
+        void LinuxWindowActor::focusOutEvent(xcb_focus_out_event_t *pEvent) {
+            LOGD << "focusOutEvent";
+            if (onEmbeddedWindowFocusedCallback) {
+                SMBEWEmbedWindow window = pEvent->event;
+                onEmbeddedWindowFocusedCallback(window, false);
+            }
+        }
+
+        void LinuxWindowActor::destroyEvent(xcb_destroy_notify_event_t *pEvent) {
+            LOGD << "destroyEvent";
+            if (onEmbeddedWindowDestroyedCallback) {
+                SMBEWEmbedWindow window = pEvent->window;
+                onEmbeddedWindowDestroyedCallback(window);
+            }
+        }
+
+        void LinuxWindowActor::notifyEvent(xcb_property_notify_event_t *pEvent) {
+            LOGD << "notifyEvent";
+            LOGD << "pEvent->window: " << pEvent->window;
+            LOGD << "pEvent->atom: " << pEvent->atom;
+            LOGD << "pEvent->atom: " << xcbInitializer->atomName(pEvent->atom);
+            LOGD << "pEvent->sequence: " << pEvent->sequence;
+        }
+
+
+        void LinuxWindowActor::unmapNotifyEvent(xcb_unmap_notify_event_t *pEvent) {
+            LOGD << "unmapNotifyEvent";
+            if (onEmbeddedWindowReparentedCallback) {
+                SMBEWEmbedWindow window = pEvent->window;
+                onEmbeddedWindowReparentedCallback(window, ReparentReadyMask::STEP1);
+            }
+
+        }
+
+        void LinuxWindowActor::mapNotifyEvent(xcb_map_notify_event_t *pEvent) {
+            LOGD << "mapNotifyEvent";
+            if (onEmbeddedWindowReparentedCallback) {
+                SMBEWEmbedWindow window = pEvent->window;
+                onEmbeddedWindowReparentedCallback(window, ReparentReadyMask::STEP3);
+            }
+        }
+
+        void LinuxWindowActor::reparentNotifyEvent(xcb_reparent_notify_event_t *pEvent) {
+            LOGD << "reparentNotifyEvent";
+            if (onEmbeddedWindowReparentedCallback) {
+                SMBEWEmbedWindow window = pEvent->window;
+                onEmbeddedWindowReparentedCallback(window, ReparentReadyMask::STEP2);
+            }
+        }
+
+        void LinuxWindowActor::setOnEmbeddedWindowDestroyed(
+                const std::function<void(const SMBEWEmbedWindow &)> &onEmbeddedWindowDestroyedCallback) {
+            this->onEmbeddedWindowDestroyedCallback = onEmbeddedWindowDestroyedCallback;
+        }
+
+        void LinuxWindowActor::setOnEmbeddedWindowFocused(
+                const std::function<void(const SMBEWEmbedWindow &, bool)> &onEmbeddedWindowFocusedCallback) {
+            this->onEmbeddedWindowFocusedCallback = onEmbeddedWindowFocusedCallback;
+        }
+
+        void LinuxWindowActor::setOnEmbeddedWindowSubscribedCallback(
+                const std::function<void(const SMBEWEmbedWindow &, bool)> &onEmbeddedWindowSubscribedCallback) {
+            this->onEmbeddedWindowSubscribedCallback = onEmbeddedWindowSubscribedCallback;
+        }
+
+        void LinuxWindowActor::setOnEmbeddedWindowReparentedCallback(
+                const std::function<void(const SMBEWEmbedWindow &, int)> &onEmbeddedWindowReparentedCallback) {
+            this->onEmbeddedWindowReparentedCallback = onEmbeddedWindowReparentedCallback;
+        }
+
 
 
         LinuxWindowActorPrivate::LinuxWindowActorPrivate() {

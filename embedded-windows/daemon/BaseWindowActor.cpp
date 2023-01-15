@@ -24,6 +24,10 @@ namespace SMBlob {
             return true;
         }
 
+        bool BaseWindowActor::setSize(const SMBEWEmbedWindow &window, int width, int height) const {
+            return false;
+        }
+
         void BaseWindowActor::listen() {
 
         }
@@ -35,5 +39,27 @@ namespace SMBlob {
         void BaseWindowActor::startListener() {
 
         }
+
+        void BaseWindowActor::setOnEmbeddedWindowDestroyed(
+                const std::function<void(const SMBEWEmbedWindow &)> &onEmbeddedWindowDestroyedCallback) {
+
+        }
+
+        void BaseWindowActor::setOnEmbeddedWindowFocused(
+                const std::function<void(const SMBEWEmbedWindow &, bool)> &onEmbeddedWindowFocusedCallback) {
+
+        }
+
+        void BaseWindowActor::setOnEmbeddedWindowSubscribedCallback(
+                const std::function<void(const SMBEWEmbedWindow &, bool)> &onEmbeddedWindowSubscribedCallback) {
+
+        }
+
+        void BaseWindowActor::setOnEmbeddedWindowReparentedCallback(
+                const std::function<void(const SMBEWEmbedWindow &, int)> &onEmbeddedWindowReparentedCallback) {
+
+        }
+
+
     }
 }
