@@ -47,10 +47,6 @@ namespace SMBlob {
             virtual void setOnEmbeddedWindowReparentedCallback(const std::function<void(const SMBEWEmbedWindow &,
                                                                                         int mask)> &onEmbeddedWindowReparentedCallback);
 
-            virtual void setOnEmbeddedWindowCustomOpaqueRequestedCallback(
-                    const std::function<void(const SMBEWEmbedWindow &, FrameExtents,
-                                             OpaqueParameters)> &);
-
             virtual void setOnEmbeddedWindowCustomOpaqueRequestedCallback(const std::function<void(const SMBEWEmbedWindow &)> &onEmbeddedWindowCustomOpaqueRequestedCallback);
 
             virtual bool sendKeySequenceToWindow(const SMBEWEmbedWindow &window,
@@ -65,6 +61,7 @@ namespace SMBlob {
 
             virtual bool setSize(const SMBEWEmbedWindow &window, int width, int height) const;
 
+            virtual std::shared_ptr<OpaqueParameters> getOpaqueParameters(const SMBEWEmbedWindow&  window) const;
 
             virtual void listen();
 

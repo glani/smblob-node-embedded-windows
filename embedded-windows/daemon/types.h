@@ -25,6 +25,7 @@ namespace SMBlob {
             uint32_t items[8];
             uint32_t len;
             bool fullscreen;
+            FrameExtents frameExtents;
         };
     }
 }

@@ -291,28 +291,22 @@ namespace SMBlob {
 
                     if (opaqueParameters) {
                         opaqueParameters->fullscreen = !extentsPtr;
-                        onEmbeddedWindowCustomOpaqueRequestedCallback(window, *extents, *opaqueParameters);
+                        onEmbeddedWindowCustomOpaqueRequestedCallback(window);
                     }
                 }
             }
         }
 
         bool LinuxWindowActor::forceUpdateSize(const SMBEWEmbedWindow &window, int width, int height) const {
-            std::shared_ptr<FrameExtents> extentsPtr = this->retrieveFrameExtents(window);
-            FrameExtents empty;
-            auto extents = &empty;
-            if (extentsPtr) {
-                extents = extentsPtr.get();
-                // NULL ptr means fullscreen mode
-            }
+
             auto opaqueParameters = getOpaqueParameters(window);
             if (opaqueParameters) {
                 // calculate new opaque region
                 uint32_t *items = opaqueParameters->items;
                 if (opaqueParameters->len == 8) {
                     uint32_t delta = delta = items[6] - items[2];
-                    items[7] = height - extents->yb - items[5];
-                    items[6] = width - extents->xl - extents->xr;
+                    items[7] = height - opaqueParameters->frameExtents.yb - items[5];
+                    items[6] = width - opaqueParameters->frameExtents.xl - opaqueParameters->frameExtents.xr;
                     items[2] = items[6] - delta;
                 } else if (opaqueParameters->len == 4) {
                     // could be in fullscreen
@@ -327,7 +321,7 @@ namespace SMBlob {
             return true;
         }
 
-        std::shared_ptr<OpaqueParameters> LinuxWindowActor::getOpaqueParameters(const xcb_window_t &window) const {
+        std::shared_ptr<OpaqueParameters> LinuxWindowActor::getOpaqueParameters(const SMBEWEmbedWindow&  window) const {
             auto valueWmOpaqueRegion = XCB_REPLY_UNCHECKED(xcb_get_property, connection(), false,
                                                            window,
                                                            netWmOpaqueRegion, XCB_ATOM_CARDINAL, 0, 1024);
@@ -338,6 +332,14 @@ namespace SMBlob {
                 uint32_t *ptr = (uint32_t *) xcb_get_property_value(valueWmOpaqueRegion.get());
                 opaqueParameters->len = valueWmOpaqueRegion->value_len;
                 memcpy(&opaqueParameters->items, ptr, sizeof(uint32_t) * valueWmOpaqueRegion->value_len);
+                std::shared_ptr<FrameExtents> extentsPtr = this->retrieveFrameExtents(window);
+                FrameExtents empty;
+                auto extents = &empty;
+                if (extentsPtr) {
+                    extents = extentsPtr.get();
+                    // NULL ptr means fullscreen mode
+                }
+                opaqueParameters->frameExtents = *extents;
                 return opaqueParameters;
             }
             return nullptr;
@@ -390,10 +392,8 @@ namespace SMBlob {
         }
 
         void LinuxWindowActor::setOnEmbeddedWindowCustomOpaqueRequestedCallback(
-                const std::function<void(const SMBEWEmbedWindow &, FrameExtents,
-                                         OpaqueParameters)> &onEmbeddedWindowCustomOpaqueRequestedCallback) {
-            // NO
-//            this->onEmbeddedWindowCustomOpaqueRequestedCallback = onEmbeddedWindowCustomOpaqueRequestedCallback;
+                const std::function<void(const SMBEWEmbedWindow &)> &onEmbeddedWindowCustomOpaqueRequestedCallback) {
+            this->onEmbeddedWindowCustomOpaqueRequestedCallback = onEmbeddedWindowCustomOpaqueRequestedCallback;
         }
 
         std::shared_ptr<FrameExtents> LinuxWindowActor::retrieveFrameExtents(xcb_window_t window) const {

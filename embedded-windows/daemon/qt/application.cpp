@@ -27,9 +27,9 @@ namespace SMBlob {
             QObject::connect(&proxyObject, SIGNAL(embeddedWindowReparented(const SMBEWEmbedWindow &, int)), this,
                              SLOT(embeddedWindowReparented(const SMBEWEmbedWindow &, int)));
             QObject::connect(&proxyObject,
-                             SIGNAL(embeddedWindowCustomOpaqueRequested(const SMBEWEmbedWindow &, FrameExtents, struct OpaqueParameters)),
+                             SIGNAL(embeddedWindowCustomOpaqueRequested(const SMBEWEmbedWindow &)),
                              this,
-                             SLOT(embeddedWindowCustomOpaqueRequested(const SMBEWEmbedWindow &, FrameExtents, struct OpaqueParameters)));
+                             SLOT(embeddedWindowCustomOpaqueRequested(const SMBEWEmbedWindow &)));
 
             BaseProcessor::windowActor->setOnEmbeddedWindowDestroyedCallback(
                     SMBEW_CC_CALLBACK_1(Application::embeddedWindowDestroy, this));
@@ -40,7 +40,7 @@ namespace SMBlob {
             BaseProcessor::windowActor->setOnEmbeddedWindowReparentedCallback(
                     SMBEW_CC_CALLBACK_2(Application::embeddedWindowReparent, this));
             BaseProcessor::windowActor->setOnEmbeddedWindowCustomOpaqueRequestedCallback(
-                    SMBEW_CC_CALLBACK_3(Application::embeddedWindowCustomOpaqueRequest, this));
+                    SMBEW_CC_CALLBACK_1(Application::embeddedWindowCustomOpaqueRequest, this));
         }
 
 
@@ -116,13 +116,11 @@ namespace SMBlob {
             }
         }
 
-        void Application::embeddedWindowCustomOpaqueRequested(const SMBEWEmbedWindow &window,
-                                                              struct FrameExtents frameExtents,
-                                                              struct OpaqueParameters opaqueParameters) {
+        void Application::embeddedWindowCustomOpaqueRequested(const SMBEWEmbedWindow &window) {
             auto result = FIND_BY_NATIVE_WINDOW(window);
             if (result != this->embeddedWindows.end()) {
                 LOG_DEBUG << "Application::embeddedWindowCustomOpaqueRequested: " << window;
-                result->get()->customOpaqueRequested(frameExtents, opaqueParameters);
+                result->get()->customOpaqueRequested();
             } else {
                 LOG_WARNING << "Application::embeddedWindowCustomOpaqueRequested not found: " << window;
             }

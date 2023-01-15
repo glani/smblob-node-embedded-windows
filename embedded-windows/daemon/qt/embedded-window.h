@@ -73,12 +73,10 @@ namespace SMBlob {
 
             void windowSubscribed(bool success);
             void windowReparented(int mask);
-            void customOpaqueRequested(const struct FrameExtents& frameExtents, const struct OpaqueParameters& opaqueParameters);
+            void customOpaqueRequested();
         public:
             const SMBEWEmbedWindow& getNativeWindow() const;
             const SMBEWEmbedWindow& getWindow() const;
-
-
 
         private:
             QSharedPointer<EmbeddedWindowHelper> windowHelperPtr;

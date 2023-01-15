@@ -51,19 +51,16 @@ namespace SMBlob {
             void setOnEmbeddedWindowReparentedCallback(const std::function<void(const SMBEWEmbedWindow &,
                                                                                         int mask)> &onEmbeddedWindowReparentedCallback) override;
 
-            void setOnEmbeddedWindowCustomOpaqueRequestedCallback(const std::function<void(const SMBEWEmbedWindow &, FrameExtents,
-                                                                                           OpaqueParameters )> &onEmbeddedWindowCustomOpaqueRequestedCallback) override;
-
-
             void setOnEmbeddedWindowCustomOpaqueRequestedCallback(const std::function<void(const SMBEWEmbedWindow &)> &onEmbeddedWindowCustomOpaqueRequestedCallback) override;
 
+            std::shared_ptr<OpaqueParameters> getOpaqueParameters(const SMBEWEmbedWindow&  window) const override;
         private:
             // callbacks variables
             std::function<void(const SMBEWEmbedWindow &)> onEmbeddedWindowDestroyedCallback;
             std::function<void(const SMBEWEmbedWindow &, bool focus)> onEmbeddedWindowFocusedCallback;
             std::function<void(const SMBEWEmbedWindow &, bool success)> onEmbeddedWindowSubscribedCallback;
             std::function<void(const SMBEWEmbedWindow &, int mask)> onEmbeddedWindowReparentedCallback;
-            std::function<void(const SMBEWEmbedWindow &, FrameExtents, OpaqueParameters )> onEmbeddedWindowCustomOpaqueRequestedCallback;
+            std::function<void(const SMBEWEmbedWindow &)> onEmbeddedWindowCustomOpaqueRequestedCallback;
             //
             std::unique_ptr<XcbInitializer> xcbInitializer;
             std::mutex subscribeMutex;
@@ -96,7 +93,7 @@ namespace SMBlob {
 
             std::shared_ptr<FrameExtents> getExtents(xcb_window_t window, xcb_atom_t atom) const;
 
-            std::shared_ptr<OpaqueParameters> getOpaqueParameters(const xcb_window_t&  window) const;
+
         };
 
         // LinuxWindowActorPrivate

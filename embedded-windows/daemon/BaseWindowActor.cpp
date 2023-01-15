@@ -67,14 +67,12 @@ namespace SMBlob {
         }
 
         void BaseWindowActor::setOnEmbeddedWindowCustomOpaqueRequestedCallback(
-                const std::function<void(const SMBEWEmbedWindow &, FrameExtents,
-                                         OpaqueParameters)> &) {
+                const std::function<void(const SMBEWEmbedWindow &)> &onEmbeddedWindowCustomOpaqueRequestedCallback) {
 
         }
 
-        void BaseWindowActor::setOnEmbeddedWindowCustomOpaqueRequestedCallback(
-                const std::function<void(const SMBEWEmbedWindow &)> &onEmbeddedWindowCustomOpaqueRequestedCallback) {
-
+        std::shared_ptr<OpaqueParameters> BaseWindowActor::getOpaqueParameters(const SMBEWEmbedWindow &window) const {
+            return std::shared_ptr<OpaqueParameters>();
         }
 
     }

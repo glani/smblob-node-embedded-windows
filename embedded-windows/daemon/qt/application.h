@@ -24,7 +24,7 @@ namespace SMBlob {
             void embeddedWindowFocused(const SMBEWEmbedWindow &, bool);
             void embeddedWindowSubscribed(const SMBEWEmbedWindow &, bool);
             void embeddedWindowReparented(const SMBEWEmbedWindow &, int);
-            void embeddedWindowCustomOpaqueRequested(const SMBEWEmbedWindow &, struct FrameExtents, struct OpaqueParameters);
+            void embeddedWindowCustomOpaqueRequested(const SMBEWEmbedWindow &);
         };
 
 
@@ -64,8 +64,8 @@ namespace SMBlob {
             void embeddedWindowReparent(const SMBEWEmbedWindow &window, int mask) {
                 emit proxyObject.embeddedWindowReparented(window, mask);
             }
-            void embeddedWindowCustomOpaqueRequest(const SMBEWEmbedWindow &window, struct FrameExtents frameExtents, struct OpaqueParameters opaqueParameters) {
-                emit proxyObject.embeddedWindowCustomOpaqueRequested(window, frameExtents, std::move(opaqueParameters));
+            void embeddedWindowCustomOpaqueRequest(const SMBEWEmbedWindow &window) {
+                emit proxyObject.embeddedWindowCustomOpaqueRequested(window);
             }
 
 
@@ -84,7 +84,7 @@ namespace SMBlob {
 
             void embeddedWindowReparented(const SMBEWEmbedWindow &window, int mask);
 
-            void embeddedWindowCustomOpaqueRequested(const SMBEWEmbedWindow &window, struct FrameExtents frameExtents, struct OpaqueParameters opaqueParameters);
+            void embeddedWindowCustomOpaqueRequested(const SMBEWEmbedWindow &window);
 
         private:
             // required to delegate all requests to main thread
