@@ -22,6 +22,7 @@ int self_vfprintf(FILE *__restrict __s, const char *__restrict __format,
         break;                                \
     }
 
+#define connection() this->xcbInitializer->xcbConnection()
 
 namespace SMBlob {
     namespace EmbeddedWindows {
@@ -29,6 +30,11 @@ namespace SMBlob {
         LinuxWindowActor::LinuxWindowActor() : BaseWindowActor() {
             LinuxWindowActorPrivate::getInstance();
             xcbInitializer = std::make_unique<XcbInitializer>();
+            this->netWmOpaqueRegion = xcbInitializer->internAtom("_NET_WM_OPAQUE_REGION");
+            this->kdeNetWmFrameStrut = this->xcbInitializer->internAtom("_KDE_NET_WM_FRAME_STRUT");
+            this->gtkFrameExtents = this->xcbInitializer->internAtom("_GTK_FRAME_EXTENTS");
+            this->netFrameExtents = this->xcbInitializer->internAtom("_NET_FRAME_EXTENTS");
+
         }
 
         LinuxWindowActor::~LinuxWindowActor() {
@@ -63,6 +69,7 @@ namespace SMBlob {
 
         bool LinuxWindowActor::setSize(const SMBEWEmbedWindow &window, int width, int height) const {
             int ret = XDO_SUCCESS;
+            LOGD << "width: " << width << " height: " << height;
             ret = xdo_set_window_size(xcbInitializer->xdo(), window, width, height, 0);
             return ret == XDO_SUCCESS;
         }
@@ -114,9 +121,8 @@ namespace SMBlob {
                     }
                     XCB_CASE(XCB_MAP_REQUEST, xcb_map_request_event_t)
 //                    XCB_CASE(XCB_REPARENT_NOTIFY, xcb_reparent_notify_event_t)
-                    case XCB_REPARENT_NOTIFY:
-                    {
-                        this->reparentNotifyEvent((xcb_reparent_notify_event_t*)event);
+                    case XCB_REPARENT_NOTIFY: {
+                        this->reparentNotifyEvent((xcb_reparent_notify_event_t *) event);
                         break;
                     }
                     XCB_CASE(XCB_CONFIGURE_NOTIFY, xcb_configure_notify_event_t)
@@ -267,10 +273,74 @@ namespace SMBlob {
 
         void LinuxWindowActor::notifyEvent(xcb_property_notify_event_t *pEvent) {
             LOGD << "notifyEvent";
-            LOGD << "pEvent->window: " << pEvent->window;
+            xcb_window_t window = pEvent->window;
+            LOGD << "pEvent->window: " << window;
             LOGD << "pEvent->atom: " << pEvent->atom;
             LOGD << "pEvent->atom: " << xcbInitializer->atomName(pEvent->atom);
             LOGD << "pEvent->sequence: " << pEvent->sequence;
+            if (onEmbeddedWindowCustomOpaqueRequestedCallback) {
+                if (this->netWmOpaqueRegion == pEvent->atom) {
+                    std::shared_ptr<FrameExtents> extentsPtr = this->retrieveFrameExtents(window);
+                    FrameExtents empty;
+                    auto extents = &empty;
+                    if (extentsPtr) {
+                        extents = extentsPtr.get();
+                        // NULL ptr means fullscreen mode
+                    }
+                    auto opaqueParameters = getOpaqueParameters(window);
+
+                    if (opaqueParameters) {
+                        opaqueParameters->fullscreen = !extentsPtr;
+                        onEmbeddedWindowCustomOpaqueRequestedCallback(window, *extents, *opaqueParameters);
+                    }
+                }
+            }
+        }
+
+        bool LinuxWindowActor::forceUpdateSize(const SMBEWEmbedWindow &window, int width, int height) const {
+            std::shared_ptr<FrameExtents> extentsPtr = this->retrieveFrameExtents(window);
+            FrameExtents empty;
+            auto extents = &empty;
+            if (extentsPtr) {
+                extents = extentsPtr.get();
+                // NULL ptr means fullscreen mode
+            }
+            auto opaqueParameters = getOpaqueParameters(window);
+            if (opaqueParameters) {
+                // calculate new opaque region
+                uint32_t *items = opaqueParameters->items;
+                if (opaqueParameters->len == 8) {
+                    uint32_t delta = delta = items[6] - items[2];
+                    items[7] = height - extents->yb - items[5];
+                    items[6] = width - extents->xl - extents->xr;
+                    items[2] = items[6] - delta;
+                } else if (opaqueParameters->len == 4) {
+                    // could be in fullscreen
+                    items[2] = width - 2 * items[0];
+                    items[3] = height - 2 * items[1];
+                }
+                xcb_change_property(connection(), XCB_PROP_MODE_REPLACE, window, this->netWmOpaqueRegion,
+                                    XCB_ATOM_CARDINAL, 32, opaqueParameters->len, items);
+                this->setSize(window, width, height);
+            }
+
+            return true;
+        }
+
+        std::shared_ptr<OpaqueParameters> LinuxWindowActor::getOpaqueParameters(const xcb_window_t &window) const {
+            auto valueWmOpaqueRegion = XCB_REPLY_UNCHECKED(xcb_get_property, connection(), false,
+                                                           window,
+                                                           netWmOpaqueRegion, XCB_ATOM_CARDINAL, 0, 1024);
+
+            if (valueWmOpaqueRegion && valueWmOpaqueRegion->type == XCB_ATOM_CARDINAL &&
+                valueWmOpaqueRegion->format == 32 && valueWmOpaqueRegion->value_len >= 4) {
+                std::shared_ptr<OpaqueParameters> opaqueParameters = std::make_shared<OpaqueParameters>();
+                uint32_t *ptr = (uint32_t *) xcb_get_property_value(valueWmOpaqueRegion.get());
+                opaqueParameters->len = valueWmOpaqueRegion->value_len;
+                memcpy(&opaqueParameters->items, ptr, sizeof(uint32_t) * valueWmOpaqueRegion->value_len);
+                return opaqueParameters;
+            }
+            return nullptr;
         }
 
 
@@ -299,12 +369,12 @@ namespace SMBlob {
             }
         }
 
-        void LinuxWindowActor::setOnEmbeddedWindowDestroyed(
+        void LinuxWindowActor::setOnEmbeddedWindowDestroyedCallback(
                 const std::function<void(const SMBEWEmbedWindow &)> &onEmbeddedWindowDestroyedCallback) {
             this->onEmbeddedWindowDestroyedCallback = onEmbeddedWindowDestroyedCallback;
         }
 
-        void LinuxWindowActor::setOnEmbeddedWindowFocused(
+        void LinuxWindowActor::setOnEmbeddedWindowFocusedCallback(
                 const std::function<void(const SMBEWEmbedWindow &, bool)> &onEmbeddedWindowFocusedCallback) {
             this->onEmbeddedWindowFocusedCallback = onEmbeddedWindowFocusedCallback;
         }
@@ -319,6 +389,52 @@ namespace SMBlob {
             this->onEmbeddedWindowReparentedCallback = onEmbeddedWindowReparentedCallback;
         }
 
+        void LinuxWindowActor::setOnEmbeddedWindowCustomOpaqueRequestedCallback(
+                const std::function<void(const SMBEWEmbedWindow &, FrameExtents,
+                                         OpaqueParameters)> &onEmbeddedWindowCustomOpaqueRequestedCallback) {
+            // NO
+//            this->onEmbeddedWindowCustomOpaqueRequestedCallback = onEmbeddedWindowCustomOpaqueRequestedCallback;
+        }
+
+        std::shared_ptr<FrameExtents> LinuxWindowActor::retrieveFrameExtents(xcb_window_t window) const {
+            std::shared_ptr<FrameExtents> res;
+
+            if (!res) {
+                res = getExtents(window, this->netFrameExtents);
+                if (res) {
+                    return res;
+                }
+            }
+            if (!res) {
+                res = getExtents(window, this->gtkFrameExtents);
+                if (res) {
+                    return res;
+                }
+            }
+
+            if (!res) {
+                res = getExtents(window, this->kdeNetWmFrameStrut);
+                if (res) {
+                    return res;
+                }
+            }
+        }
+
+        std::shared_ptr<FrameExtents> LinuxWindowActor::getExtents(xcb_window_t window, xcb_atom_t atom) const {
+            auto valueFrameExtents = XCB_REPLY_UNCHECKED(xcb_get_property, connection(), false, window,
+                                                         atom, XCB_ATOM_CARDINAL, 0, 1024);
+            if (valueFrameExtents && valueFrameExtents->type == XCB_ATOM_CARDINAL &&
+                valueFrameExtents->format == 32 && valueFrameExtents->value_len == 4) {
+                int32_t *ptr = (int32_t *) xcb_get_property_value(valueFrameExtents.get());
+                auto res = std::make_shared<FrameExtents>();
+                res->xl = ptr[0];
+                res->xr = ptr[1];
+                res->yt = ptr[2];
+                res->yb = ptr[3];
+                return res;
+            }
+            return nullptr;
+        }
 
 
         LinuxWindowActorPrivate::LinuxWindowActorPrivate() {

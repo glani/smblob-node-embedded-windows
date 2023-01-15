@@ -25,6 +25,7 @@ namespace SMBlob {
             READY_LAST = STEP1 | STEP2 | STEP3
         };
 
+
         class BaseWindowActor {
         protected:
             BaseWindowActor();
@@ -34,17 +35,23 @@ namespace SMBlob {
 
         public:
             // callbacks
-            virtual void setOnEmbeddedWindowDestroyed(
-                    const std::function<void(const SMBEWEmbedWindow &)> &onEmbeddedWindowDestroyedCallback);
+            virtual void setOnEmbeddedWindowDestroyedCallback(
+                    const std::function<void(const SMBEWEmbedWindow &)> &);
 
-            virtual void setOnEmbeddedWindowFocused(
-                    const std::function<void(const SMBEWEmbedWindow &, bool focus)> &onEmbeddedWindowFocusedCallback);
+            virtual void setOnEmbeddedWindowFocusedCallback(
+                    const std::function<void(const SMBEWEmbedWindow &, bool focus)> &);
 
             virtual void setOnEmbeddedWindowSubscribedCallback(const std::function<void(const SMBEWEmbedWindow &,
                                                                                         bool sucess)> &onEmbeddedWindowSubscribedCallback);
 
             virtual void setOnEmbeddedWindowReparentedCallback(const std::function<void(const SMBEWEmbedWindow &,
                                                                                         int mask)> &onEmbeddedWindowReparentedCallback);
+
+            virtual void setOnEmbeddedWindowCustomOpaqueRequestedCallback(
+                    const std::function<void(const SMBEWEmbedWindow &, FrameExtents,
+                                             OpaqueParameters)> &);
+
+            virtual void setOnEmbeddedWindowCustomOpaqueRequestedCallback(const std::function<void(const SMBEWEmbedWindow &)> &onEmbeddedWindowCustomOpaqueRequestedCallback);
 
             virtual bool sendKeySequenceToWindow(const SMBEWEmbedWindow &window,
                                                  const std::string &keySequence,
@@ -53,6 +60,8 @@ namespace SMBlob {
             virtual bool sendFocusToWindow(const SMBEWEmbedWindow &window, bool focus = true) const;
 
             virtual bool sendNewParent(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &parent) const;
+
+            virtual bool forceUpdateSize(const SMBEWEmbedWindow &window, int width, int height) const;
 
             virtual bool setSize(const SMBEWEmbedWindow &window, int width, int height) const;
 

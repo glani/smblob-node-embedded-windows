@@ -10,7 +10,12 @@ namespace SMBlob {
         BaseWindowActor::~BaseWindowActor() {
 
         }
-        
+
+
+        bool BaseWindowActor::forceUpdateSize(const SMBEWEmbedWindow &window, int width, int height) const {
+            return true;
+        }
+
         bool BaseWindowActor::sendKeySequenceToWindow(const SMBEWEmbedWindow &window, const std::string &keySequence,
                                                       uint32_t milliSecondsDelay) const {
             return true;
@@ -19,6 +24,7 @@ namespace SMBlob {
         bool BaseWindowActor::sendFocusToWindow(const SMBEWEmbedWindow &window, bool focus) const {
             return true;
         }
+
 
         bool BaseWindowActor::sendNewParent(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &parent) const {
             return true;
@@ -40,26 +46,36 @@ namespace SMBlob {
 
         }
 
-        void BaseWindowActor::setOnEmbeddedWindowDestroyed(
-                const std::function<void(const SMBEWEmbedWindow &)> &onEmbeddedWindowDestroyedCallback) {
+        void BaseWindowActor::setOnEmbeddedWindowDestroyedCallback(
+                const std::function<void(const SMBEWEmbedWindow &)> &) {
 
         }
 
-        void BaseWindowActor::setOnEmbeddedWindowFocused(
-                const std::function<void(const SMBEWEmbedWindow &, bool)> &onEmbeddedWindowFocusedCallback) {
+        void BaseWindowActor::setOnEmbeddedWindowFocusedCallback(
+                const std::function<void(const SMBEWEmbedWindow &, bool)> &) {
 
         }
 
         void BaseWindowActor::setOnEmbeddedWindowSubscribedCallback(
-                const std::function<void(const SMBEWEmbedWindow &, bool)> &onEmbeddedWindowSubscribedCallback) {
+                const std::function<void(const SMBEWEmbedWindow &, bool)> &) {
 
         }
 
         void BaseWindowActor::setOnEmbeddedWindowReparentedCallback(
-                const std::function<void(const SMBEWEmbedWindow &, int)> &onEmbeddedWindowReparentedCallback) {
+                const std::function<void(const SMBEWEmbedWindow &, int)> &) {
 
         }
 
+        void BaseWindowActor::setOnEmbeddedWindowCustomOpaqueRequestedCallback(
+                const std::function<void(const SMBEWEmbedWindow &, FrameExtents,
+                                         OpaqueParameters)> &) {
+
+        }
+
+        void BaseWindowActor::setOnEmbeddedWindowCustomOpaqueRequestedCallback(
+                const std::function<void(const SMBEWEmbedWindow &)> &onEmbeddedWindowCustomOpaqueRequestedCallback) {
+
+        }
 
     }
 }

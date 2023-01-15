@@ -43,3 +43,10 @@ https://coral.googlesource.com/weston-imx/+/refs/tags/3.0.0-3/xwayland/window-ma
 ### Close windows XCB
 
     https://marc.info/?l=freedesktop-xcb&m=129381953404497
+
+
+## Macos
+
+https://github.com/msolo/simbl/blob/master/SIMBL%20Agent/SIMBLAgent.m
+
+https://github.com/dfct/TrueFramelessWindow

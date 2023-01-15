@@ -4,6 +4,7 @@
 #include "internal/SMBlobNodeEmbeddedWindowsSharedPbModels.h"
 #include "BaseProcessor.h"
 #include "BaseWindowActor.h"
+#include "types.h"
 
 namespace SMBlob {
     namespace EmbeddedWindows {
@@ -72,6 +73,7 @@ namespace SMBlob {
 
             void windowSubscribed(bool success);
             void windowReparented(int mask);
+            void customOpaqueRequested(const struct FrameExtents& frameExtents, const struct OpaqueParameters& opaqueParameters);
         public:
             const SMBEWEmbedWindow& getNativeWindow() const;
             const SMBEWEmbedWindow& getWindow() const;

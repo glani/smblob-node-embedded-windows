@@ -30,17 +30,14 @@ namespace SMBlob {
             setObjectName("EmbeddedWindow");
 
             this->embeddedNativeWindowId = request.window().nativewindowid();
-            this->foreignWindow = QWindow::fromWinId(embeddedNativeWindowId);
 
 #ifdef LINUX
             this->container = new NativeWindowWidget(getNativeWindow(), this);
-//            this->windowHelperPtr->assign(this);
             this->windowHelperPtr->assign(container);
             this->windowId = this->winId();
 
             container->setObjectName("NativeContainer");
             const QString &nativeWindowIdStr = QString::number(embeddedNativeWindowId, 16);
-//            foreignWindow->setObjectName("ForeignWindow_" + nativeWindowIdStr);
 
             LOGD << "ForeignWindow Id:" << embeddedNativeWindowId << " [ 0x" << nativeWindowIdStr.toStdString() << " ]";
             const QString &windowIdStr = QString::number(this->windowId, 16);
@@ -51,12 +48,10 @@ namespace SMBlob {
             if (container) {
                 setCentralWidget(container);
                 this->processor->windowActor->subscribe(getNativeWindow());
-//                this->processor->windowActor->sendNewParent(getNativeWindow(), this->container->winId());
-//                nativeVisible(true);
             }
-//            this->processor->windowActor->subscribe();
-//
+
 #else
+            this->foreignWindow = QWindow::fromWinId(embeddedNativeWindowId);
             if (foreignWindow) {
                 this->nativeWindowHelperPtr = QSharedPointer<NativeWindowHelper>::create(this->foreignWindow);
                 QObject::connect(this->nativeWindowHelperPtr.get(), SIGNAL(onVisible(bool)), this, SLOT(nativeVisible(bool)));
@@ -118,15 +113,15 @@ namespace SMBlob {
         }
 
         void EmbeddedWindow::tryFirstRunKeys() {
-            LOGD << "EmbeddedWindow tryFirstRunKeys ";
-            std::string s("F11");
-            SMBEWEmbedWindow window = this->getWindow();
-            SMBEWEmbedWindow nativeWindow = this->getNativeWindow();
-            // IMPORTANT linux specific
-            this->processor->windowActor->sendFocusToWindow(nativeWindow, true);
-            this->processor->windowActor->sendKeySequenceToWindow(nativeWindow, s, 500);
-            auto size = this->container->size();
-            this->processor->windowActor->setSize(this->getNativeWindow(), size.width(), size.height());
+//            LOGD << "EmbeddedWindow tryFirstRunKeys ";
+//            std::string s("F11");
+//            SMBEWEmbedWindow window = this->getWindow();
+//            SMBEWEmbedWindow nativeWindow = this->getNativeWindow();
+//             IMPORTANT linux specific
+//            this->processor->windowActor->sendFocusToWindow(nativeWindow, true);
+//            this->processor->windowActor->sendKeySequenceToWindow(nativeWindow, s, 500);
+//            auto size = this->container->size();
+//            this->processor->windowActor->setSize(this->getNativeWindow(), size.width(), size.height());
         }
 
         bool EmbeddedWindow::event(QEvent *event) {
@@ -162,9 +157,34 @@ namespace SMBlob {
                 // ready
                 LOGD << "Native window ready: " << this->getNativeWindow();
                 this->nativeWindowReady = true;
-                resizeNative();
+                auto size = container->size();
+                processor->windowActor->forceUpdateSize(getNativeWindow(), size.width(), size.height());
+
                 QTimer::singleShot(500, this, SLOT(tryFirstRunKeys()));
             }
+        }
+
+        void EmbeddedWindow::customOpaqueRequested(const FrameExtents &frameExtents,
+                                                   const OpaqueParameters &opaqueParameters) {
+//            uint32_t opaqueWidth = 0;
+//            uint32_t opaqueHeight = 0;
+//            const uint32_t * items = opaqueParameters.items;
+//            if (opaqueParameters.len == 8) {
+//                opaqueWidth = items[6];
+//                opaqueHeight = items[7];
+//            } else if (opaqueParameters.len == 4) {
+//                opaqueWidth = items[2];
+//                opaqueHeight = items[3];
+//            }
+//            auto size = container->size();
+//            LOGD << "opaqueWidth: " << opaqueWidth;
+//            LOGD << "opaqueHeight: " << opaqueHeight;
+//            LOGD << "size.width(): " << size.width();
+//            LOGD << "size.height(): " << size.height();
+//            if (opaqueWidth > size.width() || opaqueHeight > size.height()) {
+////                processor->windowActor->forceUpdateSize(getNativeWindow(), size.width() - 1, size.height());
+////                this->resizeNative(); // hack for linux
+//            }
         }
 
         EmbeddedWindowHelper::EmbeddedWindowHelper(EmbeddedWindow *embWindow) :
