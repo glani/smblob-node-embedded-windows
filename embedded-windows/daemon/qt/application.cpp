@@ -11,6 +11,11 @@
         return window == item->getNativeWindow(); \
     })
 
+#define FIND_BY_WINDOW(window) \
+    std::find_if(std::begin(this->embeddedWindows), std::end(this->embeddedWindows), [&window](const EmbeddedWindowPtr& item) { \
+        return window == item->getWindow(); \
+    })
+
 namespace SMBlob {
     namespace EmbeddedWindows {
         Application::Application(int &argc, char **argv) : QApplication(argc, argv, ApplicationFlags),
@@ -24,8 +29,10 @@ namespace SMBlob {
                              SLOT(embeddedWindowFocused(const SMBEWEmbedWindow &, bool)));
             QObject::connect(&proxyObject, SIGNAL(embeddedWindowSubscribed(const SMBEWEmbedWindow &, bool)), this,
                              SLOT(embeddedWindowSubscribed(const SMBEWEmbedWindow &, bool)));
-            QObject::connect(&proxyObject, SIGNAL(embeddedWindowReparented(const SMBEWEmbedWindow &, int)), this,
-                             SLOT(embeddedWindowReparented(const SMBEWEmbedWindow &, int)));
+            QObject::connect(&proxyObject,
+                             SIGNAL(embeddedWindowReparented(const SMBEWEmbedWindow &, const SMBEWEmbedWindow &, int)),
+                             this,
+                             SLOT(embeddedWindowReparented(const SMBEWEmbedWindow &, const SMBEWEmbedWindow &, int)));
             QObject::connect(&proxyObject,
                              SIGNAL(embeddedWindowCustomOpaqueRequested(const SMBEWEmbedWindow &)),
                              this,
@@ -38,7 +45,7 @@ namespace SMBlob {
             BaseProcessor::windowActor->setOnEmbeddedWindowSubscribedCallback(
                     SMBEW_CC_CALLBACK_2(Application::embeddedWindowSubscribe, this));
             BaseProcessor::windowActor->setOnEmbeddedWindowReparentedCallback(
-                    SMBEW_CC_CALLBACK_2(Application::embeddedWindowReparent, this));
+                    SMBEW_CC_CALLBACK_3(Application::embeddedWindowReparent, this));
             BaseProcessor::windowActor->setOnEmbeddedWindowCustomOpaqueRequestedCallback(
                     SMBEW_CC_CALLBACK_1(Application::embeddedWindowCustomOpaqueRequest, this));
         }
@@ -93,7 +100,7 @@ namespace SMBlob {
             auto result = FIND_BY_NATIVE_WINDOW(window);
             if (result != this->embeddedWindows.end()) {
                 LOG_DEBUG << "Application::embeddedWindowDestroyed: " << window;
-//                result->get()->windowSubscribed(success);
+                result->get()->nativeWindowDestroyed();
             } else {
                 LOG_WARNING << "Application::embeddedWindowDestroyed not found: " << window;
             }
@@ -113,11 +120,12 @@ namespace SMBlob {
             }
         }
 
-        void Application::embeddedWindowReparented(const SMBEWEmbedWindow &window, int mask) {
+        void Application::embeddedWindowReparented(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &parent,
+                                                   int mask) {
             auto result = FIND_BY_NATIVE_WINDOW(window);
             if (result != this->embeddedWindows.end()) {
                 LOG_DEBUG << "Application::embeddedWindowReparented: " << window << " mask: " << mask;
-                result->get()->windowReparented(mask);
+                result->get()->windowReparented(parent, mask);
             } else {
                 LOG_WARNING << "Application::embeddedWindowReparented not found: " << window << " mask: " << mask;
             }
@@ -130,6 +138,15 @@ namespace SMBlob {
                 result->get()->customOpaqueRequested();
             } else {
                 LOG_WARNING << "Application::embeddedWindowCustomOpaqueRequested not found: " << window;
+            }
+        }
+
+        void Application::releaseWindowById(const SMBEWEmbedWindow &window) {
+
+            auto result = FIND_BY_WINDOW(window);
+            if (result != this->embeddedWindows.end()) {
+                LOG_DEBUG << "Application::releaseWindowById: " << window;
+                this->embeddedWindows.erase(result);
             }
         }
 

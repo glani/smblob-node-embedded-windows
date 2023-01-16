@@ -23,17 +23,20 @@ namespace SMBlob {
             void embeddedWindowDestroyed(const SMBEWEmbedWindow&);
             void embeddedWindowFocused(const SMBEWEmbedWindow &, bool);
             void embeddedWindowSubscribed(const SMBEWEmbedWindow &, bool);
-            void embeddedWindowReparented(const SMBEWEmbedWindow &, int);
+            void embeddedWindowReparented(const SMBEWEmbedWindow &, const SMBEWEmbedWindow&, int);
             void embeddedWindowCustomOpaqueRequested(const SMBEWEmbedWindow &);
         };
 
 
         class Application : public QApplication, public SMBlob::EmbeddedWindows::BaseProcessor {
         Q_OBJECT
-        public:
-            explicit Application(int &argc, char **argv);
 
+        public:
+
+            explicit Application(int &argc, char **argv);
             virtual ~Application();
+
+            void releaseWindowById(const SMBEWEmbedWindow &window);
 
             // calls come from another thread
             void requestExit() override {
@@ -61,8 +64,8 @@ namespace SMBlob {
                 emit proxyObject.embeddedWindowSubscribed(window, success);
             }
 
-            void embeddedWindowReparent(const SMBEWEmbedWindow &window, int mask) {
-                emit proxyObject.embeddedWindowReparented(window, mask);
+            void embeddedWindowReparent(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &parent, int mask) {
+                emit proxyObject.embeddedWindowReparented(window, parent, mask);
             }
             void embeddedWindowCustomOpaqueRequest(const SMBEWEmbedWindow &window) {
                 emit proxyObject.embeddedWindowCustomOpaqueRequested(window);
@@ -82,7 +85,7 @@ namespace SMBlob {
 
             void embeddedWindowSubscribed(const SMBEWEmbedWindow &window, bool success);
 
-            void embeddedWindowReparented(const SMBEWEmbedWindow &window, int mask);
+            void embeddedWindowReparented(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &parent, int mask);
 
             void embeddedWindowCustomOpaqueRequested(const SMBEWEmbedWindow &window);
 

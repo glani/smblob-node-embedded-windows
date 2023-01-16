@@ -27,10 +27,13 @@ namespace SMBlob {
 
             bool sendFocusToWindow(const SMBEWEmbedWindow &window, bool focus = true) const override;
 
-            bool sendNewParent(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &parent) const;
+            bool setNewParent(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &parent) const;
 
             bool setSize(const SMBEWEmbedWindow &window, int width, int height) const;
+
             bool forceUpdateSize(const SMBEWEmbedWindow &window, int width, int height) const;
+
+            virtual bool validateWindowEquality(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &windowToCompare) const;
 
             void listen() override;
 
@@ -38,7 +41,9 @@ namespace SMBlob {
 
             void subscribe(const SMBEWEmbedWindow &window) override;
 
-            bool closeWindow(const SMBEWEmbedWindow &window) const override;
+            bool closeWindow(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &parent) const override;
+
+            bool closeWindowGracefully(const SMBEWEmbedWindow &window) const override;
 
             // callbacks
             void setOnEmbeddedWindowDestroyedCallback(
@@ -48,20 +53,24 @@ namespace SMBlob {
                                                                              bool focus)> &onEmbeddedWindowFocusedCallback) override;
 
             void setOnEmbeddedWindowSubscribedCallback(const std::function<void(const SMBEWEmbedWindow &,
-                                                                     bool success)> &onEmbeddedWindowSubscribedCallback) override;
+                                                                                bool success)> &onEmbeddedWindowSubscribedCallback) override;
 
-            void setOnEmbeddedWindowReparentedCallback(const std::function<void(const SMBEWEmbedWindow &,
-                                                                                        int mask)> &onEmbeddedWindowReparentedCallback) override;
+            void setOnEmbeddedWindowReparentedCallback(
+                    const std::function<void(const SMBEWEmbedWindow &, const SMBEWEmbedWindow &,
+                                             int mask)> &onEmbeddedWindowReparentedCallback) override;
 
-            void setOnEmbeddedWindowCustomOpaqueRequestedCallback(const std::function<void(const SMBEWEmbedWindow &)> &onEmbeddedWindowCustomOpaqueRequestedCallback) override;
+            void setOnEmbeddedWindowCustomOpaqueRequestedCallback(const std::function<void(
+                    const SMBEWEmbedWindow &)> &onEmbeddedWindowCustomOpaqueRequestedCallback) override;
 
-            std::shared_ptr<OpaqueParameters> getOpaqueParameters(const SMBEWEmbedWindow&  window) const override;
+            std::shared_ptr<OpaqueParameters> getOpaqueParameters(const SMBEWEmbedWindow &window) const override;
+
         private:
             // callbacks variables
             std::function<void(const SMBEWEmbedWindow &)> onEmbeddedWindowDestroyedCallback;
             std::function<void(const SMBEWEmbedWindow &, bool focus)> onEmbeddedWindowFocusedCallback;
             std::function<void(const SMBEWEmbedWindow &, bool success)> onEmbeddedWindowSubscribedCallback;
-            std::function<void(const SMBEWEmbedWindow &, int mask)> onEmbeddedWindowReparentedCallback;
+            std::function<void(const SMBEWEmbedWindow &, const SMBEWEmbedWindow &,
+                               int mask)> onEmbeddedWindowReparentedCallback;
             std::function<void(const SMBEWEmbedWindow &)> onEmbeddedWindowCustomOpaqueRequestedCallback;
             //
             std::unique_ptr<XcbInitializer> xcbInitializer;

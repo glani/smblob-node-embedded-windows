@@ -72,7 +72,8 @@ namespace SMBlob {
             void tryFirstRunKeys();
 
             void windowSubscribed(bool success);
-            void windowReparented(int mask);
+            void nativeWindowDestroyed();
+            void windowReparented(const SMBEWEmbedWindow& parentId, int mask);
             void customOpaqueRequested();
             void closeEvent(QCloseEvent *event) override;
         public:
@@ -91,14 +92,21 @@ namespace SMBlob {
 
             bool nativeWindowReady;
             SMBEWEmbedWindow embeddedNativeWindowId;
+            SMBEWEmbedWindow realParentWindowId;
             SMBEWEmbedWindow windowId;
             BaseProcessor *processor;
             int reparentReadyMask;
 
 
+            bool nativeWindowClosed;
+
             void resizeNative() const;
 
             friend class EmbeddedWindowHelper;
+
+            void forceClose();
+
+            const SMBEWEmbedWindow &getRealParentWindow();
         };
 
     }

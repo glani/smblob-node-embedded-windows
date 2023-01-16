@@ -26,7 +26,7 @@ namespace SMBlob {
         }
 
 
-        bool BaseWindowActor::sendNewParent(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &parent) const {
+        bool BaseWindowActor::setNewParent(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &parent) const {
             return true;
         }
 
@@ -62,7 +62,7 @@ namespace SMBlob {
         }
 
         void BaseWindowActor::setOnEmbeddedWindowReparentedCallback(
-                const std::function<void(const SMBEWEmbedWindow &, int)> &) {
+                const std::function<void(const SMBEWEmbedWindow &, const SMBEWEmbedWindow &, int)> &) {
 
         }
 
@@ -75,7 +75,16 @@ namespace SMBlob {
             return std::shared_ptr<OpaqueParameters>();
         }
 
-        bool BaseWindowActor::closeWindow(const SMBEWEmbedWindow &window) const {
+        bool BaseWindowActor::validateWindowEquality(const SMBEWEmbedWindow &window,
+                                                     const SMBEWEmbedWindow &windowToCompare) const {
+            return true;
+        }
+
+        bool BaseWindowActor::closeWindow(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &parent) const {
+            return true;
+        }
+
+        bool BaseWindowActor::closeWindowGracefully(const SMBEWEmbedWindow &window) const {
             return true;
         }
 

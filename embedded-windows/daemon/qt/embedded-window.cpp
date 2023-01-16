@@ -1,6 +1,7 @@
 #include "embedded-window.h"
 #include "BaseWindowActor.h"
 #include "plog/Log.h"
+#include "application.h"
 #include <QEvent>
 #include <QGuiApplication>
 #include <QWindow>
@@ -14,13 +15,13 @@ namespace SMBlob {
     namespace EmbeddedWindows {
 
         EmbeddedWindow::EmbeddedWindow(const SMBEWEmbedWindowReq &request,
-                                       SMBlob::EmbeddedWindows::BaseProcessor *processor) : foreignWindow(0),
-                                                                                            container(0),
-                                                                                            embeddedNativeWindowId(0),
-                                                                                            nativeWindowReady(false),
-                                                                                            processor(processor),
-                                                                                            reparentReadyMask(
-                                                                                                    ReparentReadyMask::NONE) {
+                                       SMBlob::EmbeddedWindows::BaseProcessor *processor) :
+                container(0),
+                nativeWindowClosed(true),
+                nativeWindowReady(false),
+                processor(processor),
+                reparentReadyMask(
+                        ReparentReadyMask::NONE) {
 
             this->windowHelperPtr = QSharedPointer<EmbeddedWindowHelper>::create(this);
             this->requestPtr = QSharedPointer<SMBEWEmbedWindowReq>::create(request);
@@ -43,7 +44,8 @@ namespace SMBlob {
             LOGD << "ForeignWindow Id:" << embeddedNativeWindowId << " [ 0x" << nativeWindowIdStr.toStdString() << " ]";
             const QString &windowIdStr = QString::number(this->windowId, 16);
             LOGD << "EmbeddedWindow Id:" << this->winId() << " [ 0x" << windowIdStr.toStdString() << " ]";
-            LOGD << "container Id:" << this->container->winId();
+            this->realParentWindowId = this->container->winId();
+            LOGD << "container Id:" << realParentWindowId;
 
 
             if (container) {
@@ -79,18 +81,17 @@ namespace SMBlob {
             this->move(pos);
             this->resize(availableGeometry.size() / 4);
             this->show();
-            tryToActivateForeignWindow();
             this->container->activateWindow();
         }
 
-        void EmbeddedWindow::tryToActivateForeignWindow() {
-            if (foreignWindow) {
-                foreignWindow->requestActivate();
-            }
+        EmbeddedWindow::~EmbeddedWindow() {
+            LOG_DEBUG << "EmbeddedWindow::~EmbeddedWindow";
         }
 
-        EmbeddedWindow::~EmbeddedWindow() {
-
+        void EmbeddedWindow::tryToActivateForeignWindow() {
+//            if (foreignWindow) {
+//                foreignWindow->requestActivate();
+//            }
         }
 
         void EmbeddedWindow::nativeVisible(bool show) {
@@ -150,12 +151,20 @@ namespace SMBlob {
         }
 
         void EmbeddedWindow::windowSubscribed(bool success) {
-//            this->processor->windowActor->sendNewParent(getNativeWindow(), this->container->winId());
+            this->nativeWindowClosed = false;
+            this->processor->windowActor->setNewParent(getNativeWindow(), this->container->winId());
         }
 
-        void EmbeddedWindow::windowReparented(int mask) {
-            this->reparentReadyMask |= mask;
-            if (this->reparentReadyMask == ReparentReadyMask::READY_LAST) {
+        void EmbeddedWindow::windowReparented(const SMBEWEmbedWindow &parentId, int mask) {
+            
+            bool properRequest = this->processor->windowActor->validateWindowEquality(parentId,
+                                                                                      this->getRealParentWindow());
+            if (properRequest) {
+                this->reparentReadyMask |= mask;
+            }
+            if (this->reparentReadyMask == ReparentReadyMask::READY_LAST
+                && properRequest
+                    ) {
                 // ready
                 LOGD << "Native window ready: " << this->getNativeWindow();
                 this->nativeWindowReady = true;
@@ -163,6 +172,11 @@ namespace SMBlob {
                 processor->windowActor->forceUpdateSize(getNativeWindow(), size.width(), size.height());
 
                 QTimer::singleShot(500, this, SLOT(tryFirstRunKeys()));
+            } else if (!properRequest && mask == ReparentReadyMask::STEP_REPARENT) {
+                // it means window has a new parent
+                LOGD << "this->forceClose() parentId: " << parentId;
+                LOGD << "getRealParentWindow: " << getRealParentWindow();
+                this->forceClose();
             }
         }
 
@@ -192,9 +206,30 @@ namespace SMBlob {
         }
 
         void EmbeddedWindow::closeEvent(QCloseEvent *event) {
-            this->processor->windowActor->closeWindow(this->getNativeWindow());
-//            event->accept();
-            event->ignore();
+            if (!this->nativeWindowClosed) {
+                this->nativeWindowClosed = true;
+                reparentReadyMask = ReparentReadyMask::NONE;
+                this->processor->windowActor->closeWindow(this->getNativeWindow(), this->realParentWindowId);
+                event->ignore();
+            } else {
+                this->nativeWindowReady = false;
+                this->processor->windowActor->closeWindowGracefully(this->getNativeWindow());
+                (static_cast<Application*>qApp)->releaseWindowById(this->getWindow());
+                event->accept();
+            }
+        }
+
+        void EmbeddedWindow::nativeWindowDestroyed() {
+            this->nativeWindowClosed = true;
+            this->close();
+        }
+
+        void EmbeddedWindow::forceClose() {
+            this->nativeWindowDestroyed();
+        }
+
+        const SMBEWEmbedWindow &EmbeddedWindow::getRealParentWindow() {
+            return this->realParentWindowId;
         }
 
 

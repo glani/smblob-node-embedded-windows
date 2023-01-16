@@ -4,6 +4,7 @@
 
 #ifdef LINUX
 typedef unsigned long SMBEWEmbedWindow;
+#define SMBEWEmbedWindowNull (SMBEWEmbedWindow)0
 #else
 typedef int SMBEWEmbedWindow;
 #endif
