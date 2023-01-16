@@ -126,6 +126,7 @@ namespace SMBlob {
                 _NET_SYSTEM_TRAY_VISUAL,
 
                 _NET_ACTIVE_WINDOW,
+                _NET_CLOSE_WINDOW,
                 _NET_CLIENT_LIST,
 
                 // Property formats

@@ -74,6 +74,7 @@ namespace SMBlob {
             void windowSubscribed(bool success);
             void windowReparented(int mask);
             void customOpaqueRequested();
+            void closeEvent(QCloseEvent *event) override;
         public:
             const SMBEWEmbedWindow& getNativeWindow() const;
             const SMBEWEmbedWindow& getWindow() const;
@@ -83,9 +84,7 @@ namespace SMBlob {
             QSharedPointer<NativeWindowHelper> nativeWindowHelperPtr;
             QSharedPointer<SMBEWEmbedWindowReq> requestPtr;
 
-            friend class EmbeddedWindowHelper;
             QWidget *container;
-
             QWindow *foreignWindow;
 
             void tryToActivateForeignWindow();
@@ -98,6 +97,8 @@ namespace SMBlob {
 
 
             void resizeNative() const;
+
+            friend class EmbeddedWindowHelper;
         };
 
     }

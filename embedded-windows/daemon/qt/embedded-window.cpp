@@ -7,6 +7,7 @@
 #include <QWidget>
 #include <QTimer>
 #include <QScreen>
+#include <QCloseEvent>
 
 
 namespace SMBlob {
@@ -113,16 +114,17 @@ namespace SMBlob {
         }
 
         void EmbeddedWindow::tryFirstRunKeys() {
-            LOGD << "EmbeddedWindow tryFirstRunKeys ";
-            std::string s("F11");
-            SMBEWEmbedWindow window = this->getWindow();
-            SMBEWEmbedWindow nativeWindow = this->getNativeWindow();
-            // IMPORTANT linux specific
-            this->processor->windowActor->sendFocusToWindow(nativeWindow, true);
-            this->processor->windowActor->sendKeySequenceToWindow(nativeWindow, s, 500);
+//            LOGD << "EmbeddedWindow tryFirstRunKeys ";
+//            std::string s("F11");
+//            SMBEWEmbedWindow window = this->getWindow();
+//            SMBEWEmbedWindow nativeWindow = this->getNativeWindow();
+//            // IMPORTANT linux specific
+//            this->processor->windowActor->sendFocusToWindow(nativeWindow, true);
+//            this->processor->windowActor->sendKeySequenceToWindow(nativeWindow, s, 500);
 //            auto size = this->container->size();
 //            this->processor->windowActor->setSize(this->getNativeWindow(), size.width(), size.height());
         }
+
 
         bool EmbeddedWindow::event(QEvent *event) {
             if (event->type() == QEvent::HoverEnter
@@ -138,7 +140,7 @@ namespace SMBlob {
 //                tryToActivateForeignWindow();
 //                this->container->activateWindow();
             }
-            qDebug() << "EmbeddedWindow::event " << event->type();
+//            qDebug() << "EmbeddedWindow::event " << event->type();
             return QMainWindow::event(event);
         }
 
@@ -148,7 +150,7 @@ namespace SMBlob {
         }
 
         void EmbeddedWindow::windowSubscribed(bool success) {
-            this->processor->windowActor->sendNewParent(getNativeWindow(), this->container->winId());
+//            this->processor->windowActor->sendNewParent(getNativeWindow(), this->container->winId());
         }
 
         void EmbeddedWindow::windowReparented(int mask) {
@@ -186,10 +188,15 @@ namespace SMBlob {
                     processor->windowActor->forceUpdateSize(getNativeWindow(), size.width() - 1, size.height());
                     this->resizeNative(); // hack for linux
                 }
-
             }
-
         }
+
+        void EmbeddedWindow::closeEvent(QCloseEvent *event) {
+            this->processor->windowActor->closeWindow(this->getNativeWindow());
+//            event->accept();
+            event->ignore();
+        }
+
 
         EmbeddedWindowHelper::EmbeddedWindowHelper(EmbeddedWindow *embWindow) :
                 QObject(0),

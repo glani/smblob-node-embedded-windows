@@ -22,7 +22,8 @@ int self_vfprintf(FILE *__restrict __s, const char *__restrict __format,
         break;                                \
     }
 
-#define connection() this->xcbInitializer->xcbConnection()
+#define connectionPtr this->xcbInitializer->xcbConnection()
+#define xdoPtr xcbInitializer->xdo()
 
 namespace SMBlob {
     namespace EmbeddedWindows {
@@ -34,7 +35,6 @@ namespace SMBlob {
             this->kdeNetWmFrameStrut = this->xcbInitializer->internAtom("_KDE_NET_WM_FRAME_STRUT");
             this->gtkFrameExtents = this->xcbInitializer->internAtom("_GTK_FRAME_EXTENTS");
             this->netFrameExtents = this->xcbInitializer->internAtom("_NET_FRAME_EXTENTS");
-
         }
 
         LinuxWindowActor::~LinuxWindowActor() {
@@ -45,7 +45,7 @@ namespace SMBlob {
                                                        const std::string &keySequence,
                                                        uint32_t milliSecondsDelay) const {
             uint64_t microSeconds = milliSecondsDelay * 1000;
-            int ret = xdo_send_keysequence_window(xcbInitializer->xdo(), window,
+            int ret = xdo_send_keysequence_window(xdoPtr, window,
                                                   keySequence.c_str(),
                                                   microSeconds);
             return ret == XDO_SUCCESS;
@@ -54,23 +54,23 @@ namespace SMBlob {
         bool LinuxWindowActor::sendFocusToWindow(const SMBEWEmbedWindow &window, bool focus) const {
             int ret = XDO_SUCCESS;
             if (focus) {
-                ret = xdo_focus_window(xcbInitializer->xdo(), window);
+                ret = xdo_focus_window(xdoPtr, window);
             } else {
-                ret = xdo_focus_window(xcbInitializer->xdo(), xcbInitializer->rootWindow());
+                ret = xdo_focus_window(xdoPtr, xcbInitializer->rootWindow());
             }
             return ret == XDO_SUCCESS;
         }
 
         bool LinuxWindowActor::sendNewParent(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &parent) const {
             int ret = XDO_SUCCESS;
-            ret = xdo_reparent_window(xcbInitializer->xdo(), window, parent);
+            ret = xdo_reparent_window(xdoPtr, window, parent);
             return ret == XDO_SUCCESS;
         }
 
         bool LinuxWindowActor::setSize(const SMBEWEmbedWindow &window, int width, int height) const {
             int ret = XDO_SUCCESS;
             LOGD << "width: " << width << " height: " << height;
-            ret = xdo_set_window_size(xcbInitializer->xdo(), window, width, height, 0);
+            ret = xdo_set_window_size(xdoPtr, window, width, height, 0);
             return ret == XDO_SUCCESS;
         }
 
@@ -313,7 +313,7 @@ namespace SMBlob {
                     items[2] = width - 2 * items[0];
                     items[3] = height - 2 * items[1];
                 }
-                xcb_change_property(connection(), XCB_PROP_MODE_REPLACE, window, this->netWmOpaqueRegion,
+                xcb_change_property(connectionPtr, XCB_PROP_MODE_REPLACE, window, this->netWmOpaqueRegion,
                                     XCB_ATOM_CARDINAL, 32, opaqueParameters->len, items);
                 this->setSize(window, width, height);
             }
@@ -322,7 +322,7 @@ namespace SMBlob {
         }
 
         std::shared_ptr<OpaqueParameters> LinuxWindowActor::getOpaqueParameters(const SMBEWEmbedWindow&  window) const {
-            auto valueWmOpaqueRegion = XCB_REPLY_UNCHECKED(xcb_get_property, connection(), false,
+            auto valueWmOpaqueRegion = XCB_REPLY_UNCHECKED(xcb_get_property, connectionPtr, false,
                                                            window,
                                                            netWmOpaqueRegion, XCB_ATOM_CARDINAL, 0, 1024);
 
@@ -348,6 +348,10 @@ namespace SMBlob {
 
         void LinuxWindowActor::unmapNotifyEvent(xcb_unmap_notify_event_t *pEvent) {
             LOGD << "unmapNotifyEvent";
+            LOGD << "pEvent->window: " << pEvent->window;
+            LOGD << "pEvent->from_configure: " << pEvent->from_configure;
+            LOGD << "pEvent->sequence: " << pEvent->sequence;
+
             if (onEmbeddedWindowReparentedCallback) {
                 SMBEWEmbedWindow window = pEvent->window;
                 onEmbeddedWindowReparentedCallback(window, ReparentReadyMask::STEP1);
@@ -365,6 +369,10 @@ namespace SMBlob {
 
         void LinuxWindowActor::reparentNotifyEvent(xcb_reparent_notify_event_t *pEvent) {
             LOGD << "reparentNotifyEvent";
+            LOGD << "pEvent->window: " << pEvent->window;
+            LOGD << "pEvent->parent: " << pEvent->parent;
+            LOGD << "pEvent->sequence: " << pEvent->sequence;
+
             if (onEmbeddedWindowReparentedCallback) {
                 SMBEWEmbedWindow window = pEvent->window;
                 onEmbeddedWindowReparentedCallback(window, ReparentReadyMask::STEP2);
@@ -421,7 +429,7 @@ namespace SMBlob {
         }
 
         std::shared_ptr<FrameExtents> LinuxWindowActor::getExtents(xcb_window_t window, xcb_atom_t atom) const {
-            auto valueFrameExtents = XCB_REPLY_UNCHECKED(xcb_get_property, connection(), false, window,
+            auto valueFrameExtents = XCB_REPLY_UNCHECKED(xcb_get_property, connectionPtr, false, window,
                                                          atom, XCB_ATOM_CARDINAL, 0, 1024);
             if (valueFrameExtents && valueFrameExtents->type == XCB_ATOM_CARDINAL &&
                 valueFrameExtents->format == 32 && valueFrameExtents->value_len == 4) {
@@ -434,6 +442,37 @@ namespace SMBlob {
                 return res;
             }
             return nullptr;
+        }
+
+        bool LinuxWindowActor::closeWindow(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &parent) const {
+            int ret = XDO_SUCCESS;
+//            ret = xdo_reparent_window(xdoPtr, window, xcbInitializer->rootWindow());
+////            xcb_unmap_window(connectionPtr, window);
+//            xcb_flush(connectionPtr);
+//            ret |= xdo_close_window(xdoPtr, window);
+////            ret |= xdo_kill_window(xdoPtr, window);
+////            xcb_disconnect(connectionPtr);
+
+            /* Move the window on the top of the stack */
+//            xcb_configure_window(connectionPtr, win, XCB_CONFIG_WINDOW_STACK_MODE, values);
+            xcb_client_message_event_t event;
+
+            event.response_type = XCB_CLIENT_MESSAGE;
+            event.window = window;
+            event.type = xcbInitializer->atom(XcbAtom::Atom::_NET_CLOSE_WINDOW);
+            event.format = 32;
+            event.data.data32[0] = 1;
+            event.data.data32[1] = XCB_CURRENT_TIME;
+            event.data.data32[2] = XCB_NONE;
+            event.data.data32[3] = 0;
+            event.data.data32[4] = 0;
+
+            auto parentWindwow = xcbInitializer->rootWindow();
+            xcb_send_event(connectionPtr, false, parentWindwow, XCB_EVENT_MASK_STRUCTURE_NOTIFY | XCB_EVENT_MASK_SUBSTRUCTURE_REDIRECT,
+                           (char *)&event);
+            xcb_flush(connectionPtr);
+
+            return ret == XDO_SUCCESS;
         }
 
 

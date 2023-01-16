@@ -38,6 +38,8 @@ namespace SMBlob {
 
             void subscribe(const SMBEWEmbedWindow &window) override;
 
+            bool closeWindow(const SMBEWEmbedWindow &window) const override;
+
             // callbacks
             void setOnEmbeddedWindowDestroyedCallback(
                     const std::function<void(const SMBEWEmbedWindow &)> &onEmbeddedWindowDestroyedCallback) override;

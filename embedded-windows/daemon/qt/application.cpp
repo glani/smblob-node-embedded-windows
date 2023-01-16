@@ -90,6 +90,13 @@ namespace SMBlob {
 
         void Application::embeddedWindowDestroyed(const SMBEWEmbedWindow &window) {
             LOG_DEBUG << "Application::embeddedWindowDestroyed";
+            auto result = FIND_BY_NATIVE_WINDOW(window);
+            if (result != this->embeddedWindows.end()) {
+                LOG_DEBUG << "Application::embeddedWindowDestroyed: " << window;
+//                result->get()->windowSubscribed(success);
+            } else {
+                LOG_WARNING << "Application::embeddedWindowDestroyed not found: " << window;
+            }
         }
 
         void Application::embeddedWindowFocused(const SMBEWEmbedWindow &window, bool focus) {
@@ -109,10 +116,10 @@ namespace SMBlob {
         void Application::embeddedWindowReparented(const SMBEWEmbedWindow &window, int mask) {
             auto result = FIND_BY_NATIVE_WINDOW(window);
             if (result != this->embeddedWindows.end()) {
-                LOG_DEBUG << "Application::embeddedWindowReparented: " << window;
+                LOG_DEBUG << "Application::embeddedWindowReparented: " << window << " mask: " << mask;
                 result->get()->windowReparented(mask);
             } else {
-                LOG_WARNING << "Application::embeddedWindowReparented not found: " << window;
+                LOG_WARNING << "Application::embeddedWindowReparented not found: " << window << " mask: " << mask;
             }
         }
 

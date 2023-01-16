@@ -75,5 +75,9 @@ namespace SMBlob {
             return std::shared_ptr<OpaqueParameters>();
         }
 
+        bool BaseWindowActor::closeWindow(const SMBEWEmbedWindow &window) const {
+            return true;
+        }
+
     }
 }

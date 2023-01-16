@@ -52,14 +52,30 @@ int main(int argc, char **argv) {
                 search = in;
             }
             PLOGD_(SecondaryLog) << "new search pattern: " << search;
-        } else if (c == (int) 'n') {
+        } else if (c == (int) 's') {
+            int len = 3;
             auto runnerArgvPtr = std::unique_ptr<char *[]>(
-                    new char *[3]{"search", "--name", (char*)search.c_str()}
+                    new char *[len]{"search", "--name", (char*)search.c_str()}
             );
             std::string command("/usr/bin/xdotool");
             ProcessRunner runner;
 
-            runner.RunCommand(command, runnerArgvPtr.get(), 3);
+            runner.RunCommand(command, runnerArgvPtr.get(), len);
+            auto nativeWindowId = std::atoi(runner.getOutput().c_str());
+            if (nativeWindowId > 0) {
+                PLOGD_(SecondaryLog) << "window Id:" << nativeWindowId;
+            } else {
+                LOGE << "No Window found for " << search;
+            }
+        } else if (c == (int) 'n') {
+            int len = 3;
+            auto runnerArgvPtr = std::unique_ptr<char *[]>(
+                    new char *[len]{"search", "--name", (char*)search.c_str()}
+            );
+            std::string command("/usr/bin/xdotool");
+            ProcessRunner runner;
+
+            runner.RunCommand(command, runnerArgvPtr.get(), len);
 
             PLOGD_(SecondaryLog) << "window Id:" << runner.getOutput();
             SMBlob::EmbeddedWindows::SMBlobWindow window;
@@ -68,7 +84,7 @@ int main(int argc, char **argv) {
             if (window.nativeWindowId > 0) {
                 SMBlob::EmbeddedWindows::EmbedWindow(*embeddedWindows, window);
             } else {
-                LOGE << "No Window found";
+                LOGE << "No Window found for " << search;
             }
         }
     }

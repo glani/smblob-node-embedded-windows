@@ -57,6 +57,10 @@ namespace SMBlob {
 
             virtual bool sendNewParent(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &parent) const;
 
+            virtual bool closeWindow(const SMBEWEmbedWindow &window) const;
+
+
+
             virtual bool forceUpdateSize(const SMBEWEmbedWindow &window, int width, int height) const;
 
             virtual bool setSize(const SMBEWEmbedWindow &window, int width, int height) const;
@@ -68,6 +72,7 @@ namespace SMBlob {
             virtual void startListener();
 
             virtual void subscribe(const SMBEWEmbedWindow &window);
+
 
         };
     }
