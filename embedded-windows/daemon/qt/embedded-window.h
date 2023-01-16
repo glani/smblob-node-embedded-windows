@@ -66,6 +66,8 @@ namespace SMBlob {
 
             bool event(QEvent *event) override;
 
+        private slots:
+            void setNewParent();
         public slots:
             void nativeVisible(bool show);
 
@@ -99,6 +101,7 @@ namespace SMBlob {
 
 
             bool nativeWindowClosed;
+            bool nativeWindowClosing;
 
             void resizeNative() const;
 
@@ -107,6 +110,9 @@ namespace SMBlob {
             void forceClose();
 
             const SMBEWEmbedWindow &getRealParentWindow();
+
+            std::unique_ptr<SMBEWEmbedWindowDecorations> nativeDecorations;
+
         };
 
     }

@@ -18,6 +18,7 @@ namespace SMBlob {
                                        SMBlob::EmbeddedWindows::BaseProcessor *processor) :
                 container(0),
                 nativeWindowClosed(true),
+                nativeWindowClosing(false),
                 nativeWindowReady(false),
                 processor(processor),
                 reparentReadyMask(
@@ -25,6 +26,7 @@ namespace SMBlob {
 
             this->windowHelperPtr = QSharedPointer<EmbeddedWindowHelper>::create(this);
             this->requestPtr = QSharedPointer<SMBEWEmbedWindowReq>::create(request);
+            this->realParentWindowId = SMBEWEmbedWindowNull;
 
             const QString title = QLatin1String("Qt ") + QLatin1String(QT_VERSION_STR);
             setWindowTitle(title);
@@ -44,9 +46,8 @@ namespace SMBlob {
             LOGD << "ForeignWindow Id:" << embeddedNativeWindowId << " [ 0x" << nativeWindowIdStr.toStdString() << " ]";
             const QString &windowIdStr = QString::number(this->windowId, 16);
             LOGD << "EmbeddedWindow Id:" << this->winId() << " [ 0x" << windowIdStr.toStdString() << " ]";
-            this->realParentWindowId = this->container->winId();
-            LOGD << "container Id:" << realParentWindowId;
-
+            auto realParentWindowId = this->container->winId();
+            LOGD << "Real parent Id: " << realParentWindowId;
 
             if (container) {
                 setCentralWidget(container);
@@ -106,14 +107,6 @@ namespace SMBlob {
             }
         }
 
-        const SMBEWEmbedWindow &EmbeddedWindow::getNativeWindow() const {
-            return this->embeddedNativeWindowId;
-        }
-
-        const SMBEWEmbedWindow &EmbeddedWindow::getWindow() const {
-            return this->windowId;
-        }
-
         void EmbeddedWindow::tryFirstRunKeys() {
 //            LOGD << "EmbeddedWindow tryFirstRunKeys ";
 //            std::string s("F11");
@@ -137,9 +130,15 @@ namespace SMBlob {
 
             if (event->type() == QEvent::Resize) {
                 resizeNative();
-            } else if (event->type() == QEvent::WindowActivate) {
-//                tryToActivateForeignWindow();
-//                this->container->activateWindow();
+            } else if (event->type() ==
+                       QEvent::ShowToParent) /* checked on Linux probably QEvent::Show is ok as well*/ {
+                // TODO via windowActor
+                // !this->processor->windowActor->validateWindowId(this->getRealParentWindow())
+                if (this->getRealParentWindow() == SMBEWEmbedWindowNull) {
+                    // 500 ms delay just hardcoded
+                    this->realParentWindowId = this->container->winId();
+                    QTimer::singleShot(500, this, SLOT(setNewParent()));
+                }
             }
 //            qDebug() << "EmbeddedWindow::event " << event->type();
             return QMainWindow::event(event);
@@ -150,33 +149,49 @@ namespace SMBlob {
             processor->windowActor->setSize(getNativeWindow(), size.width(), size.height());
         }
 
+        void EmbeddedWindow::setNewParent() {
+            if (this->getRealParentWindow() > 0) {
+                // TODO via windowActor
+                // this->processor->windowActor->validateWindowId(this->getRealParentWindow())
+                const SMBEWEmbedWindow &nativeWindow = getNativeWindow();
+                LOGD << "setNewParent" << nativeWindow << " " << this->getRealParentWindow();
+                this->processor->windowActor->setNewParent(nativeWindow, this->getRealParentWindow());
+            }
+        }
+
         void EmbeddedWindow::windowSubscribed(bool success) {
             this->nativeWindowClosed = false;
-            this->processor->windowActor->setNewParent(getNativeWindow(), this->container->winId());
+            const SMBEWEmbedWindow &nativeWindow = getNativeWindow();
+            this->nativeDecorations = this->processor->windowActor->removeDecorations(nativeWindow);
+//            LOGD << "xdotool windowunmap " << nativeWindow << "\n"
+//<< "xdotool windowreparent " << nativeWindow << " " << this->realParentWindowId << "\n"
+//<< "xdotool windowmap --sync " << nativeWindow << "\n";
+////             $CHID $NEWPID
+////            xdotool windowmap --sync $CHID
+////            this->resizeNative()
+//this->setNewParent();
+//            qDebug() << "dfssdfsdf: " << this->container->isVisible();
+//            QTimer::singleShot(1000, this, SLOT(setNewParent()));
+//            QTimer::singleShot(1000, this, SLOT(setNewParent()));
+
+//
         }
 
         void EmbeddedWindow::windowReparented(const SMBEWEmbedWindow &parentId, int mask) {
-            
-            bool properRequest = this->processor->windowActor->validateWindowEquality(parentId,
-                                                                                      this->getRealParentWindow());
-            if (properRequest) {
-                this->reparentReadyMask |= mask;
-            }
-            if (this->reparentReadyMask == ReparentReadyMask::READY_LAST
-                && properRequest
-                    ) {
+
+            bool properParent = this->processor->windowActor->validateWindowEquality(parentId,
+                                                                                     this->getRealParentWindow());
+            if (mask == ReparentReadyMask::STEP_REPARENT
+                && properParent) {
                 // ready
                 LOGD << "Native window ready: " << this->getNativeWindow();
                 this->nativeWindowReady = true;
                 auto size = container->size();
                 processor->windowActor->forceUpdateSize(getNativeWindow(), size.width(), size.height());
-
-                QTimer::singleShot(500, this, SLOT(tryFirstRunKeys()));
-            } else if (!properRequest && mask == ReparentReadyMask::STEP_REPARENT) {
-                // it means window has a new parent
-                LOGD << "this->forceClose() parentId: " << parentId;
-                LOGD << "getRealParentWindow: " << getRealParentWindow();
-                this->forceClose();
+            } else {
+                if (nativeWindowClosing) {
+                    this->close();
+                }
             }
         }
 
@@ -194,10 +209,6 @@ namespace SMBlob {
                     opaqueHeight = items[3];
                 }
                 auto size = container->size();
-                LOGD << "opaqueWidth: " << opaqueWidth;
-                LOGD << "opaqueHeight: " << opaqueHeight;
-                LOGD << "size.width(): " << size.width();
-                LOGD << "size.height(): " << size.height();
                 if (opaqueWidth > size.width() || opaqueHeight > size.height()) {
                     processor->windowActor->forceUpdateSize(getNativeWindow(), size.width() - 1, size.height());
                     this->resizeNative(); // hack for linux
@@ -206,32 +217,44 @@ namespace SMBlob {
         }
 
         void EmbeddedWindow::closeEvent(QCloseEvent *event) {
-            if (!this->nativeWindowClosed) {
+            if (!this->nativeWindowClosed && this->nativeWindowReady) {
+                this->nativeWindowClosing = true;
                 this->nativeWindowClosed = true;
-                reparentReadyMask = ReparentReadyMask::NONE;
-                this->processor->windowActor->closeWindow(this->getNativeWindow(), this->realParentWindowId);
-                event->ignore();
-            } else {
                 this->nativeWindowReady = false;
+                reparentReadyMask = ReparentReadyMask::NONE;
+                auto accept = this->processor->windowActor->closeWindow(this->getNativeWindow(),
+                                                                        this->getRealParentWindow()
+                );
+                if (accept) {
+                    event->accept();
+                } else {
+                    event->ignore();
+                }
+            } else {
                 this->processor->windowActor->closeWindowGracefully(this->getNativeWindow());
-                (static_cast<Application*>qApp)->releaseWindowById(this->getWindow());
+                (static_cast<Application *>qApp)->releaseWindowById(this->getWindow());
                 event->accept();
             }
         }
 
         void EmbeddedWindow::nativeWindowDestroyed() {
-            this->nativeWindowClosed = true;
             this->close();
         }
 
-        void EmbeddedWindow::forceClose() {
-            this->nativeWindowDestroyed();
+        const SMBEWEmbedWindow &EmbeddedWindow::getNativeWindow() const {
+            return this->embeddedNativeWindowId;
+        }
+
+        const SMBEWEmbedWindow &EmbeddedWindow::getWindow() const {
+            return this->windowId;
         }
 
         const SMBEWEmbedWindow &EmbeddedWindow::getRealParentWindow() {
             return this->realParentWindowId;
         }
 
+
+        // EmbeddedWindowHelper 
 
         EmbeddedWindowHelper::EmbeddedWindowHelper(EmbeddedWindow *embWindow) :
                 QObject(0),

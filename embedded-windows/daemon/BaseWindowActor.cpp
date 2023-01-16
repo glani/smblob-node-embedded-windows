@@ -88,5 +88,10 @@ namespace SMBlob {
             return true;
         }
 
+        std::unique_ptr<SMBEWEmbedWindowDecorations>
+        BaseWindowActor::removeDecorations(const SMBEWEmbedWindow &window, const std::unique_ptr<SMBEWEmbedWindowDecorations>& newDecorations) const {
+            return nullptr;
+        }
+
     }
 }

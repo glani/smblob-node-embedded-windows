@@ -30,6 +30,7 @@ namespace SMBlob {
 
             virtual void closeWindow(const SMBEWCloseWindowReq &req) = 0;
 
+
             virtual ~BaseProcessor();
         protected:
 

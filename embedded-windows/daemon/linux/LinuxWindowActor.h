@@ -33,6 +33,13 @@ namespace SMBlob {
 
             bool forceUpdateSize(const SMBEWEmbedWindow &window, int width, int height) const;
 
+
+            std::unique_ptr<SMBEWEmbedWindowDecorations> removeDecorations(const SMBEWEmbedWindow &window, const std::unique_ptr<SMBEWEmbedWindowDecorations>& newDecorations = nullptr) const override;
+
+            // TODO make virtual
+            bool applyDecorations(const SMBEWEmbedWindow &window,
+                                  const std::unique_ptr<SMBEWEmbedWindowDecorations> &decorations) const;
+
             virtual bool validateWindowEquality(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &windowToCompare) const;
 
             void listen() override;
@@ -63,6 +70,7 @@ namespace SMBlob {
                     const SMBEWEmbedWindow &)> &onEmbeddedWindowCustomOpaqueRequestedCallback) override;
 
             std::shared_ptr<OpaqueParameters> getOpaqueParameters(const SMBEWEmbedWindow &window) const override;
+
 
         private:
             // callbacks variables
@@ -103,7 +111,6 @@ namespace SMBlob {
             std::shared_ptr<FrameExtents> retrieveFrameExtents(xcb_window_t window) const;
 
             std::shared_ptr<FrameExtents> getExtents(xcb_window_t window, xcb_atom_t atom) const;
-
 
         };
 

@@ -142,7 +142,6 @@ namespace SMBlob {
         }
 
         void Application::releaseWindowById(const SMBEWEmbedWindow &window) {
-
             auto result = FIND_BY_WINDOW(window);
             if (result != this->embeddedWindows.end()) {
                 LOG_DEBUG << "Application::releaseWindowById: " << window;

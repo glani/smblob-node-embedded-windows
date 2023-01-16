@@ -103,5 +103,19 @@ namespace SMBlob {
         }
 
         void XcbInitializer::flush() { xcb_flush(xcbConnectionValue); }
+
+
+        bool XcbInitializer::windowExists(const xcb_window_t &win) const
+        {
+            xcb_generic_error_t *err;
+            free(xcb_query_tree_reply(xcbConnectionValue, xcb_query_tree(xcbConnectionValue, win), &err));
+
+            if (err != NULL) {
+                free(err);
+                return false;
+            }
+
+            return true;
+        }
     }
 }

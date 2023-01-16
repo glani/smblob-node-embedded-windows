@@ -71,6 +71,8 @@ namespace SMBlob {
 
             virtual std::shared_ptr<OpaqueParameters> getOpaqueParameters(const SMBEWEmbedWindow &window) const;
 
+            virtual std::unique_ptr<SMBEWEmbedWindowDecorations> removeDecorations(const SMBEWEmbedWindow &window, const std::unique_ptr<SMBEWEmbedWindowDecorations>& newDecorations = nullptr) const;
+
             virtual void listen();
             virtual void startListener();
 

@@ -63,7 +63,31 @@ namespace SMBlob {
 
         bool LinuxWindowActor::setNewParent(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &parent) const {
             int ret = XDO_SUCCESS;
-            ret = xdo_reparent_window(xdoPtr, window, parent);
+//            xdo_t *value = xdo_new(NULL);
+//            xdo_pointer _{value, XdoFreeDeleter()};
+            auto xdo = xdoPtr;
+            ret |= xdo_unmap_window(xdo, window);
+            ret |= xdo_reparent_window(xdo, window, parent);
+            ret |= xdo_map_window(xdo, window);
+//            xdo_wait_for_window_map_state(xdo.get(), window, IsViewable);
+//            XUnmapWindow(xcbInitializer->xlibDisplay(), window);
+//            XMapWindow(xcbInitializer->xlibDisplay(), window);
+//            XSync(xcbInitializer->xlibDisplay(), False);
+//            XReparentWindow(xcbInitializer->xlibDisplay(), window, parent, 0, 0);
+//            LOGD << "setNewParent: " << window << " " << parent;
+//            XMapWindow(xcbInitializer->xlibDisplay(), window);
+//            XFlush(xcbInitializer->xlibDisplay());
+//            // 1 ms seems to be enough even during `nice -n -19 stress -c $cpuThreadsCount` (pacman -S stress) on linux-tkg-pds.
+//            // Probably can be decreased even further.
+//            usleep(1e3);
+//            XSync(xcbInitializer->xlibDisplay(), False);
+//            XFlush(xcbInitializer->xlibDisplay());
+//            ret = xdo_reparent_window(xdoPtr, window, parent);
+//            xcb_unmap_window(connectionPtr, window);
+//            xcbInitializer->flush();
+//            xdo_reparent_window(xdoPtr, window, parent);
+//            xcb_reparent_window(connectionPtr, window, parent, 0, 0);
+//            xcbInitializer->flush();
             return ret == XDO_SUCCESS;
         }
 
@@ -203,7 +227,7 @@ namespace SMBlob {
 //
 //                xcb_depth_next(&depth_iterator);
 //            }
-            xcb_flush(this->xcbInitializer->xcbConnection());
+            this->xcbInitializer->flush();
         }
 
         void LinuxWindowActor::tryToSubscribe() {
@@ -463,19 +487,35 @@ namespace SMBlob {
             xcb_send_event(connectionPtr, false, parentWindow,
                            XCB_EVENT_MASK_STRUCTURE_NOTIFY | XCB_EVENT_MASK_SUBSTRUCTURE_REDIRECT,
                            (char *) &event);
-            xcb_flush(connectionPtr);
+            this->xcbInitializer->flush();
             return true;
         }
 
         bool LinuxWindowActor::closeWindow(const SMBEWEmbedWindow &window, const SMBEWEmbedWindow &parent) const {
-            int ret = XDO_SUCCESS;
             auto rootWindow = xcbInitializer->rootWindow();
-            if (parent && parent != rootWindow) {
-                ret = xdo_reparent_window(xdoPtr, window, rootWindow);
-                xcb_unmap_window(connectionPtr, window);
+            Window parentX;
+            Window rootX;
+            Window* children;
+            unsigned int nchildren;
+            auto windowX = window;
+            // TODO add window check
+            if (xcbInitializer->windowExists(window)) {
+                auto status = XQueryTree(xdoPtr->xdpy, windowX, &rootX, &parentX, &children, &nchildren);
+                XFree(children);
+                if (status > 0) {
+                    if (parent && parent == parentX) {
+                        xdo_reparent_window(xdoPtr, window, rootWindow);
+                        xdo_unmap_window(xdoPtr, window);
+                        // error ?
+                        closeWindowGracefully(window);
+                        return false;
+                    } else if (parentX == rootWindow) /* probably all cases */{
+                        closeWindowGracefully(window);
+                    }
+                }
             }
 
-            return ret == XDO_SUCCESS;
+            return true;
         }
 
         bool LinuxWindowActor::validateWindowEquality(const SMBEWEmbedWindow &window,
@@ -485,6 +525,54 @@ namespace SMBlob {
             } else {
                 return window == windowToCompare;
             }
+        }
+
+        std::unique_ptr<SMBEWEmbedWindowDecorations>
+        LinuxWindowActor::removeDecorations(const SMBEWEmbedWindow &window, const std::unique_ptr<SMBEWEmbedWindowDecorations>& newDecorations) const {
+            Atom type;
+
+            xcb_atom_t atom = xcbInitializer->atom(XcbAtom::_MOTIF_WM_HINTS);
+            auto valueMotif = XCB_REPLY_UNCHECKED(xcb_get_property, connectionPtr, false, window,
+                                                  atom, XCB_ATOM_ANY, 0, 1024);
+            if (valueMotif && valueMotif->type == atom &&
+                    valueMotif->format == 32 && valueMotif->value_len > 0) {
+                std::unique_ptr<SMBEWEmbedWindowDecorations> res = std::make_unique<SMBEWEmbedWindowDecorations>();
+                MotifHints *ptr = (MotifHints*) xcb_get_property_value(valueMotif.get());
+                res->hints = *ptr;
+                if (newDecorations) {
+                    this->applyDecorations(window, newDecorations);
+                } else {
+                    std::unique_ptr<SMBEWEmbedWindowDecorations> noDecorations = std::make_unique<SMBEWEmbedWindowDecorations>();
+                    noDecorations->hints.flags = 2;
+                    this->applyDecorations(window, noDecorations);
+                }
+                return res;
+            }
+
+            return nullptr;
+        }
+
+
+        bool LinuxWindowActor::applyDecorations(const SMBEWEmbedWindow &window,
+                                                const std::unique_ptr<SMBEWEmbedWindowDecorations> &decorations) const {
+            if (decorations) {
+                xcb_atom_t atom = xcbInitializer->atom(XcbAtom::_MOTIF_WM_HINTS);
+                xcb_change_property(connectionPtr, XCB_PROP_MODE_REPLACE, window, atom,
+                                    XCB_ATOM_CARDINAL, 32, 5, &decorations->hints);
+                this->xcbInitializer->flush();
+//                XChangeProperty(xcbInitializer->xlibDisplay(),
+//                                window,
+//                                atom,
+//                                atom,
+//                                32,
+//                                PropModeReplace,
+//                                reinterpret_cast<unsigned char*>(hints),
+//                                sizeof(MotifWmHints)/sizeof(long));
+//                XChangeProperty(xcbInitializer->xlibDisplay(), window, atom, atom, 32, PropModeReplace, (unsigned char *)&decorations->hints, 5);
+//                LOGD << "applyDecorations: " << remove.sequence;
+                return true;
+            }
+            return false;
         }
 
 

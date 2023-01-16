@@ -72,6 +72,9 @@ namespace SMBlob {
 
             inline xdo_t* xdo() const { return xdoPtr.get(); }
 
+
+            bool windowExists(const xcb_window_t &win) const;
+
             void flush();
 
         private:
