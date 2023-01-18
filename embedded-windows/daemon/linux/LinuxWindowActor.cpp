@@ -498,7 +498,7 @@ namespace SMBlob {
             Window* children;
             unsigned int nchildren;
             auto windowX = window;
-            // TODO add window check
+            // TODO add window checks every where
             if (xcbInitializer->windowExists(window)) {
                 auto status = XQueryTree(xdoPtr->xdpy, windowX, &rootX, &parentX, &children, &nchildren);
                 XFree(children);
