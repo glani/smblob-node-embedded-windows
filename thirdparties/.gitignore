@@ -1,7 +1,9 @@
 xdotool-[0-9]{1}*
 xdotool-src
+libuv
+uvw
+plog
 xdotool-sources
 *.tar.gz
-xdotool-wrapper/src
-xdotool-wrapper/include
+protobuf
 

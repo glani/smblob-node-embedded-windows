@@ -20,16 +20,20 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_initAction = fileMenu->addAction("Init external System", this, &MainWindow::initForeignWindow);
     toolbar->addAction(m_initAction);
+
+    SMBlob::EmbeddedWindows::SMBlobAppInitConsumer params;
+    const SMBlob::EmbeddedWindows::SMBlobApp &args = SMBlob::EmbeddedWindows::Init(params);
+    this->embeddedWindows = std::make_shared<SMBlob::EmbeddedWindows::SMBlobApp>(args);
 }
 
 
 void MainWindow::initForeignWindow() {
-    if (this->embeddedWindows) {
-        SMBlob::EmbeddedWindows::Release(*this->embeddedWindows);
-    }
-
-    const SMBlob::EmbeddedWindows::SMBlobApp &args = SMBlob::EmbeddedWindows::Init();
-    this->embeddedWindows = std::make_shared<SMBlob::EmbeddedWindows::SMBlobApp>(args);
+//    if (this->embeddedWindows) {
+//        SMBlob::EmbeddedWindows::Release(*this->embeddedWindows);
+//    }
+//
+//    const SMBlob::EmbeddedWindows::SMBlobApp &args = SMBlob::EmbeddedWindows::Init();
+//    this->embeddedWindows = std::make_shared<SMBlob::EmbeddedWindows::SMBlobApp>(args);
 }
 
 MainWindow::~MainWindow()

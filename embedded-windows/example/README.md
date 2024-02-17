@@ -43,3 +43,11 @@ If you miss `wxrc` try to rebuild it
 Using with cmake:
 
     cmake -DwxWidgets_CONFIG_EXECUTABLE:PATH=${HOME}/wx/wxw/bin/wx-config ...
+
+
+### Rebuild console DEBUG
+
+
+    cd cmake-build-debug
+    cmake --build . --target smblob-node-embedded-windows-example-console -j 6
+

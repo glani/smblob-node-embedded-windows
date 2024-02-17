@@ -21,28 +21,6 @@ elseif (APPLE)
             ${cocoa_lib}
             )
 else ()
-    #    find_package(X11 REQUIRED)
-    #    if(!X11_XTest_FOUND)
-    #        message(FATAL_ERROR "X11 extensions are required, but not found!")
-    #    endif()
-    #    if(!X11_Xfixes_LIB)
-    #        message(FATAL_ERROR "X11 fixes extension is required, but not found!")
-    #    endif()
-    #    message(STATUS "X11_xcb_LIB:" ${X11_xcb_LIB})
-    #    message(STATUS "X11_Xfixes_LIB:" ${X11_Xfixes_LIB})
-    #    message(STATUS "X11_Xinerama_LIB:" ${X11_Xinerama_LIB})
-    #    find_package(Threads REQUIRED)
-    #    #	message(FATAL_ERROR "X11 fixes extension is required, but not found!" ${X11_xcb_LIB})
-    #    set(${PROJECT_NAME}_PLATFORM_LIBS
-    #            ${X11_LIBRARIES}
-    #            ${X11_Xfixes_LIB}
-    #            ${X11_XTest_LIB}
-    #            ${X11_xcb_LIB}
-    #            xcb-xinerama
-    #            X11-xcb
-    #            Xinerama
-    #            ${CMAKE_THREAD_LIBS_INIT}
-    #            )
 endif ()
 
 if (WIN32)
@@ -52,6 +30,7 @@ elseif (APPLE)
     # Add an icon for the apple .app file
     list(APPEND SRC_FILES ../../src/osx/carbon/wxmac.icns)
 endif ()
+
 
 find_package(wxWidgets REQUIRED COMPONENTS net core base xml xrc)
 include(${wxWidgets_USE_FILE})
@@ -82,16 +61,32 @@ add_custom_command(
         COMMENT "Compiling XRC resources"
 )
 
-# Setup CMake to use GTK+, tell the compiler where to look for headers
-# and to the linker where to look for libraries
-include_directories(${wxWidgets_INCLUDE_DIRS})
+findLibUV()
+
+include_directories(
+        ${wxWidgets_INCLUDE_DIRS}
+        ./
+        include
+        src
+        ${LIBUV_INCLUDE_PATH}
+        ../../thirdparties/uvw/src
+        ../../thirdparties/plog/include
+)
+
+set(EXAMPLE_APP_SRC)
+if (WIN32)
+    list(APPEND EXAMPLE_APP_SRC SMBlob_Node_Embedded_Windows_Console_Example_Win.cpp)
+else ()
+    list(APPEND EXAMPLE_APP_SRC SMBlob_Node_Embedded_Windows_Console_Example_Unix.cpp)
+endif ()
 
 add_executable(${PROJECT_NAME}
-        SMBlob_Node_Embedded_Windows_Example.cpp
-        )
+        SMBlob_Node_Embedded_Windows_Example.cpp)
 
 add_executable(${PROJECT_NAME}-console
         SMBlob_Node_Embedded_Windows_Console_Example.cpp
+        SMBlob_Node_Embedded_Windows_Console_Example.h
+        ${EXAMPLE_APP_SRC}
         )
 
 target_sources(${PROJECT_NAME} PRIVATE ${resource_cpp})
@@ -120,21 +115,35 @@ endif ()
 
 link_directories(
         ${wxWidgets_LIBRARY_DIRS}
-        )
+
+)
+
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_definitions(${PROJECT_NAME} PUBLIC DAEMON_PATH="${CMAKE_BINARY_DIR}/")
+    target_compile_definitions(${PROJECT_NAME}-console PUBLIC DAEMON_PATH="${CMAKE_BINARY_DIR}/")
+endif()
+
+
+message(STATUS "LIBUV_LIBRARY: " ${LIBUV_LIBRARY})
 message(STATUS "DEPEND_THIRDPARTY_LIBS: " ${DEPEND_THIRDPARTY_LIBS})
 
 target_link_libraries(${PROJECT_NAME}
         ${wxWidgets_LIBRARIES}
+        ${LIBUV_LIBRARY}
         ${${PROJECT_NAME}_PLATFORM_LIBS}
         ${DEPEND_THIRDPARTY_LIBS}
-        smblob-node-embedded-windows
+        smblob-node-embedded-windows-consumer
         )
+
 
 target_link_libraries(${PROJECT_NAME}-console
         ${wxWidgets_LIBRARIES}
+        ${LIBUV_LIBRARY}
         ${${PROJECT_NAME}_PLATFORM_LIBS}
         ${DEPEND_THIRDPARTY_LIBS}
-        smblob-node-embedded-windows
+        smblob-node-embedded-windows-models-shared
+        smblob-node-embedded-windows-shared
+        smblob-node-embedded-windows-consumer
         )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
